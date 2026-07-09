@@ -234,6 +234,7 @@ Things to settle with pinku before / while building:
 4. **Consent flow.** How do we collect moderator/speaker opt-in + their avatar/intro/LinkedIn before publishing? (Ask in the community channel? PR-your-own-entry?)
 5. **Participant count.** pinku wanted "this week's attendee count." Field already sketched (`attendees`) — do we fill it in per event or skip for MVP?
 6. **Look & feel assets.** pinku to share reference URLs/screenshots (and a claude-design mockup) for SansWord to feed to AI when building.
+7. **Upcoming meetups on the landing.** Show only the *next* meetup, or a short **upcoming list** (next 2–3)? The schedule is weekly and already booked to September, so there's real upcoming content to surface — affects landing layout + how the past/upcoming split works.
 
 **Resolved:** Name (**AI展 / aitian**, see §0), hosting (personal repo `sansword/aitian` first → `sansword.github.io/aitian`; `aitian.dev` custom domain later), CTA (placeholder), meetup detail pages (static hash-routing), data layout (per-file under `data/` + auto-generated manifest), data format (Markdown + frontmatter → JSON at build), meetup = multi-segment session, public/private field split (see §4).
 
