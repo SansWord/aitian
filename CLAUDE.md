@@ -5,9 +5,9 @@ community a branded front door, gives moderators/speakers a **citable webpage** 
 and records past meetups. Content is authored as Markdown, contributed via PR, and built to a static
 GitHub Pages site. Full requirements/brainstorm: [`docs/kickstart.md`](docs/kickstart.md).
 
-This file is auto-loaded every session — it's a small **index**, not an encyclopedia. Stable facts +
-links out. Shared conventions (devlog format, semver, communication style) live in the global
-`~/.claude/CLAUDE.md`; don't restate them here.
+This file is auto-loaded every session — a small **index**, not an encyclopedia. Shared conventions
+(three-part semver, devlog format, communication style) live in the global `~/.claude/CLAUDE.md`;
+don't restate them. Dormant governance blocks live in [`CLAUDE.advanced.md`](CLAUDE.advanced.md).
 
 ## Who's working on this
 
@@ -53,9 +53,10 @@ Stable facts:
   one-line description **and its update trigger** as the site is built (candidates: `docs/wording.md`
   for name/bilingual copy, `docs/architecture.md` for the build pipeline).
 - **Historical** (how we got here; allowed to go stale; kept forever):
-  - [`docs/kickstart.md`](docs/kickstart.md) — the founding brainstorm/spec: goals, name, data model,
-    MVP scope, privacy, open questions. **Read before any planning.**
-  - `docs/specs/`, `docs/plans/`, `docs/decisions/` — per-milestone specs / plans / ADRs (scaffolds).
+  - [`docs/kickstart.md`](docs/kickstart.md) — the founding brainstorm/spec. **Read before any planning.**
+  - [`docs/superpowers/specs/`](docs/superpowers/specs/) & [`docs/superpowers/plans/`](docs/superpowers/plans/)
+    — per-milestone specs (brainstorming output) and plans (writing-plans output). **These paths are
+    the superpowers plugin defaults**, so brainstorm/write-plan land files here automatically.
   - [`docs/devlog.md`](docs/devlog.md) — newest-first history; the top row is the current state.
 
 ## Before you plan — read first
@@ -64,10 +65,45 @@ Before planning or building, **read [`docs/kickstart.md`](docs/kickstart.md)** (
 maintained docs and the Locked decisions above), then plan against them — and **name the files you
 consulted**, so it's visible which docs informed the work.
 
-## End of session — close the loop
+## Workflow — the dev cycle (superpowers)
 
-Before work counts as done: update any maintained `docs/*.md` it touched, append a newest-on-top entry
-to [`docs/devlog.md`](docs/devlog.md) (linking its spec/plan), and update [`todo.md`](todo.md).
+Each milestone: **brainstorm → spec → plan → implement → fold decisions into the maintained docs.**
 
-> Want more governance blocks (dev cycle, PR gate, ADR flow)? See [`CLAUDE.advanced.md`](CLAUDE.advanced.md) —
-> a menu to copy from as the project grows.
+1. **Brainstorm/spec** via `superpowers:brainstorming` → saves to `docs/superpowers/specs/`.
+2. **Plan** via `superpowers:writing-plans` → saves to `docs/superpowers/plans/`.
+3. **Implement** against the plan (`superpowers:executing-plans` / subagent-driven).
+4. Specs & plans are **historical** (may go stale). Afterward, **fold lasting decisions into the
+   maintained docs** (Locked decisions above / a `docs/*.md`) — those, not the spec, are the source of
+   truth.
+5. **Phase handoff:** per the global `~/.claude/CLAUDE.md`, run each phase in a fresh session, carrying
+   only the written doc forward.
+
+## End of session — close the loop (a gate before any PR)
+
+Updating docs is a **gate, not a nicety** — before the work counts as done / before a PR opens:
+
+1. Update every maintained `docs/*.md` the session touched. ("No docs needed" is a claim to justify.)
+2. Append a newest-on-top entry to [`docs/devlog.md`](docs/devlog.md) (global `CLAUDE.md` owns the
+   format), linking its spec/plan.
+3. Update [`todo.md`](todo.md).
+
+When the user says **"ship it" / "raise a PR":** run this, commit the doc changes **in the same PR** as
+the code, open the PR — then **stop; don't merge** (that's the user's call). If they head to push
+without it, **remind them**.
+
+## Conventions
+
+- **Staging: explicit paths only** — never `git add -A` / `git add .`. Confirm scope with
+  `git diff --name-only main...HEAD` before a PR.
+- **Publish only the built site** (`dist/`) to Pages — never `path: .`; keep `CLAUDE.md`, `todo.md`,
+  and `docs/` off the served site (kickstart §4c).
+- **Code comments describe the *current* state only** — no "moved from…" / "used to be…" breadcrumbs;
+  history lives in git.
+- **Escape user-supplied input** (contributor-authored Markdown/frontmatter) even when rendering it
+  verbatim ("verbatim" = don't *translate* it, not skip escaping).
+
+## Before committing (load-bearing — public repo)
+
+Scan **every** commit for secrets / API keys / tokens, `.env*` files, and **speaker contact info /
+private PII** (kickstart §4d) before pushing. This repo is public and holds a community with private
+sign-up data — this scan is required, not precautionary.

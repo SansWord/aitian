@@ -36,8 +36,15 @@ spec / plan / design doc from that session so a later session can lazily load th
 - Created public repo `sansword/aitian` and pushed the kickstart doc.
 - Applied the **document-tree practice** (this `CLAUDE.md` / `CLAUDE.advanced.md`, `todo.md`, this
   devlog, and the `docs/` historical tiers + templates).
+- Opted into advanced governance blocks — **PR gate, Conventions, dev cycle, pre-commit secret scan** —
+  promoting them into `CLAUDE.md`; left Unlock-protocol and ADR-flow dormant in the menu.
+- Aligned the historical spec/plan folders to the **superpowers plugin defaults**
+  (`docs/superpowers/specs/`, `docs/superpowers/plans/`) so brainstorm/write-plan output lands there
+  automatically; dropped the unused `docs/decisions/` + ADR template.
 
 **Key learnings:**
+- `[note]` Superpowers v5.0.7 saves brainstorming specs to `docs/superpowers/specs/` and writing-plans
+  output to `docs/superpowers/plans/` — match those paths so the plugin picks them up with no config.
 - `[insight]` A static GitHub Pages site can't list a directory at runtime — so a deploy-time build
   both parses Markdown → JSON and generates the `index.json` manifest, keeping the runtime
   dependency-free while contributors author friendly Markdown.

@@ -1,54 +1,38 @@
-<!-- ADVANCED MENU — not auto-loaded. Only CLAUDE.md / AGENTS.md is. As the project grows and you want
-     more structure, copy a block from here into the lean CLAUDE.md (replace the matching stub — one
-     fact, one place). Shared conventions that already live in the global ~/.claude/CLAUDE.md (devlog
-     format, three-part semver, communication style, review protocol) are NOT duplicated here — that
-     file owns them. -->
+<!-- ADVANCED MENU — not auto-loaded (only CLAUDE.md / AGENTS.md is). These are the blocks NOT yet
+     opted in. When you want one, copy it into the lean CLAUDE.md (replace any matching stub — one
+     fact, one place). Shared conventions (devlog format, semver, communication style) live in the
+     global ~/.claude/CLAUDE.md and are not duplicated here. -->
 
 # AI展 (aitian) — governance menu
 
-## Locked decisions (already in CLAUDE.md)
+**Already active in `CLAUDE.md`** (opted in): Locked decisions · Before-you-plan · Workflow/dev cycle ·
+End-of-session PR gate · Conventions · Before-committing scan.
 
-The lean root already carries the Locked-decisions block. The discipline:
+The blocks below are the **remaining** menu — copy into `CLAUDE.md` if/when you want them.
 
-- **Implementing/planning → obey.** If the work seems to require breaking a locked decision, **stop and
-  surface it** — don't improvise past it.
-- **Brainstorming / spec'ing / explicit human decision → challenge freely.** Name the conflict, ask
-  whether to keep or unlock.
-- **Unlock in the open, never silently:** update the canonical section (kickstart / a maintained doc)
-  and log the change + reason in `docs/devlog.md` (or an ADR under `docs/decisions/`). The superseded
-  decision stays in the historical record.
+## Unlock protocol — change a Locked decision in the open
 
-## Workflow — the dev cycle
+> Not yet opted in. Today's rule (in `CLAUDE.md` Locked decisions) is the lighter "update the canonical
+> section + log it in the devlog." This block formalizes it:
 
-1. **Brainstorm → spec** before building; **plan** once the spec is agreed. Spec + plan land in the
-   historical tier (`docs/specs/`, `docs/plans/`) — allowed to go stale later.
-2. **Implement** against the plan.
-3. **Fold lasting decisions into the maintained docs** (CLAUDE.md Locked decisions, the relevant
-   `docs/*.md`) — those, not the spec, are the source of truth afterward.
-4. **Close the loop at end of session** (below).
-5. The next round starts from these docs, so the agent can spot where a new idea diverges from a past
-   decision and surface it.
+Changing a locked decision must be **deliberate and logged, never silent**:
 
-## End-of-session checklist — close the loop
+1. Update the canonical doc/section (kickstart or a maintained `docs/*.md`) with the new rule.
+2. Update the one-liner in `CLAUDE.md` Locked decisions.
+3. **Log the change and its reason** in `docs/devlog.md` (newest-on-top). The superseded decision stays
+   in the historical record, so the *why* of the change is preserved.
 
-A **gate, not a nicety** — do it before the work counts as done (e.g. before a PR opens), and commit
-the doc changes **in the same PR** as the code:
+Past constraints shouldn't silently block new thinking — they should be visible so the choice is
+deliberate.
 
-1. **Update every maintained `docs/*.md`** the session touched. ("No docs needed" is a claim to
-   justify, not a default.)
-2. **Append a newest-on-top entry to `docs/devlog.md`** (global CLAUDE.md owns the format) and link it
-   to this milestone's spec/plan.
-3. **Update `todo.md`** — clear done items, add next steps.
+## ADR flow — Architecture Decision Records
 
-When the user says **"ship it" / "raise a PR,"** run this, commit, open the PR — then **stop** (don't
-merge; that's the user's call).
+> Not yet opted in. Early `aitian` decisions live as one-liners in `CLAUDE.md` Locked decisions (with
+> rationale in kickstart). Adopt this when a decision is weighty enough to deserve its own
+> context/options/consequences write-up.
 
-## Conventions (project-specific)
-
-- **Staging: explicit paths only — never `git add -A` / `git add .`.** Stage the exact files you
-  changed; confirm with `git diff --name-only main...HEAD` before a PR.
-- **Public-repo hygiene:** never commit speaker contact info or secrets (see kickstart §4d). Scan every
-  commit before pushing.
-- **Deploy only the built site:** the GitHub Pages artifact must contain **only** the website output
-  (e.g. `dist/`) — never `CLAUDE.md`, `todo.md`, or `docs/`. See kickstart §4c.
-- (Shared: three-part semver, devlog format, "not-A-but-B" avoidance, etc. → global `~/.claude/CLAUDE.md`.)
+To adopt: create `docs/decisions/` with a short README, add an ADR template, and record each
+significant decision as `docs/decisions/NNNN-<slug>.md` (context · decision · why · consequences),
+dated and append-only. **Tier rule:** the ADR is the *historical record*; the **current enforced rule**
+still lives in a maintained doc (`docs/*.md` or `CLAUDE.md` Locked decisions) — that's what the agent
+obeys.
