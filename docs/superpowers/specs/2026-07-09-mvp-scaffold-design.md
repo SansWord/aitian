@@ -129,6 +129,11 @@ tonight's meetup.
 Three hand-written pages under `site/`, shared `site.css` + `site.js` + `ui-strings.json`,
 consuming only built JSON. This layer is replaceable without touching `data/`.
 
+**Shared header on all three pages:** wordmark + nav on the left; two toggles top-right —
+**language (中/EN)** and **theme (dark/light)**. Both start on the auto-detected default
+(language per §2.5, theme per §2.6), both are reader-changeable, and a change persists in
+`localStorage` and wins on every later visit.
+
 ### 2.1 Landing (`index.html`)
 
 1. **Typographic hero** — AI展 wordmark with 展 as the accent glyph over a CSS gradient; no image
