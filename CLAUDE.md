@@ -66,6 +66,11 @@ Stable facts:
   - [`docs/theming.md`](docs/theming.md) — the color system: palette references, token roles +
     contrast requirements, and the how-to for changing the theme. **Update trigger:** any change to
     the token blocks in `site/site.css` (same PR).
+  - **Contributor READMEs** — root [`README.md`](README.md), [`data/README.md`](data/README.md),
+    [`data/meetups/README.md`](data/meetups/README.md),
+    [`data/moderators/README.md`](data/moderators/README.md): contributor how-tos; field detail
+    stays in `docs/data-schema.md`. **Update trigger:** any change to the contribution flow,
+    file-naming rules, folder layout, URL/stack, PR flow, or local-test commands (same PR).
 - **Historical** (how we got here; allowed to go stale; kept forever):
   - [`docs/kickstart.md`](docs/kickstart.md) — the founding brainstorm/spec. **Read before any planning.**
   - [`docs/superpowers/specs/`](docs/superpowers/specs/) & [`docs/superpowers/plans/`](docs/superpowers/plans/)
