@@ -27,6 +27,23 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 ---
 
+## Meta — version tags backfilled; tagging step added to ship flow (2026-07-10 11:11)
+
+**Review:** not yet
+
+**What was built:**
+- Backfilled the missing release tags: `v0.3.0` → `4df1b6d` (PR #1 merge), `v0.3.1` → `6b6ec36`,
+  `v0.3.2` → `3e7ffb0`; `v0.3.3` was tagged the same day right after its merge. All five tags
+  (`v0.2.0`–`v0.3.3`) are now on GitHub.
+- `CLAUDE.md` ship-flow section gained an explicit post-merge step: tag the squash commit `vX.Y.Z`
+  and push the tag once the user reports the merge.
+
+**Process learnings:**
+- `[gotcha]` The ship-it flow ended at "stop; don't merge", so no step covered what happens *after*
+  the user merges — three releases (v0.3.0–v0.3.2) went untagged despite the convention that tags
+  are the canonical version reference. A workflow that hands off to the user needs an explicit
+  re-entry step for the part that comes back.
+
 ## v0.3.3 — JSON fetch cache revalidation (2026-07-10 10:39)
 
 **Review:** not yet

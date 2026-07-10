@@ -100,6 +100,12 @@ When the user says **"ship it" / "raise a PR":** run this, commit the doc change
 the code, open the PR — then **stop; don't merge** (that's the user's call). If they head to push
 without it, **remind them**.
 
+**After the user merges a release PR: tag it.** Tag the squash commit on `main` with the release's
+`vX.Y.Z` and push the tag — tags are the canonical version reference (global `CLAUDE.md`
+§Versioning) and must match the devlog heading. If the user reports a merge and no tag has been
+pushed, do it (or remind them) before moving on. Design-only sessions (`vX.Y.0-design`) and meta
+entries get no tag.
+
 ## Conventions
 
 - **Branching: never develop on `main`** — all work (code *and* docs/specs) happens on a feature
