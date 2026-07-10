@@ -2,185 +2,329 @@
    ([data-theme="dark"]) or OS preference when no explicit choice was made —
    so the two dark blocks must stay identical (spec §2.6).
    Light palette: lagoon teals on warm cream, orange as the pop
-   (coolors 16697a-489fb5-82c0cc-ede7e3-ffa62b). Orange fails contrast as
-   text on cream, so teal carries links/labels and orange carries fills.
-   Dark palette: rich black, dark-purple surfaces, gold accent, mint text
-   (coolors 160c28-efcb68-e1efe6-aeb7b3-000411). */
+   (coolors 16697a-489fb5-82c0cc-ede7e3-ffa62b).
+   Dark palette: #000411, #e1efe6, #82c0cc, #efcb68, #16697a. */
 :root {
   color-scheme: light;
-  --bg: #ede7e3;
-  --fg: #0c3540;
-  --muted: #52686e;
+  --bg: #eef4f6;
+  --fg: #092031;
+  --muted: #4f6870;
   --accent: #16697a;
   --accent-pop: #ffa62b;
-  --accent-contrast: #0c3540;
-  --card: #f8f4f0;
-  --border: #c2d7da;
-  --hero-tint: #cddbdc;
+  --accent-contrast: #092031;
+  --card: #eaf2f6;
+  --card-strong: #ffffff;
+  --border: #cfe0e5;
+  --line-soft: #e4edf0;
+  --hero-tint: #82c0cc;
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #000411;
-  --fg: #e1efe6;
-  --muted: #aeb7b3;
+  --bg: #030912;
+  --fg: #eaf8fb;
+  --muted: #9ad0da;
   --accent: #efcb68;
   --accent-pop: #efcb68;
-  --accent-contrast: #160c28;
-  --card: #160c28;
-  --border: #2c2244;
-  --hero-tint: #160c28;
+  --accent-contrast: #000411;
+  --card: #05121f;
+  --card-strong: #0a2b42;
+  --border: #274857;
+  --line-soft: #183644;
+  --hero-tint: #16697a;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #000411;
-    --fg: #e1efe6;
-    --muted: #aeb7b3;
+    --bg: #030912;
+    --fg: #eaf8fb;
+    --muted: #9ad0da;
     --accent: #efcb68;
     --accent-pop: #efcb68;
-    --accent-contrast: #160c28;
-    --card: #160c28;
-    --border: #2c2244;
-    --hero-tint: #160c28;
+    --accent-contrast: #000411;
+    --card: #05121f;
+    --card-strong: #0a2b42;
+    --border: #274857;
+    --line-soft: #183644;
+    --hero-tint: #16697a;
   }
 }
 
 * { box-sizing: border-box; }
+html {
+  min-height: 100%;
+  background: var(--bg);
+}
 body {
   margin: 0;
-  background: var(--bg);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, color-mix(in srgb, var(--hero-tint) 34%, transparent), transparent 34rem),
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent-pop) 9%, transparent), transparent 18rem),
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 82%, var(--hero-tint) 18%), color-mix(in srgb, var(--bg) 94%, var(--hero-tint) 6%) 22rem, var(--bg) 40rem);
   color: var(--fg);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  font-family: "Avenir Next", "Segoe UI", "Noto Sans TC", "PingFang TC",
+    "Microsoft JhengHei", sans-serif;
   line-height: 1.6;
 }
-main { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem 4rem; }
-a { color: var(--accent); }
-h2 { font-size: 1.15rem; margin: 2.5rem 0 0.75rem; }
+main { max-width: 50rem; margin: 0 auto; padding: 0 1.5rem 5rem; }
+a { color: var(--accent); transition: color 140ms ease; }
+h2 { font-size: 1.05rem; margin: 2.8rem 0 0.85rem; letter-spacing: 0.01em; }
 
 /* --- shared header --- */
 .site-header {
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  max-width: 46rem;
+  max-width: 50rem;
   margin: 0 auto;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.5rem 1.15rem;
 }
-.brand { font-weight: 800; font-size: 1.35rem; text-decoration: none; color: var(--fg); }
+.brand {
+  font-weight: 800;
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+  color: var(--fg);
+}
 .zhan { color: var(--accent); }
 .site-header nav { display: flex; gap: 1rem; flex: 1; }
-.site-header nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+.site-header nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.93rem;
+}
 .site-header nav a:hover { color: var(--fg); }
 .toggles { display: flex; gap: 0.5rem; }
 .toggles button {
-  background: var(--card);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--card-strong) 86%, transparent),
+    var(--card)
+  );
   color: var(--fg);
-  border: 1px solid var(--border);
+  border: 1px solid color-mix(in srgb, var(--border) 14%, transparent);
   border-radius: 999px;
   padding: 0.3rem 0.8rem;
   font-size: 0.9rem;
   cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--card-strong) 48%, transparent),
+    0 0.7rem 1.4rem color-mix(in srgb, var(--bg) 84%, transparent);
+  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+}
+.toggles button:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
 }
 
-/* --- typographic hero (spec §2.1: no image asset; gradient backdrop) --- */
+/* --- hero shell; landing adds theme-specific artwork via ::after --- */
 .hero {
-  text-align: center;
-  padding: 3rem 1rem 2rem;
-  border-radius: 0 0 2rem 2rem;
-  background: linear-gradient(180deg, var(--hero-tint), var(--bg));
+  position: relative;
+  text-align: left;
+  padding: 3.25rem 1.5rem 2.2rem;
+  border-radius: 1.75rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent-pop) 18%, transparent), transparent 28%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--hero-tint) 62%, var(--card-strong) 38%),
+      color-mix(in srgb, var(--bg) 70%, var(--card) 30%)
+    );
+  box-shadow: 0 1.3rem 3rem color-mix(in srgb, var(--bg) 74%, transparent);
+}
+.hero > * {
+  position: relative;
+  z-index: 1;
+}
+
+body[data-page="landing"] .hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.58) 0%, rgba(255, 255, 255, 0.24) 34%, rgba(255, 255, 255, 0.18) 100%),
+    url("./assets/hero-demo-stage-light.png");
+  background-position: center center, 74% 50%;
+  background-size: auto, cover;
+  background-repeat: no-repeat;
+  opacity: 0.92;
+  z-index: 0;
 }
 .wordmark {
   font-size: clamp(3rem, 12vw, 5.5rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: 680;
+  letter-spacing: -0.05em;
   margin: 0;
 }
-.romanization { color: var(--muted); font-size: 1.05rem; margin: 0.25rem 0 0; letter-spacing: 0.04em; }
-.tagline { font-size: 1.35rem; font-weight: 650; margin: 1.5rem 0 0; }
-/* Reserved slot so a future hero image drops in without reflow (spec §2.1). */
-.hero-visual { min-height: 3rem; }
+.romanization {
+  color: var(--muted);
+  font-size: 0.98rem;
+  margin: 0.35rem 0 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.tagline {
+  max-width: 34rem;
+  font-size: clamp(1.25rem, 4vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 1.35rem 0 0;
+}
+/* Hidden for now; the reserved slot created a visible empty block in the hero. */
+.hero-visual { display: none; }
 
-.cta-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 1.25rem; }
+.cta-row {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-top: 1.35rem;
+}
 .cta {
   display: inline-block;
   border-radius: 999px;
-  padding: 0.6rem 1.4rem;
-  font-size: 1rem;
+  padding: 0.75rem 1.35rem;
+  font-size: 0.96rem;
   font-family: inherit;
   text-decoration: none;
-  background: var(--accent-pop);
-  color: var(--accent-contrast);
+  background: var(--accent);
+  color: var(--bg);
   font-weight: 650;
-  border: none;
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--card-strong) 22%, transparent),
+    0 1rem 1.8rem color-mix(in srgb, var(--bg) 78%, transparent);
 }
 button.cta[disabled] { opacity: 0.55; cursor: not-allowed; }
 
 /* --- meetup cards (featured + coming-up strip) --- */
 .card {
   display: block;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  padding: 1rem 1.25rem;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--card-strong) 95%, transparent),
+      color-mix(in srgb, var(--hero-tint) 8%, var(--card) 92%)
+    );
+  border: 1px solid color-mix(in srgb, var(--border) 18%, transparent);
+  border-radius: 1.25rem;
+  padding: 1.05rem 1.2rem;
   text-decoration: none;
   color: var(--fg);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--card-strong) 52%, transparent),
+    0 0.9rem 2rem color-mix(in srgb, var(--bg) 72%, transparent);
+  transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
 }
-.card:hover { border-color: var(--accent-pop); }
-.card-featured { padding: 1.5rem; }
+.card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--card-strong) 58%, transparent),
+    0 1.35rem 2.3rem color-mix(in srgb, var(--bg) 68%, transparent);
+}
+.card-featured {
+  padding: 1.45rem;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--accent-pop) 16%, transparent), transparent 30%),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--card-strong) 98%, transparent),
+      color-mix(in srgb, var(--hero-tint) 10%, var(--card) 90%)
+    );
+}
 .card-time { font-weight: 600; margin: 0; }
-.card-time-tpe { color: var(--muted); font-size: 0.9rem; margin: 0.1rem 0 0; }
+.card-time-tpe { color: var(--muted); font-size: 0.88rem; margin: 0.15rem 0 0; }
 .card ul { margin: 0.6rem 0 0; padding-left: 1.2rem; }
 .card li { margin: 0.15rem 0; }
 .card-tba { color: var(--muted); font-style: italic; margin: 0.6rem 0 0; }
-.strip { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+.strip { display: grid; grid-template-columns: 1fr; gap: 0.85rem; }
 
 /* --- landing intro + meetup detail --- */
-.intro { margin-top: 1.5rem; }
+.intro {
+  margin-top: 1.7rem;
+  padding: 0 0.2rem;
+}
+.intro p {
+  max-width: 43rem;
+  color: color-mix(in srgb, var(--fg) 88%, var(--muted) 12%);
+}
 .meetup-intro { margin: 1rem 0; }
-.detail-time { font-weight: 700; font-size: 1.25rem; margin: 1.5rem 0 0; }
+.detail-time { font-weight: 700; font-size: 1.25rem; margin: 1.5rem 0 0; letter-spacing: -0.02em; }
 .detail-time-tpe { color: var(--muted); margin: 0.15rem 0 1rem; }
 .attendees { color: var(--muted); }
 .segment {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  padding: 1rem 1.25rem;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--hero-tint) 12%, var(--card-strong) 88%),
+      var(--card)
+    );
+  border: 1px solid color-mix(in srgb, var(--border) 24%, transparent);
+  border-radius: 1.2rem;
+  padding: 1rem 1.25rem 1.1rem;
   margin: 1rem 0;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--card-strong) 44%, transparent),
+    0 1.15rem 2.2rem color-mix(in srgb, var(--bg) 64%, transparent);
 }
 .segment-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
   color: var(--accent);
-  font-size: 0.8rem;
+  font-size: 0.74rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   margin: 0;
 }
-.segment-title { font-size: 1.1rem; font-weight: 600; margin: 0.25rem 0; }
+.segment-title { font-size: 1.15rem; font-weight: 650; line-height: 1.2; margin: 0.55rem 0 0.2rem; }
 .segment-speaker { margin: 0; color: var(--muted); }
 .segment-bio { font-size: 0.95rem; margin: 0.5rem 0 0; }
 .segment-materials { display: inline-block; margin-top: 0.5rem; }
 .not-found { text-align: center; padding: 3rem 0; }
 
 /* --- moderators grid --- */
-.mod-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.mod-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
 .mod-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--hero-tint) 12%, var(--card-strong) 88%),
+      var(--card)
+    );
+  border: 1px solid color-mix(in srgb, var(--border) 24%, transparent);
+  border-radius: 1.25rem;
   padding: 1.5rem;
   text-align: center;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--card-strong) 44%, transparent),
+    0 1.15rem 2.2rem color-mix(in srgb, var(--bg) 64%, transparent);
 }
 .avatar {
   width: 6rem;
   height: 6rem;
   border-radius: 50%;
   object-fit: cover;
-  background: var(--border); /* visible circle while avatars are placeholders */
+  background:
+    radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--card-strong) 48%, transparent), transparent 28%),
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 50%, var(--hero-tint) 50%), var(--accent-pop));
+  border: 1px solid color-mix(in srgb, var(--border) 28%, transparent);
 }
 .mod-card h3 { margin: 0.75rem 0 0.25rem; }
 .mod-bio { color: var(--muted); margin: 0; }
 .mod-links { display: flex; gap: 0.75rem; justify-content: center; margin: 0.75rem 0 0; }
+.mod-links a { color: var(--accent-pop); }
 .mod-intro { text-align: left; font-size: 0.95rem; margin-top: 0.75rem; }
 
 .site-footer {
@@ -188,6 +332,282 @@ button.cta[disabled] { opacity: 0.55; cursor: not-allowed; }
   color: var(--muted);
   font-size: 0.85rem;
   padding: 2rem;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid color-mix(in srgb, var(--line-soft) 30%, transparent);
   margin-top: 3rem;
+  background: transparent;
+}
+
+body[data-page="meetup"] main > h1,
+body[data-page="moderators"] main > h1 {
+  margin: 0.85rem 0 1.2rem;
+  font-size: clamp(2rem, 7vw, 3rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+body[data-page="moderators"] main {
+  padding-bottom: 2rem;
+}
+
+body[data-page="meetup"] main,
+body[data-page="moderators"] main {
+  position: relative;
+}
+
+:root[data-theme="dark"] .card,
+:root[data-theme="dark"] .segment,
+:root[data-theme="dark"] .mod-card {
+  border-color: transparent;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 1.4rem 2.8rem rgba(0, 0, 0, 0.36);
+}
+
+:root[data-theme="dark"] html {
+  background: #030912;
+}
+
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at 52% 30%, rgba(239, 203, 104, 0.14), transparent 28rem),
+    radial-gradient(circle at 18% 12%, rgba(22, 105, 122, 0.26), transparent 24rem),
+    radial-gradient(circle at 82% 18%, rgba(130, 192, 204, 0.12), transparent 18rem),
+    linear-gradient(180deg, rgba(9, 34, 50, 0.22), transparent 16rem),
+    #030912;
+}
+
+:root[data-theme="dark"] body[data-page="meetup"] {
+  background:
+    radial-gradient(circle at 52% 30%, rgba(239, 203, 104, 0.14), transparent 28rem),
+    radial-gradient(circle at 18% 12%, rgba(22, 105, 122, 0.26), transparent 24rem),
+    radial-gradient(circle at 82% 18%, rgba(130, 192, 204, 0.12), transparent 18rem),
+    radial-gradient(circle at 84% 18rem, rgba(239, 203, 104, 0.08), transparent 18rem),
+    radial-gradient(circle at 8rem 16rem, rgba(22, 105, 122, 0.12), transparent 16rem),
+    linear-gradient(180deg, rgba(9, 34, 50, 0.22), transparent 16rem),
+    #030912;
+}
+
+:root[data-theme="dark"] body[data-page="moderators"] {
+  background:
+    radial-gradient(circle at 52% 30%, rgba(239, 203, 104, 0.14), transparent 28rem),
+    radial-gradient(circle at 18% 12%, rgba(22, 105, 122, 0.26), transparent 24rem),
+    radial-gradient(circle at 82% 18%, rgba(130, 192, 204, 0.12), transparent 18rem),
+    radial-gradient(circle at 78% 20rem, rgba(239, 203, 104, 0.08), transparent 18rem),
+    radial-gradient(circle at 10rem 18rem, rgba(22, 105, 122, 0.12), transparent 16rem),
+    linear-gradient(180deg, rgba(9, 34, 50, 0.22), transparent 16rem),
+    #030912;
+}
+
+:root[data-theme="dark"] .hero {
+  background:
+    radial-gradient(circle at top right, rgba(239, 203, 104, 0.18), transparent 24%),
+    linear-gradient(180deg, rgba(22, 105, 122, 0.42), rgba(3, 9, 18, 0.88));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 1.6rem 3.4rem rgba(0, 0, 0, 0.4);
+}
+
+:root[data-theme="dark"] body[data-page="landing"] .hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(3, 9, 18, 0.34) 0%, rgba(3, 9, 18, 0.18) 34%, rgba(3, 9, 18, 0.54) 100%),
+    url("./assets/hero-demo-stage-dark.png");
+  background-position: center center, 74% 50%;
+  background-size: auto, cover;
+  background-repeat: no-repeat;
+  opacity: 0.9;
+  z-index: 0;
+}
+
+:root[data-theme="dark"] .toggles button {
+  background: linear-gradient(180deg, rgba(10, 43, 66, 0.96), rgba(5, 18, 31, 0.98));
+  border-color: rgba(130, 192, 204, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 0.9rem 1.6rem rgba(0, 0, 0, 0.28);
+}
+
+:root[data-theme="dark"] .card,
+:root[data-theme="dark"] .segment {
+  background:
+    linear-gradient(180deg, rgba(130, 192, 204, 0.05), transparent 34%),
+    linear-gradient(180deg, rgba(9, 34, 50, 0.92), rgba(4, 16, 28, 0.94));
+}
+
+:root[data-theme="dark"] .mod-card {
+  background:
+    linear-gradient(180deg, rgba(130, 192, 204, 0.05), transparent 34%),
+    linear-gradient(180deg, rgba(9, 34, 50, 0.94), rgba(4, 16, 28, 0.96));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 1.5rem 2.9rem rgba(0, 0, 0, 0.38);
+}
+
+:root[data-theme="dark"] .card-featured {
+  background:
+    radial-gradient(circle at top right, rgba(239, 203, 104, 0.12), transparent 26%),
+    linear-gradient(180deg, rgba(130, 192, 204, 0.05), transparent 30%),
+    linear-gradient(180deg, rgba(10, 43, 66, 0.96), rgba(5, 18, 31, 0.98));
+}
+
+:root[data-theme="dark"] .segment-label {
+  background: rgba(239, 203, 104, 0.12);
+}
+
+:root[data-theme="dark"] .card:hover,
+:root[data-theme="dark"] .segment:hover,
+:root[data-theme="dark"] .mod-card:hover {
+  border-color: transparent;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 1.7rem 3.2rem rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .card,
+  :root:not([data-theme="light"]) .segment,
+  :root:not([data-theme="light"]) .mod-card {
+    border-color: transparent;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.03),
+      0 1.4rem 2.8rem rgba(0, 0, 0, 0.36);
+  }
+
+  :root:not([data-theme="light"]) html {
+    background: #030912;
+  }
+
+  :root:not([data-theme="light"]) body {
+    background:
+      radial-gradient(circle at 52% 30%, rgba(239, 203, 104, 0.14), transparent 28rem),
+      radial-gradient(circle at 18% 12%, rgba(22, 105, 122, 0.26), transparent 24rem),
+      radial-gradient(circle at 82% 18%, rgba(130, 192, 204, 0.12), transparent 18rem),
+      linear-gradient(180deg, rgba(9, 34, 50, 0.22), transparent 16rem),
+      #030912;
+  }
+
+  :root:not([data-theme="light"]) body[data-page="meetup"] {
+    background:
+      radial-gradient(circle at 52% 30%, rgba(239, 203, 104, 0.14), transparent 28rem),
+      radial-gradient(circle at 18% 12%, rgba(22, 105, 122, 0.26), transparent 24rem),
+      radial-gradient(circle at 82% 18%, rgba(130, 192, 204, 0.12), transparent 18rem),
+      radial-gradient(circle at 84% 18rem, rgba(239, 203, 104, 0.08), transparent 18rem),
+      radial-gradient(circle at 8rem 16rem, rgba(22, 105, 122, 0.12), transparent 16rem),
+      linear-gradient(180deg, rgba(9, 34, 50, 0.22), transparent 16rem),
+      #030912;
+  }
+
+  :root:not([data-theme="light"]) body[data-page="moderators"] {
+    background:
+      radial-gradient(circle at 52% 30%, rgba(239, 203, 104, 0.14), transparent 28rem),
+      radial-gradient(circle at 18% 12%, rgba(22, 105, 122, 0.26), transparent 24rem),
+      radial-gradient(circle at 82% 18%, rgba(130, 192, 204, 0.12), transparent 18rem),
+      radial-gradient(circle at 78% 20rem, rgba(239, 203, 104, 0.08), transparent 18rem),
+      radial-gradient(circle at 10rem 18rem, rgba(22, 105, 122, 0.12), transparent 16rem),
+      linear-gradient(180deg, rgba(9, 34, 50, 0.22), transparent 16rem),
+      #030912;
+  }
+
+  :root:not([data-theme="light"]) .hero {
+    background:
+      radial-gradient(circle at top right, rgba(239, 203, 104, 0.18), transparent 24%),
+      linear-gradient(180deg, rgba(22, 105, 122, 0.42), rgba(3, 9, 18, 0.88));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.03),
+      0 1.6rem 3.4rem rgba(0, 0, 0, 0.4);
+  }
+
+  :root:not([data-theme="light"]) body[data-page="landing"] .hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(3, 9, 18, 0.34) 0%, rgba(3, 9, 18, 0.18) 34%, rgba(3, 9, 18, 0.54) 100%),
+      url("./assets/hero-demo-stage-dark.png");
+    background-position: center center, 74% 50%;
+    background-size: auto, cover;
+    background-repeat: no-repeat;
+    opacity: 0.9;
+    z-index: 0;
+  }
+
+  :root:not([data-theme="light"]) .toggles button {
+    background: linear-gradient(180deg, rgba(10, 43, 66, 0.96), rgba(5, 18, 31, 0.98));
+    border-color: rgba(130, 192, 204, 0.08);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 0.9rem 1.6rem rgba(0, 0, 0, 0.28);
+  }
+
+  :root:not([data-theme="light"]) .card,
+  :root:not([data-theme="light"]) .segment {
+    background:
+      linear-gradient(180deg, rgba(130, 192, 204, 0.05), transparent 34%),
+      linear-gradient(180deg, rgba(9, 34, 50, 0.92), rgba(4, 16, 28, 0.94));
+  }
+
+  :root:not([data-theme="light"]) .mod-card {
+    background:
+      linear-gradient(180deg, rgba(130, 192, 204, 0.05), transparent 34%),
+      linear-gradient(180deg, rgba(9, 34, 50, 0.94), rgba(4, 16, 28, 0.96));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.03),
+      0 1.5rem 2.9rem rgba(0, 0, 0, 0.38);
+  }
+
+  :root:not([data-theme="light"]) .card-featured {
+    background:
+      radial-gradient(circle at top right, rgba(239, 203, 104, 0.12), transparent 26%),
+      linear-gradient(180deg, rgba(130, 192, 204, 0.05), transparent 30%),
+      linear-gradient(180deg, rgba(10, 43, 66, 0.96), rgba(5, 18, 31, 0.98));
+  }
+
+  :root:not([data-theme="light"]) .segment-label {
+    background: rgba(239, 203, 104, 0.12);
+  }
+
+  :root:not([data-theme="light"]) .card:hover,
+  :root:not([data-theme="light"]) .segment:hover,
+  :root:not([data-theme="light"]) .mod-card:hover {
+    border-color: transparent;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 1.7rem 3.2rem rgba(0, 0, 0, 0.4);
+  }
+
+}
+
+@media (max-width: 720px) {
+  .site-header {
+    flex-wrap: wrap;
+    gap: 0.85rem;
+  }
+
+  .site-header nav {
+    order: 3;
+    width: 100%;
+    gap: 0.85rem;
+  }
+
+  .hero {
+    padding: 2.5rem 1.15rem 1.9rem;
+  }
+
+  body[data-page="landing"] .hero::after,
+  :root[data-theme="dark"] body[data-page="landing"] .hero::after,
+  :root:not([data-theme="light"]) body[data-page="landing"] .hero::after {
+    background-position: center center, 68% 50%;
+    opacity: 0.82;
+  }
+
+  .cta-row {
+    width: 100%;
+  }
+
+  .cta {
+    width: 100%;
+    text-align: center;
+  }
 }
