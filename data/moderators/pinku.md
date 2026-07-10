@@ -1,6 +1,6 @@
 ---
 name: pinku
 bio:
-  en: "Co-organizer. Product & design."
-  zh: "共同主辦：產品與設計。"
+  en: "Founder & organizer. Product & design."
+  zh: "創辦人與主辦：產品與設計。"
 ---
