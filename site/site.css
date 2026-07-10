@@ -115,7 +115,7 @@ button.cta[disabled] { opacity: 0.55; cursor: not-allowed; }
 .card ul { margin: 0.6rem 0 0; padding-left: 1.2rem; }
 .card li { margin: 0.15rem 0; }
 .card-tba { color: var(--muted); font-style: italic; margin: 0.6rem 0 0; }
-.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 0.75rem; }
+.strip { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
 
 /* --- landing intro + meetup detail --- */
 .intro { margin-top: 1.5rem; }

@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.3.2](#v032--coming-up-strip-one-card-per-row-2026-07-10-1027) | **Layout tweak** — the landing "Coming up" strip renders one full-width card per row (was a multi-column auto-fit grid). |
 | [v0.3.1](#v031--content-moderator-links--714-intro-2026-07-10-1005) | **Content follow-up** — real moderator links (portfolio/LinkedIn), founder/co-organizer bio roles corrected, first speakerBio + bilingual intro content on the 7/14 meetup; post-merge deploy to `aitian.dev` verified. |
 | [v0.3.0](#v030--mvp-data-pipeline--three-pages-2026-07-10-0234) | **MVP shipped** — `data/` Markdown backend with strict CI validation, `build-data.mjs` emit pipeline, and three bilingual/theme-toggling pages (landing, hash-routed meetup detail, moderators) publishing `dist/` to Pages. |
 | [v0.3.0-design](#v030-design--mvp-scaffold-design-2026-07-10-0003) | **MVP scaffold spec approved** — resolved all kickstart §5 opens (vanilla JS, runtime i18n, text-first hero, PR-as-consent, featured+3 landing) and locked the data md schema as a stable "backend" contract. Also: `aitian.dev` live with HTTPS enforced; new feature-branch convention. |
@@ -24,6 +25,15 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.3.2 — Coming-up strip: one card per row (2026-07-10 10:27)
+
+**Review:** not yet
+
+**What was built:**
+- `.strip` on the landing page changed from `repeat(auto-fit, minmax(14rem, 1fr))` (2–3 cards per
+  row on desktop) to a single `1fr` column — one full-width card per upcoming week (SansWord's call
+  after seeing the MVP live). Cards themselves are unchanged.
 
 ## v0.3.1 — Content: moderator links + 7/14 intro (2026-07-10 10:05)
 
