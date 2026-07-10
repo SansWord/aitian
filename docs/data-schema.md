@@ -97,6 +97,21 @@ YAML, and **email-shaped strings anywhere in `data/`** (privacy lint).
   first publication**. Removal: a PR (by the person or an organizer) deleting or redacting the
   entry, honored without question.
 
+## How the site fetches the JSON (delivery & caching)
+
+- Every JSON load goes through **one choke point**: `fetchJson()` in `site/site.js`. Any change to
+  fetch behavior (caching, headers, error handling) happens there and nowhere else.
+- It fetches with **`{ cache: 'no-cache' }`**. GitHub Pages serves everything with
+  `Cache-Control: max-age=600` (10 min); without this option the browser reuses its cached JSON for
+  that window and freshly merged data looks "missing". `no-cache` doesn't disable caching — it
+  forces the browser to revalidate via ETag on every load: GitHub Pages answers `304 Not Modified`
+  (a few bytes) when nothing changed, full fresh JSON right after a deploy.
+- **Don't switch to query-string cachebusters** (`?t=Date.now()` re-downloads everything in full and
+  punches through the CDN edge cache; a build-hash `?v=` baked into `site.js` doesn't help because
+  `site.js` itself is cached for the same 10 minutes).
+- Known limit: HTML/CSS/JS files still sit in the browser cache for up to 10 minutes after a deploy
+  — **code** changes can lag that long; **data** is always revalidated.
+
 ## Evolution rules (the contract terms)
 
 1. **Additive-only.** New fields arrive optional-with-default. No renames, no restructures, no type
