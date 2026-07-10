@@ -14,6 +14,7 @@ history and design docs live in [`docs/`](docs/).
 
 Fittingly for a show-your-AI-work community, the site is itself a demo of AI work: designed and
 developed with [Claude Code](https://claude.com/claude-code), mostly **Claude Fable 5** for the MVP.
+Curious how? [`docs/devlog.md`](docs/devlog.md) records the build, session by session.
 
 ## Contribute
 

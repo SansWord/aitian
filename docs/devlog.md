@@ -44,8 +44,9 @@ spec / plan / design doc from that session so a later session can lazily load th
 **What was built:**
 - Four contributor READMEs: root front door (name lore + tagline, contribute routing table, local
   test commands with the `file://` warning, public-visibility note, and a "designed/developed with
-  Claude Code, mostly Fable 5" credit — added during planning at SansWord's request: the site is
-  itself a demo of AI work), `data/` overview (never-rename rule, 5-step flow, bilingual one-liner),
+  Claude Code, mostly Fable 5" credit linking this devlog as the build history — added during
+  planning at SansWord's request: the site is itself a demo of AI work), `data/` overview
+  (never-rename rule, 5-step flow, bilingual one-liner),
   and meetups/moderators how-tos with worked-example links and computed deep-link anchors into
   `docs/data-schema.md`.
 - Validator: `listDataFiles()` skips `README.md`; avatar files capped at ≤ 500 KB (name + actual
