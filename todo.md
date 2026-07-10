@@ -5,14 +5,13 @@ current as part of the end-of-session checklist.
 
 ## Now
 
-- [ ] **Merge the spec+plan PR** — branch `feat/mvp-scaffold-spec` holds the spec, the
-      implementation plan, and doc updates; push, raise PR, squash-merge (branching convention
-      in `CLAUDE.md`).
+- [ ] **Merge the MVP PR** ([#1](https://github.com/SansWord/aitian/pull/1)) — one combined PR
+      (spec + plan + implementation; the spec branch never got its own PR, `feat/mvp-scaffold`
+      stacks on it). Squash-merge after review + the speaker-consent gate below.
 - [x] **Execute the plan** ([`docs/superpowers/plans/2026-07-10-mvp-scaffold.md`](docs/superpowers/plans/2026-07-10-mvp-scaffold.md))
-      — done 2026-07-10 (v0.3.0): built on `feat/mvp-scaffold`, stacked on the still-unmerged
-      `feat/mvp-scaffold-spec` rather than branching fresh off `main` after that PR merged — the two
-      PRs land in sequence. All 19 tasks shipped (well past the 7/14 cutline), incl. the meetup
-      detail and moderators pages.
+      — done 2026-07-10 (v0.3.0): built on `feat/mvp-scaffold`, stacked on the unmerged
+      `feat/mvp-scaffold-spec`; both land together via the combined PR #1. All 19 tasks shipped
+      (well past the 7/14 cutline), incl. the meetup detail and moderators pages.
 - [x] **Write the implementation plan** from the approved spec — done 2026-07-10:
       [`docs/superpowers/plans/2026-07-10-mvp-scaffold.md`](docs/superpowers/plans/2026-07-10-mvp-scaffold.md).
 - [ ] **Back-fill booked weeks from the private sheet** (SansWord) — edit the seeded TBA files
@@ -20,8 +19,9 @@ current as part of the end-of-session checklist.
       rename the files. No contact info (kickstart §4d).
 - [ ] **Repo settings (manual, SansWord)** — branch protection on `main` incl. no-bypass + required
       `build` check; Actions "Require approval for all outside collaborators" (spec §3.3).
-- [ ] **Verify the deployed PR run** — after the MVP PR opens, confirm the `build` job runs on the
-      PR and `deploy` is skipped; after merge, confirm `aitian.dev` serves the new site.
+- [ ] **Verify the deploy after merge** — confirm `aitian.dev` serves the new site and
+      `meetup.html#2026-07-14-ai-role-play` renders. (PR half verified 2026-07-10: on PR #1 the
+      `build` check passed and `deploy` was skipped, as designed.)
 - [ ] **Speaker-consent announcement (pre-merge gate, SansWord)** — merging the MVP PR is the first
       publication of speaker names (Claire, 7/14 meetup). The one-time community-channel announcement
       with opt-out must happen BEFORE merge (docs/data-schema.md §Privacy & consent). Confirm done or
