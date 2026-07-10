@@ -1,0 +1,175 @@
+/* Design tokens. Light is the base. Dark applies two ways — explicit toggle
+   ([data-theme="dark"]) or OS preference when no explicit choice was made —
+   so the two dark blocks must stay identical (spec §2.6). */
+:root {
+  --bg: #ffffff;
+  --fg: #16161a;
+  --muted: #6b7280;
+  --accent: #e0344b;
+  --card: #f6f6f7;
+  --border: #e5e7eb;
+}
+:root[data-theme="dark"] {
+  --bg: #0d0d10;
+  --fg: #f2f2f5;
+  --muted: #9ca3af;
+  --accent: #ff5a6e;
+  --card: #17171c;
+  --border: #26262d;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d0d10;
+    --fg: #f2f2f5;
+    --muted: #9ca3af;
+    --accent: #ff5a6e;
+    --card: #17171c;
+    --border: #26262d;
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  line-height: 1.6;
+}
+main { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem 4rem; }
+a { color: var(--accent); }
+h2 { font-size: 1.15rem; margin: 2.5rem 0 0.75rem; }
+
+/* --- shared header --- */
+.site-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
+}
+.brand { font-weight: 800; font-size: 1.35rem; text-decoration: none; color: var(--fg); }
+.zhan { color: var(--accent); }
+.site-header nav { display: flex; gap: 1rem; flex: 1; }
+.site-header nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+.site-header nav a:hover { color: var(--fg); }
+.toggles { display: flex; gap: 0.5rem; }
+.toggles button {
+  background: var(--card);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.3rem 0.8rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* --- typographic hero (spec §2.1: no image asset; gradient backdrop) --- */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+  border-radius: 0 0 2rem 2rem;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 9%, var(--bg)), var(--bg));
+}
+.wordmark {
+  font-size: clamp(3rem, 12vw, 5.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.romanization { color: var(--muted); font-size: 1.05rem; margin: 0.25rem 0 0; letter-spacing: 0.04em; }
+.tagline { font-size: 1.35rem; font-weight: 650; margin: 1.5rem 0 0; }
+/* Reserved slot so a future hero image drops in without reflow (spec §2.1). */
+.hero-visual { min-height: 3rem; }
+
+.cta-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; margin-top: 1.25rem; }
+.cta {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.6rem 1.4rem;
+  font-size: 1rem;
+  font-family: inherit;
+  text-decoration: none;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+}
+button.cta[disabled] { opacity: 0.55; cursor: not-allowed; }
+
+/* --- meetup cards (featured + coming-up strip) --- */
+.card {
+  display: block;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  text-decoration: none;
+  color: var(--fg);
+}
+.card:hover { border-color: var(--accent); }
+.card-featured { padding: 1.5rem; }
+.card-time { font-weight: 600; margin: 0; }
+.card-time-tpe { color: var(--muted); font-size: 0.9rem; margin: 0.1rem 0 0; }
+.card ul { margin: 0.6rem 0 0; padding-left: 1.2rem; }
+.card li { margin: 0.15rem 0; }
+.card-tba { color: var(--muted); font-style: italic; margin: 0.6rem 0 0; }
+.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 0.75rem; }
+
+/* --- landing intro + meetup detail --- */
+.intro { margin-top: 1.5rem; }
+.meetup-intro { margin: 1rem 0; }
+.detail-time { font-weight: 700; font-size: 1.25rem; margin: 1.5rem 0 0; }
+.detail-time-tpe { color: var(--muted); margin: 0.15rem 0 1rem; }
+.attendees { color: var(--muted); }
+.segment {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+}
+.segment-label {
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+.segment-title { font-size: 1.1rem; font-weight: 600; margin: 0.25rem 0; }
+.segment-speaker { margin: 0; color: var(--muted); }
+.segment-bio { font-size: 0.95rem; margin: 0.5rem 0 0; }
+.segment-materials { display: inline-block; margin-top: 0.5rem; }
+.not-found { text-align: center; padding: 3rem 0; }
+
+/* --- moderators grid --- */
+.mod-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.mod-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+.avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--border); /* visible circle while avatars are placeholders */
+}
+.mod-card h3 { margin: 0.75rem 0 0.25rem; }
+.mod-bio { color: var(--muted); margin: 0; }
+.mod-links { display: flex; gap: 0.75rem; justify-content: center; margin: 0.75rem 0 0; }
+.mod-intro { text-align: left; font-size: 0.95rem; margin-top: 0.75rem; }
+
+.site-footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}

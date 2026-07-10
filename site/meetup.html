@@ -3,15 +3,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AI展 (aitian) — AI Demo Meetup</title>
-  <meta name="description" content="AI展 (aitian) — a weekly meetup community for showing off AI work." />
+  <title>AI展 (aitian) — Meetup</title>
+  <meta name="description" content="AI展 (aitian) meetup details — talks, speakers, and materials." />
   <script>
-    // Apply a saved theme before first paint to avoid a flash.
     try { var t = localStorage.getItem('aitian.theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
   </script>
   <link rel="stylesheet" href="./site.css" />
 </head>
-<body data-page="landing">
+<body data-page="meetup">
   <header class="site-header">
     <a class="brand" href="./index.html">AI<span class="zhan">展</span></a>
     <nav>
@@ -25,16 +24,8 @@
     </div>
   </header>
   <main>
-    <section class="hero">
-      <h1 class="wordmark">AI<span class="zhan">展</span></h1>
-      <p class="romanization">aitian · <em>Ài-Tián</em></p>
-      <p class="tagline" id="tagline"></p>
-      <div id="cta" class="cta-row"></div>
-      <div class="hero-visual" aria-hidden="true"></div>
-    </section>
-    <section id="intro" class="intro"></section>
-    <section id="featured"></section>
-    <section id="coming-up"></section>
+    <h1 data-i18n="nav.meetups"></h1>
+    <div id="meetup"></div>
   </main>
   <footer class="site-footer"><p>AI展 (aitian)</p></footer>
   <noscript><p style="text-align:center">This site needs JavaScript to show the meetup schedule.</p></noscript>

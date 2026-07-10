@@ -1,0 +1,18 @@
+{
+  "name": "aitian-site",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build-data.mjs && cp -R site/. dist/",
+    "test": "node --test scripts/test/*.test.mjs"
+  },
+  "devDependencies": {
+    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.3.0",
+    "marked": "^18.0.6",
+    "sanitize-html": "^2.17.5"
+  }
+}
