@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "node scripts/build-data.mjs && cp -R site/. dist/",
-    "test": "node --test scripts/test/"
+    "test": "node --test scripts/test/*.test.mjs"
   },
   "devDependencies": {
     "gray-matter": "^4.0.3",
