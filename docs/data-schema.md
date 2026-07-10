@@ -81,8 +81,9 @@ Unknown fields anywhere (strict), missing required fields, malformed `date`/`sta
 unknown timezones, bad segment types, a frontmatter `id`, filename pattern violations, non-integer
 `attendees`, malformed bilingual values, any URL that isn't `http(s)://` (including links inside
 `speakerBio` markdown — `javascript:` URLs fail CI before they can reach a page), avatars that
-aren't a bare existing filename, frontmatter that isn't valid YAML, and **email-shaped strings
-anywhere in `data/`** (privacy lint).
+aren't a bare existing filename, duplicate `ctas[].id` values, a missing
+`data/moderators/avatars/default.png` (the required fallback avatar), frontmatter that isn't valid
+YAML, and **email-shaped strings anywhere in `data/`** (privacy lint).
 
 ## Privacy & consent
 
