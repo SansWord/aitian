@@ -134,7 +134,7 @@ function segmentListItems(segments) {
 function meetupCard(m, { featured = false } = {}) {
   const { home, taipei } = formatMeetupTimes(m);
   const tba = m.segments.length === 0;
-  // TBA weeks link the speaker CTA; booked weeks link their detail page (§2.1).
+  // TBA weeks link the CTA row; booked weeks link their detail page (§2.1).
   const card = el('a', {
     class: featured ? 'card card-featured' : 'card',
     href: tba ? './index.html#cta' : `./meetup.html#${m.id}`,

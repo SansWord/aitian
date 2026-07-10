@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.4.1](#v041--single-rsvp-cta-wired-to-luma-2026-07-10-1152) | **CTA simplification** — the two placeholder CTA buttons collapse into one live CTA, 報名聚會 / RSVP, linking to the Luma event; the link lives in `data/community.md` frontmatter so future event-link changes are a one-line data edit. |
 | [v0.4.0](#v040--color-theme-refresh-lagooncream-light-blackpurplegold-dark-2026-07-10-1136) | **Theme refresh** — new palettes (light: lagoon teals on warm cream + orange pop; dark: rich black, purple cards, gold accent), three new tokens (`--accent-pop`, `--accent-contrast`, `--hero-tint`), and a new maintained doc `docs/theming.md` with token roles, contrast requirements, and the adjustment procedure. |
 | [v0.3.3](#v033--json-fetch-cache-revalidation-2026-07-10-1039) | **Fix** — JSON fetches use `cache: 'no-cache'` (ETag revalidation), so freshly merged data shows up immediately instead of after GitHub Pages' 10-min browser cache; fetch/caching behavior documented in `docs/data-schema.md`. |
 | [v0.3.2](#v032--coming-up-strip-one-card-per-row-2026-07-10-1027) | **Layout tweak** — the landing "Coming up" strip renders one full-width card per row (was a multi-column auto-fit grid). |
@@ -27,6 +28,24 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.4.1 — Single RSVP CTA wired to Luma (2026-07-10 11:52)
+
+**Review:** not yet
+
+**What was built:**
+- The landing CTA row went from two disabled placeholder buttons (`speak` "Sign up to speak" /
+  `join` "Get invite link", both with empty `href`) to one live link: **報名聚會 / RSVP** →
+  the Luma event (`https://luma.com/iwquc9lm`). This settles the "Decide vs. Luma" todo: Luma it is.
+- The link lives in `data/community.md` frontmatter (`ctas[0].href`) — when the Luma event link
+  changes, edit that one line; the CTA row is fully data-driven, so no code changes.
+- `docs/wording.md` CTA table updated (single `rsvp` row, no longer "placeholders"); the
+  `site/site.js` comment calling the CTA row "the speaker CTA" corrected.
+
+**Key technical learnings:**
+- `[note]` Removing the `speak` CTA removes the site's only speaker-sign-up entry point — TBA
+  meetup cards still link to `index.html#cta`, which now shows only the RSVP button. If speaker
+  recruitment needs an on-site path again, the intro copy is the natural home.
 
 ## v0.4.0 — Color theme refresh: lagoon/cream light, black/purple/gold dark (2026-07-10 11:36)
 

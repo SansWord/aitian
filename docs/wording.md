@@ -25,12 +25,11 @@ user-visible wording — update the copy tables here and the corresponding
 | en | **Show off your AI work** | imperative phrase, no hyphen (hyphenated "show-off" is the noun) |
 | zh | **用你的 AI 作品展風神** | 展風神 (Tâi-lô *tián-hong-sîn*, "to show off") echoes the 愛展 pun and reuses the 展 glyph from the wordmark |
 
-## CTA copy (placeholders — targets not wired yet)
+## CTA copy
 
 | id | en | zh | Status |
 |---|---|---|---|
-| `speak` | Sign up to speak | 報名分享 | placeholder — finalize when the sign-up flow is chosen |
-| `join` | Get invite link | 取得邀請連結 | placeholder — finalize when the invite channel is chosen |
+| `rsvp` | RSVP | 報名聚會 | live — links to the Luma event; when the event link changes, update `href` in [`data/community.md`](../data/community.md) |
 
 ## UI chrome strings
 

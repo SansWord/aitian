@@ -7,12 +7,9 @@ schedule:
   startTime: "18:00"
   endTime: "19:30"
 ctas:
-  - id: speak
-    label: { en: "Sign up to speak", zh: "報名分享" }
-    href: ""
-  - id: join
-    label: { en: "Get invite link", zh: "取得邀請連結" }
-    href: ""
+  - id: rsvp
+    label: { en: "RSVP", zh: "報名聚會" }
+    href: "https://luma.com/iwquc9lm"
 ---
 ## en
 AI展 (aitian) is a weekly online meetup where members — aitians — demo what they're building

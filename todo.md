@@ -38,7 +38,9 @@ current as part of the end-of-session checklist.
       info (kickstart §4d) — **amended 2026-07-10:** seeding is done (8 PT Tuesdays, 7/14 booked with
       the kickstart talks, 7 TBA placeholders); back-filling the remaining booked weeks is tracked
       above under Now.
-- [ ] **Decide vs. Luma** for RSVP / the "get invite link" CTA (kickstart §2 note).
+- [x] **Decide vs. Luma** for RSVP / the "get invite link" CTA (kickstart §2 note) — decided
+      2026-07-10 (v0.4.1): Luma; the single 報名聚會 / RSVP CTA links to the event, with the link
+      kept in `data/community.md` frontmatter for easy updates.
 - [ ] **Real avatars** — replace `default.png` placeholder usage: add `sansword.png` / `pinku.png`
       to `data/moderators/avatars/` + `avatar:` fields (photos from the humans).
 - [ ] **zh copy review** — pinku/SansWord native pass over `site/ui-strings.json`, moderator bios,
