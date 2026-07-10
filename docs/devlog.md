@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.5.0-design](#v050-design--contributor-readme-tree--privacy-unlock-2026-07-10-1213) | **README tree spec approved** — four contributor-facing READMEs (root front door with local-testing guide, `data/` overview, per-folder how-tos) with a layered doc-role rule (READMEs = how-to; `data-schema.md` stays the only field reference), a validator README-skip, and an **unlocked privacy stance**: contact info allowed under "everything you PR is public forever" awareness (email lint to be removed). |
 | [v0.4.4](#v044--landing-hero-images-added-and-dark-visual-language-corrected-2026-07-10-1608) | **Hero visuals** — the landing page now uses generated demo-stage hero artwork in both themes, and the dark background/glow system was pulled back toward the chosen `B` preview language. |
 | [v0.4.3](#v043--showroom-restyle-b-chosen-with-less-wireframe-2026-07-10-1455) | **Visual restyle** — the live site now follows the chosen `B` direction: showroom-style gradients and panel contrast stay, while borders are demoted so the pages feel less like a wireframe and more like a finished interface. |
 | [v0.4.2](#v042--dark-theme-palette-corrected-to-the-intended-five-hexes-2026-07-10-1238) | **Dark palette correction** — light theme stays as-is, while the dark token block is remapped to the intended five colors (`#000411`, `#E1EFE6`, `#82C0CC`, `#EFCB68`, `#16697A`) and `docs/theming.md` now documents the split light/dark strategy. |
@@ -31,6 +32,32 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.5.0-design — Contributor README tree + privacy unlock (2026-07-10 12:13)
+
+**Review:** not yet
+
+**Design docs:**
+- Contributor README tree: [Spec](superpowers/specs/2026-07-10-readme-tree-design.md)
+
+**What was built:**
+- Spec for four English-only READMEs: root (community front door + "test locally" commands +
+  contribute routing), `data/` (backend overview + PR flow), `data/meetups/` and `data/moderators/`
+  (per-type how-tos with real committed files as worked examples).
+- Layering rule to prevent drift: READMEs are how-to guides that deep-link `docs/data-schema.md`;
+  field tables stay only there; `_template.md` stays the inline cheat-sheet.
+- **Locked-decision change (privacy):** replaced "contact info never enters the public repo" with
+  an awareness model — everything PR'd is public forever (git history included); contact info is
+  allowed, links preferred over raw emails; the maintainer-side rule (sign-up-sheet logistics stay
+  private) survives. Implementation will remove the validator's email lint and reword
+  `data-schema.md` §Privacy, `CLAUDE.md`, and the meetup template.
+
+**Key technical learnings:**
+- `[gotcha]` `listDataFiles()` includes every `*.md` not starting with `_` — a `README.md` dropped
+  into `data/meetups/` or `data/moderators/` would be validated as an entry and fail CI. The spec
+  adds a README skip to the filter; without it the README milestone can't even build.
+- `[note]` `data/README.md` alone would have been safe: `community.md` is read by exact path and
+  nothing globs the `data/` root.
 
 ## v0.4.4 — Landing hero images added and dark visual language corrected (2026-07-10 16:08)
 

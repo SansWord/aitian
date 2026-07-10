@@ -13,6 +13,10 @@ current as part of the end-of-session checklist.
       (well past the 7/14 cutline), incl. the meetup detail and moderators pages.
 - [x] **Write the implementation plan** from the approved spec — done 2026-07-10:
       [`docs/superpowers/plans/2026-07-10-mvp-scaffold.md`](docs/superpowers/plans/2026-07-10-mvp-scaffold.md).
+- [ ] **Write the implementation plan for the README tree** from the approved spec
+      ([`docs/superpowers/specs/2026-07-10-readme-tree-design.md`](docs/superpowers/specs/2026-07-10-readme-tree-design.md))
+      — fresh session, `superpowers:writing-plans`; then execute. Includes the privacy unlock
+      (email lint removal + doc rewording).
 - [ ] **Back-fill booked weeks from the private sheet** (SansWord) — edit the seeded TBA files
       (7/21–9/1) with confirmed talks (Foucault, Charlie, Zoe, …). Edit `segments:` only — never
       rename the files. No contact info (kickstart §4d).
