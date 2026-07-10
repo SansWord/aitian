@@ -6,7 +6,7 @@ bio:
 links:
   - label: Substack
     url: "https://clairetsao.substack.com/"
-  - lebel: X
+  - label: X
     url: "https://x.com/amossclaire"
   - label: Website
     url: "https://missmoss.info/"
