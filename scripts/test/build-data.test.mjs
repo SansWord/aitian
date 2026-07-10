@@ -77,3 +77,24 @@ test('bad fixture fails with every expected message and emits nothing', () => {
   // Nothing was emitted.
   assert.ok(!fs.existsSync(path.join(out, 'data')));
 });
+
+test('oversized avatar is rejected with its name and size', () => {
+  const dataDir = tmp();
+  fs.cpSync(path.join(FIXTURES, 'golden'), dataDir, { recursive: true });
+  fs.writeFileSync(path.join(dataDir, 'moderators/avatars/big.png'), Buffer.alloc(501 * 1024));
+  const out = tmp();
+  const { errors } = buildData({ dataDir, outDir: out });
+  const all = errors.join('\n');
+  assert.match(all, /moderators\/avatars\/big\.png/); // names the file
+  assert.match(all, /501 KB/); // reports the actual size
+  assert.match(all, /500 KB/); // states the cap
+  assert.ok(!fs.existsSync(path.join(out, 'data'))); // nothing emitted
+});
+
+test('avatar exactly at the 500 KB cap passes', () => {
+  const dataDir = tmp();
+  fs.cpSync(path.join(FIXTURES, 'golden'), dataDir, { recursive: true });
+  fs.writeFileSync(path.join(dataDir, 'moderators/avatars/atcap.png'), Buffer.alloc(500 * 1024));
+  const { errors } = buildData({ dataDir, outDir: tmp() });
+  assert.deepEqual(errors, []);
+});

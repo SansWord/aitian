@@ -27,6 +27,11 @@ const MATTER_OPTS = {
   engines: { yaml: { parse: (s) => yaml.load(s, { schema: yaml.CORE_SCHEMA }) } },
 };
 
+// Repo-bloat guard (readme-tree spec §4.2): avatars are committed binaries and
+// oversized ones are the one irreversible mistake. Dimensions are deliberately
+// unenforced — the CSS circle center-crops any shape.
+const MAX_AVATAR_KB = 500;
+
 function readEntry(filePath) {
   const raw = fs.readFileSync(filePath, 'utf8');
   try {
@@ -79,6 +84,16 @@ export function buildData({ dataDir, outDir }) {
     : [];
   if (!avatarFiles.includes('default.png')) {
     errors.push('moderators/avatars/default.png: missing (required fallback avatar)');
+  }
+
+  for (const f of avatarFiles) {
+    const size = fs.statSync(path.join(avatarsDir, f)).size;
+    if (size > MAX_AVATAR_KB * 1024) {
+      errors.push(
+        `moderators/avatars/${f}: ${Math.ceil(size / 1024)} KB — avatar files must be ` +
+          `${MAX_AVATAR_KB} KB or smaller (resize/compress before committing)`,
+      );
+    }
   }
 
   const meetups = listDataFiles(path.join(dataDir, 'meetups')).map((filename) => {

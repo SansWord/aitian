@@ -57,11 +57,13 @@ Body (optional): meetup-level intro, markdown, `## en` / `## zh` sections.
 |---|---|---|---|
 | `name` | ✅ | plain string | display name |
 | `bio` | ✅ | string or `{en, zh}` | one-liner for the grid card |
-| `avatar` | – | bare filename | must exist in `data/moderators/avatars/`; omitted → `default.png` |
+| `avatar` | – | bare filename | must exist in `data/moderators/avatars/`, file ≤ 500 KB (CI-enforced); omitted → `default.png` |
 | `links` | – | list of `{label, url}` | any networks/portfolio; `label` string or `{en, zh}`, `url` `http(s)://` |
 
 Body (optional): longer intro, markdown, `## en` / `## zh` sections. Avatar image files live in
-`data/moderators/avatars/` (owned by the data layer, so redesigns can't orphan them).
+`data/moderators/avatars/` (owned by the data layer, so redesigns can't orphan them). Square PNG,
+256–512px recommended — the site renders a 96px center-cropped circle, so exact dimensions are
+forgiving; **file size ≤ 500 KB is CI-enforced** (repo bloat is the one irreversible mistake).
 
 ## Community — `data/community.md`
 
@@ -82,7 +84,7 @@ Unknown fields anywhere (strict), missing required fields, malformed `date`/`sta
 unknown timezones, bad segment types, a frontmatter `id`, filename pattern violations, non-integer
 `attendees`, malformed bilingual values, any URL that isn't `http(s)://` (including links inside
 `speakerBio` markdown — `javascript:` URLs fail CI before they can reach a page), avatars that
-aren't a bare existing filename, duplicate `ctas[].id` values, a missing
+aren't a bare existing filename, avatar files over 500 KB, duplicate `ctas[].id` values, a missing
 `data/moderators/avatars/default.png` (the required fallback avatar), frontmatter that isn't valid
 YAML, and **email-shaped strings anywhere in `data/`** (privacy lint).
 
