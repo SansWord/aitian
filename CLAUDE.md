@@ -23,7 +23,8 @@ don't restate them.
 
 Stable facts:
 - **Repo:** `sansword/aitian` (public) · **Hosting:** GitHub Pages, static site.
-- **URL:** `sansword.github.io/aitian` initially; custom domain (`aitian.dev` or similar) later.
+- **URL:** **`https://aitian.dev`** — custom domain, live (CNAME in `site/`, wired 2026-07-10);
+  `sansword.github.io/aitian` redirects there.
 - **Stack:** static site (framework TBD — leaning vanilla HTML/CSS/JS). Data authored as Markdown +
   YAML frontmatter, built to JSON at deploy.
 
@@ -36,7 +37,7 @@ Stable facts:
 
 - **Name:** AI展 (aitian) — Taiwanese pun (愛展 "want to demo") + "-ian" demonym → members are
   "aitians". → kickstart §0
-- **Hosting:** GitHub Pages, repo `sansword/aitian`; custom domain later. → kickstart §2
+- **Hosting:** GitHub Pages, repo `sansword/aitian`; custom domain **`aitian.dev`** (live). → kickstart §2
 - **Data format:** author in Markdown + YAML frontmatter; build to JSON at deploy (page consumes JSON,
   no runtime parser). → kickstart §4b
 - **Data layout:** one file per meetup/moderator under `data/`; discovery + ordering via a deploy-time

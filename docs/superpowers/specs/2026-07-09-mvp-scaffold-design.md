@@ -355,8 +355,10 @@ Proportional to MVP:
 
 ## 4. Out of scope (unchanged from kickstart)
 
-Past-archive page, OG/SEO pre-rendering, real CTA targets, custom domain (`aitian.dev` later),
-speaker profile pages, Luma/RSVP integration.
+Past-archive page, OG/SEO pre-rendering, real CTA targets, speaker profile pages, Luma/RSVP
+integration. (Custom domain was on this list at first writing; **`aitian.dev` went live
+2026-07-10** — the site now serves there, so MVP pages must use relative URLs and never hardcode
+the `sansword.github.io/aitian` path.)
 
 ## 5. Follow-ups this design creates
 
