@@ -46,10 +46,10 @@ current as part of the end-of-session checklist.
 - [x] **Create `docs/data-schema.md` + `docs/wording.md`** — done 2026-07-10 (v0.3.0), registered in
       `CLAUDE.md` "Maintained docs". Wording covers name lore (AI展 / 愛展 / "aitians"), tagline pair
       (en "Show off your AI work" / zh 「用你的 AI 作品展風神」), and CTA copy.
-- [ ] **Seed `data/` from the sign-up sheet** (weekly Tuesdays 7/14 → 9/1), excluding private contact
-      info (kickstart §4d) — **amended 2026-07-10:** seeding is done (8 PT Tuesdays, 7/14 booked with
-      the kickstart talks, 7 TBA placeholders); back-filling the remaining booked weeks is tracked
-      above under Now.
+- [ ] **Seed `data/` from the sign-up sheet** (weekly Tuesdays 7/14 → 9/1), excluding the sheet's
+      contact column (maintainer-side rule, readme-tree spec §5) — **amended 2026-07-10:** seeding
+      is done (8 PT Tuesdays, 7/14 booked with the kickstart talks, 7 TBA placeholders);
+      back-filling the remaining booked weeks is tracked above under Now.
 - [x] **Decide vs. Luma** for RSVP / the "get invite link" CTA (kickstart §2 note) — decided
       2026-07-10 (v0.4.1): Luma; the single 報名聚會 / RSVP CTA links to the event, with the link
       kept in `data/community.md` frontmatter for easy updates.
