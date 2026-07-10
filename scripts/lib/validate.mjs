@@ -7,7 +7,7 @@ import { bilingualShapeError } from './bilingual.mjs';
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
 const MEETUP_FILENAME_RE = /^\d{4}-\d{2}-\d{2}(-[a-z0-9]+(?:-[a-z0-9]+)*)?\.md$/;
-const HTTP_URL_RE = /^https?:\/\//;
+const HTTP_URL_RE = /^https?:\/\//i;
 const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
 const MD_LINK_SCHEME_RE = /\]\(\s*([a-z][a-z0-9+.-]*):/gi;
 
