@@ -25,8 +25,9 @@ Stable facts:
 - **Repo:** `sansword/aitian` (public) · **Hosting:** GitHub Pages, static site.
 - **URL:** **`https://aitian.dev`** — custom domain, live (CNAME in `site/`, wired 2026-07-10);
   `sansword.github.io/aitian` redirects there.
-- **Stack:** static site (framework TBD — leaning vanilla HTML/CSS/JS). Data authored as Markdown +
-  YAML frontmatter, built to JSON at deploy.
+- **Stack:** vanilla HTML/CSS/JS under `site/`. Data authored as Markdown + YAML frontmatter under
+  `data/`, validated + built to JSON at deploy by `scripts/build-data.mjs` (spec: data schema is the
+  stable contract — see `docs/data-schema.md`).
 
 ## Locked decisions
 
@@ -42,6 +43,10 @@ Stable facts:
   no runtime parser). → kickstart §4b
 - **Data layout:** one file per meetup/moderator under `data/`; discovery + ordering via a deploy-time
   generated `index.json` (never committed to the repo). → kickstart §4c
+- **Framework:** vanilla HTML/CSS/JS + standalone `scripts/build-data.mjs`; no framework, no client
+  runtime deps. → spec 2026-07-09 §0
+- **Schema stability:** the `data/*.md` schema is additive-only; every change updates
+  `docs/data-schema.md` + validator + `_template.md` in one PR. → spec 2026-07-09 §1.4
 - **A meetup is a multi-segment session** (Talk 1 / Talk 2 / Chat), not a single talk. → kickstart §4
 - **Privacy:** speaker contact info (email/thread) **never** enters the public repo — logistics stay
   in the private sign-up sheet; only topic, speaker name, and materials link are public. → kickstart §4d
@@ -50,9 +55,11 @@ Stable facts:
 
 ## Docs — two tiers
 
-- **Maintained `docs/*.md`** (source of truth; must match the code) — *none yet.* Add each here with a
-  one-line description **and its update trigger** as the site is built (candidates: `docs/wording.md`
-  for name/bilingual copy, `docs/architecture.md` for the build pipeline).
+- **Maintained `docs/*.md`** (source of truth; must match the code):
+  - [`docs/data-schema.md`](docs/data-schema.md) — the `data/` contract: schemas, consent, evolution
+    rules. **Update trigger:** any schema change (same PR as validator + `_template.md`, per its rules).
+  - [`docs/wording.md`](docs/wording.md) — name lore + all bilingual copy. **Update trigger:** any
+    user-visible wording change (same PR as `site/ui-strings.json` / `data/community.md`).
 - **Historical** (how we got here; allowed to go stale; kept forever):
   - [`docs/kickstart.md`](docs/kickstart.md) — the founding brainstorm/spec. **Read before any planning.**
   - [`docs/superpowers/specs/`](docs/superpowers/specs/) & [`docs/superpowers/plans/`](docs/superpowers/plans/)
