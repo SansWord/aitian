@@ -1,0 +1,16 @@
+{
+  "nav.home": { "en": "Home", "zh": "首頁" },
+  "nav.meetups": { "en": "Meetups", "zh": "聚會" },
+  "nav.moderators": { "en": "Moderators", "zh": "主持群" },
+  "landing.next": { "en": "Next meetup", "zh": "下次聚會" },
+  "landing.comingUp": { "en": "Coming up", "zh": "接下來" },
+  "meetup.tba": { "en": "TBA — want to speak?", "zh": "講者徵求中——想來分享嗎？" },
+  "meetup.noneScheduled": { "en": "No meetup scheduled yet — want to speak?", "zh": "目前沒有排定的聚會——想來分享嗎？" },
+  "meetup.notFound": { "en": "Meetup not found.", "zh": "找不到這場聚會。" },
+  "meetup.backHome": { "en": "Back to home", "zh": "回首頁" },
+  "meetup.materials": { "en": "Materials", "zh": "簡報／材料" },
+  "meetup.aitians": { "en": "aitians", "zh": "位 aitians" },
+  "segment.talk": { "en": "Talk", "zh": "分享" },
+  "segment.chat": { "en": "Chat", "zh": "自由聊" },
+  "toggle.lang": { "en": "中", "zh": "EN" }
+}
