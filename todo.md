@@ -46,8 +46,11 @@ current as part of the end-of-session checklist.
 - [ ] **zh copy review** — pinku/SansWord native pass over `site/ui-strings.json`, moderator bios,
       and the community intro (flagged in `docs/wording.md`).
 - [ ] **Styling pass** — pinku's look-and-feel refs on the hero/section design (post-MVP, spec §5).
-      **Amended 2026-07-10:** color scheme done (v0.4.0, coolors refs → `docs/theming.md`); hero /
-      section / typography design still open.
+      **Amended 2026-07-10:** light color scheme done in v0.4.0, dark palette corrected in v0.4.2
+      (`#000411`, `#E1EFE6`, `#82C0CC`, `#EFCB68`, `#16697A` → `docs/theming.md`), and the live site
+      restyled in v0.4.3 toward the chosen `B` showroom direction with softer borders; v0.4.4 adds
+      theme-specific landing hero images plus the corrected dark glow system. Hero / section /
+      typography can still be tuned, but the first major polish pass is now in.
 - [ ] **Body-heading lint decision** — duplicate or malformed `## en` / `## zh` headings in a markdown
       body silently drop content (last heading wins; stray text after the language code orphans the
       section). Decide whether the validator should flag these (false-positive risk: legit headings

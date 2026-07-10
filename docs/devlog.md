@@ -17,6 +17,9 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.4.4](#v044--landing-hero-images-added-and-dark-visual-language-corrected-2026-07-10-1608) | **Hero visuals** — the landing page now uses generated demo-stage hero artwork in both themes, and the dark background/glow system was pulled back toward the chosen `B` preview language. |
+| [v0.4.3](#v043--showroom-restyle-b-chosen-with-less-wireframe-2026-07-10-1455) | **Visual restyle** — the live site now follows the chosen `B` direction: showroom-style gradients and panel contrast stay, while borders are demoted so the pages feel less like a wireframe and more like a finished interface. |
+| [v0.4.2](#v042--dark-theme-palette-corrected-to-the-intended-five-hexes-2026-07-10-1238) | **Dark palette correction** — light theme stays as-is, while the dark token block is remapped to the intended five colors (`#000411`, `#E1EFE6`, `#82C0CC`, `#EFCB68`, `#16697A`) and `docs/theming.md` now documents the split light/dark strategy. |
 | [v0.4.1](#v041--single-rsvp-cta-wired-to-luma-2026-07-10-1152) | **CTA simplification** — the two placeholder CTA buttons collapse into one live CTA, 報名聚會 / RSVP, linking to the Luma event; the link lives in `data/community.md` frontmatter so future event-link changes are a one-line data edit. |
 | [v0.4.0](#v040--color-theme-refresh-lagooncream-light-blackpurplegold-dark-2026-07-10-1136) | **Theme refresh** — new palettes (light: lagoon teals on warm cream + orange pop; dark: rich black, purple cards, gold accent), three new tokens (`--accent-pop`, `--accent-contrast`, `--hero-tint`), and a new maintained doc `docs/theming.md` with token roles, contrast requirements, and the adjustment procedure. |
 | [v0.3.3](#v033--json-fetch-cache-revalidation-2026-07-10-1039) | **Fix** — JSON fetches use `cache: 'no-cache'` (ETag revalidation), so freshly merged data shows up immediately instead of after GitHub Pages' 10-min browser cache; fetch/caching behavior documented in `docs/data-schema.md`. |
@@ -28,6 +31,64 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.4.4 — Landing hero images added and dark visual language corrected (2026-07-10 16:08)
+
+**Review:** not yet
+
+**What was built:**
+- Added two generated hero artwork assets — `site/assets/hero-demo-stage-dark.png` and
+  `site/assets/hero-demo-stage-light.png` — and wired them into the landing hero by theme.
+- The dark background/glow treatment across landing, meetup, and moderators was retuned again so it
+  matches the chosen `B` preview language more closely instead of the flatter interim variants.
+- The moderators-page phantom bottom block was traced to presentation-layer changes around the page
+  background/footer area and resolved without changing the data/rendering module.
+
+**Key technical learnings:**
+- `[insight]` The hero needed a real image to carry memory and mood; gradients alone were good at
+  atmosphere but not good at making the page feel finished.
+- `[gotcha]` Page-local glow treatments should stay on the page background, not on a centered layout
+  container like `main`, or they reveal the container as a visible rectangle.
+
+## v0.4.3 — Showroom restyle: B chosen, with less wireframe (2026-07-10 14:55)
+
+**Review:** not yet
+
+**What was built:**
+- The live `site/site.css` now follows the chosen `B` preview direction rather than the earlier MVP
+  scaffold styling: layered hero/card gradients, brighter top planes on surfaces, softer panel
+  shadows, and a slightly wider, calmer page frame.
+- The visual rule for the whole site changed from "borders define structure" to "surfaces define
+  structure." Cards, segments, moderator tiles, toggles, and the hero still have edges, but those
+  edges are now faint helpers instead of the main source of hierarchy.
+- Light and dark themes were both restyled in the same pass, preserving the existing theme toggle
+  while changing the shared presentation language.
+- `docs/theming.md` now documents the new surface tokens (`--card-strong`, `--line-soft`) and the
+  showroom-vs-wireframe rationale.
+
+**Key technical learnings:**
+- `[insight]` The "cheap" feeling was not caused by borders existing at all; it came from borders
+  doing too many jobs at once. Once surfaces, shadows, and local gradients carried the depth, the
+  remaining lines could stay extremely soft without losing structure.
+
+## v0.4.2 — Dark theme palette corrected to the intended five hexes (2026-07-10 12:38)
+
+**Review:** not yet
+
+**What was built:**
+- The light theme token block stayed unchanged; only the dark token mapping was replaced after the
+  original palette URL had been read incorrectly during the earlier styling pass.
+- `site/site.css` dark tokens now map within the intended five-color set:
+  `#000411` background, `#E1EFE6` foreground, `#82C0CC` muted/borders, `#EFCB68` accent/fill, and
+  `#16697A` for card elevation plus the hero tint.
+- `docs/theming.md` now reflects the actual strategy: light still uses the earlier adapted palette,
+  while dark is constrained to the manually supplied five hexes.
+- `npm run build` passed after the token swap, so the updated stylesheet is present in `dist/`.
+
+**Key technical learnings:**
+- `[gotcha]` A coolors/palette URL is only useful if the underlying hex set was copied correctly; if
+  the palette source is verbal or pasted manually, record the exact hex list in the maintained docs
+  instead of relying on a remembered link.
 
 ## v0.4.1 — Single RSVP CTA wired to Luma (2026-07-10 11:52)
 
