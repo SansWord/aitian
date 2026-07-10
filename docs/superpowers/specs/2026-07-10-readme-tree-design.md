@@ -58,7 +58,8 @@ locked-decision change (privacy stance) that surfaced during design.
 ### 3.2 `data/README.md`
 
 - `data/` is the site's stable backend; **the filename is the id and the citable URL; never rename
-  a file after it has deployed**.
+  a file after it has deployed** — renaming breaks every link already shared or cited (LinkedIn,
+  résumés), which is the very thing the site exists to provide.
 - Map of contents: `community.md` (maintainer-owned site copy), `meetups/` (one file per weekly
   session), `moderators/` (one file per moderator) — one line each, linking each folder README.
 - The contribution flow in five numbered steps (copy `_template.md` → rename → fill → PR → CI
@@ -71,7 +72,8 @@ locked-decision change (privacy stance) that surfaced during design.
 
 - What a meetup file is: a multi-segment session (talks + chat), one file per week.
 - Naming: `YYYY-MM-DD.md` (TBA) or `YYYY-MM-DD-short-slug.md` (booked); the date is the meetup's
-  **PT calendar date**; reschedules change the `date` field, never the filename.
+  **PT calendar date**; reschedules change the `date` field, never the filename (the filename is
+  the shared link — renaming breaks it).
 - Steps from template copy to opened PR; TBA weeks keep `segments: []`; back-fill `attendees`
   after the event.
 - Worked example: link `2026-07-14-ai-role-play.md` as "a real booked week to crib from".
