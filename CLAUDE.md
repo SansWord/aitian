@@ -48,8 +48,10 @@ Stable facts:
 - **Schema stability:** the `data/*.md` schema is additive-only; every change updates
   `docs/data-schema.md` + validator + `_template.md` in one PR. → spec 2026-07-09 §1.4
 - **A meetup is a multi-segment session** (Talk 1 / Talk 2 / Chat), not a single talk. → kickstart §4
-- **Privacy:** speaker contact info (email/thread) **never** enters the public repo — logistics stay
-  in the private sign-up sheet; only topic, speaker name, and materials link are public. → kickstart §4d
+- **Privacy:** everything a contributor PRs is **public once merged** — contact info is allowed when
+  its author wants it public (links beat raw emails); edits/removal honored on request.
+  Maintainer-side logistics from the private sign-up sheet still never enter the repo.
+  → spec 2026-07-10 §5 (unlocked from kickstart §4d)
 - **Contribution:** speakers/moderators add or edit **their own** Markdown file via PR (conflict-free).
   → kickstart §4
 
@@ -126,6 +128,7 @@ entries get no tag.
 
 ## Before committing (load-bearing — public repo)
 
-Scan **every** commit for secrets / API keys / tokens, `.env*` files, and **speaker contact info /
-private PII** (kickstart §4d) before pushing. This repo is public and holds a community with private
-sign-up data — this scan is required, not precautionary.
+Scan **every** commit for secrets / API keys / tokens, `.env*` files, and **maintainer-side leaks
+from the private sign-up sheet** (its contact column, logistics — spec 2026-07-10 §5) before pushing.
+Contributor-authored contact info is fine: public-by-PR is the consent model. This repo is public and
+holds a community with private sign-up data — this scan is required, not precautionary.

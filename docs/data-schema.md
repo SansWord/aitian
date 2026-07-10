@@ -44,7 +44,7 @@ PT meetup is Wednesday morning in Taipei and still uses the Tuesday PT date.
 | `segments` | ✅ | list (may be `[]`) | `[]` renders as "TBA — want to speak?" |
 | `segments[].type` | ✅ | `talk` \| `chat` | new types arrive as additive changes |
 | `segments[].title` | ✅ | string or `{en, zh}` | |
-| `segments[].speaker` | talk: ✅ | plain string | **display name only — never contact info** |
+| `segments[].speaker` | talk: ✅ | plain string | display name |
 | `segments[].speakerBio` | – | string or `{en, zh}` | 1–2 sentences; markdown links OK, `http(s)://` only |
 | `segments[].materialsUrl` | – | `http(s)://` URL or `""` | |
 | `attendees` | – | integer ≥ 0 or `null` | back-fill after the event; hidden while null |
@@ -85,20 +85,24 @@ unknown timezones, bad segment types, a frontmatter `id`, filename pattern viola
 `attendees`, malformed bilingual values, any URL that isn't `http(s)://` (including links inside
 `speakerBio` markdown — `javascript:` URLs fail CI before they can reach a page), avatars that
 aren't a bare existing filename, avatar files over 500 KB, duplicate `ctas[].id` values, a missing
-`data/moderators/avatars/default.png` (the required fallback avatar), frontmatter that isn't valid
-YAML, and **email-shaped strings anywhere in `data/`** (privacy lint).
+`data/moderators/avatars/default.png` (the required fallback avatar), and frontmatter that isn't
+valid YAML.
 
 ## Privacy & consent
 
-- **Contact info never enters this repo** (it's public). Speaker logistics (the sign-up sheet's
-  contact column) stay in the private sheet. The privacy lint enforces the email case mechanically;
-  the rule covers all contact info.
+- **Everything you PR is public once merged** — the repo, its git history, and the built site.
+  Include contact info only if you are comfortable with it being public; profile/portfolio links
+  beat raw emails. The repo does not police contact info.
+- **Edits & removal:** speakers and moderators can ask for their content to be edited or removed at
+  any time — a PR (by the person or an organizer) deleting or redacting the entry, honored without
+  question.
 - **Moderators:** PR-your-own-entry **is** the consent — a profile exists only if its subject
   authored or explicitly approved the PR. The consent trail is git history.
 - **Speakers:** sheet sign-up = consent for name + topic + materials link (exactly what they
   submitted to present). A one-time community-channel announcement with opt-out **must precede the
-  first publication**. Removal: a PR (by the person or an organizer) deleting or redacting the
-  entry, honored without question.
+  first publication**.
+- **Maintainer side:** logistics from the private sign-up sheet (the contact column) never enter
+  this repo.
 
 ## How the site fetches the JSON (delivery & caching)
 
