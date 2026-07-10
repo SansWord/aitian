@@ -17,10 +17,70 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.3.0-design](#v030-design--mvp-scaffold-design-2026-07-10-0003) | **MVP scaffold spec approved** — resolved all kickstart §5 opens (vanilla JS, runtime i18n, text-first hero, PR-as-consent, featured+3 landing) and locked the data md schema as a stable "backend" contract. Also: `aitian.dev` live with HTTPS enforced; new feature-branch convention. |
 | [v0.2.0](#v020--end-to-end-cicd-setup-2026-07-09-1724) | Stood up the **end-to-end CI/CD pipeline** — a hello-world page under `site/` deploys to GitHub Pages via Actions and is live at `sansword.github.io/aitian`. |
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.3.0-design — MVP scaffold design (2026-07-10 00:03)
+
+**Review:** not yet
+**Design docs:**
+- MVP Scaffold: [Spec](superpowers/specs/2026-07-09-mvp-scaffold-design.md)
+
+**What was built:** *(design/planning session — no site code)*
+- Brainstormed and **approved the MVP scaffold spec**, resolving every kickstart §5 open: **vanilla
+  HTML/CSS/JS** + standalone build script; **runtime i18n toggle** (auto-detect, fallback en, both
+  toggles in a shared header, localStorage-persisted); **text-first typographic hero** with tagline
+  pair (en "Show off your AI work" / zh 「用你的 AI 作品展風神」); **PR-your-own = consent** (sheet
+  sign-up = speaker consent); `attendees` integer field in schema, display-when-set; landing =
+  **featured next meetup + 3-week coming-up strip** with "TBA — want to speak?" slots.
+- Elevated a new requirement to first-class: the **data md schema is a stable "backend" contract**
+  — additive-only evolution, no presentation concerns, enforced by contract doc
+  (`docs/data-schema.md`, to be created) + `_template.md` files + strict CI validation in
+  `scripts/build-data.mjs`. Generated JSON is an internal artifact, deliberately outside the contract.
+- Schema decisions from two review rounds: filename = id (frontmatter `id` rejected, slug optional,
+  never rename after deploy); day-only `date` + `schedule` defaults in `community.md`
+  (18:00–19:30 `America/Los_Angeles`, per-meetup overrides — it's a **virtual meetup based on the
+  US west coast**; Taipei time is a friendly secondary display); every user-facing text field is
+  **string-or-`{en, zh}`-map** with fallback; moderators get generic `links` list + short `bio` +
+  optional avatar with `default.png` fallback; segments get optional `speakerBio`.
+- **`aitian.dev` went live** (CNAME added via GitHub UI outside the session); verified serving, then
+  Enforce HTTPS enabled + verified (`http://` 301s to `https://aitian.dev/`). Docs updated.
+- Adopted the **feature-branch convention** (never develop on `main`, squash-merge PRs; hotfixes
+  exempt) — recorded in `CLAUDE.md`; this session's commits moved from local `main` onto
+  `feat/mvp-scaffold-spec`.
+
+**Key technical learnings:**
+- `[gotcha]` `textContent` escaping protects text nodes only — **URL-typed fields land in
+  `href`/`src` attributes**, so a contributor-supplied `javascript:` URL is a live XSS vector
+  unless the validator enforces `http(s)://` schemes at build time.
+- `[gotcha]` "PR content is just data, never executed" is **false** on `pull_request` events: the
+  workflow file, `package.json`, and build script run **from the PR's merge ref**. Real containment
+  = read-only token/no secrets + "Require approval for all outside collaborators".
+- `[insight]` Deciding the **string-or-`{en, zh}`-map** shape for all user-facing text *before* v1
+  is what turns "add a translation later" into a content edit instead of a schema migration.
+- `[insight]` The stability contract caught its own violation: `avatar` pointing into `site/assets/`
+  couples the stable layer to the churn layer — the data layer must own its binary assets too
+  (`data/moderators/avatars/`).
+- `[insight]` Filename-as-id means **a deployed data file is never renamed** (the filename is the
+  cited URL). Corollary: TBA seeds use bare dates so booking a talk later never forces a rename.
+- `[note]` GitHub Actions minutes are unlimited/free for public repos; fork PRs get a read-only
+  `GITHUB_TOKEN` and no secrets; anyone can PR but only write-access users can merge — the standard
+  OSS model is safe with two settings tightened (outside-collaborator approval, branch protection
+  with no-bypass).
+- `[note]` Upcoming/past must be computed **client-side at page load**, never at build time — a
+  stale deploy would otherwise mislabel tonight's meetup. Build emits absolute ISO instants
+  (day-only date + schedule defaults resolved DST-correctly via IANA zone).
+
+**Process learnings:**
+- `[insight]` The fresh-context **subagent review caught 7 real issues** the main loop had stopped
+  seeing (both security holes, a contract violation, and a CI-would-be-red-on-day-one template bug)
+  — the Review Protocol earns its cost.
+- `[note]` Mid-review user feedback reshaped the schema substantially (day-only dates, virtual-US
+  timezone, generic links) — cheap now, migrations later; the "stable backend" framing made these
+  worth settling pre-v1.
 
 ## v0.2.0 — End-to-end CI/CD setup (2026-07-09 17:24)
 

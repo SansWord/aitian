@@ -1,6 +1,7 @@
 # AI展 (aitian) — MVP Scaffold Design
 
-> **Status:** approved in brainstorm session 2026-07-09.
+> **Status:** **approved 2026-07-10** (SansWord) — after a fresh-context subagent review round and
+> a user feedback round; see git history of this file for the evolution.
 > **Inputs:** [`docs/kickstart.md`](../../kickstart.md) (§5 open questions), root `CLAUDE.md` locked
 > decisions, [`docs/devlog.md`](../../devlog.md) v0.2.0 (CI/CD already live).
 > **Scope:** resolves the kickstart §5 opens and defines the MVP scaffold — data layer, three pages,
