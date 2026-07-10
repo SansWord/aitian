@@ -16,7 +16,7 @@ test('golden fixture validates and emits the expected shapes', () => {
   assert.deepEqual(errors, []);
 
   const index = JSON.parse(fs.readFileSync(path.join(out, 'data/meetups/index.json'), 'utf8'));
-  assert.equal(index.length, 2); // _template.md skipped
+  assert.equal(index.length, 2); // _template.md and README.md skipped
   assert.equal(index[0].id, '2026-01-13-winter-talk'); // date-sorted ascending
   assert.equal(index[0].timezone, 'America/Los_Angeles'); // cards format PT-first from the index
   assert.equal(index[0].start, '2026-01-14T02:00:00.000Z'); // PST (UTC-8)
@@ -43,6 +43,9 @@ test('golden fixture validates and emits the expected shapes', () => {
 
   assert.ok(fs.existsSync(path.join(out, 'data/moderators/avatars/default.png')));
   assert.ok(fs.existsSync(path.join(out, 'data/moderators/avatars/alice.png')));
+
+  assert.ok(!fs.existsSync(path.join(out, 'data/meetups/README.json'))); // README.md never emitted
+  assert.ok(!fs.existsSync(path.join(out, 'data/moderators/README.json')));
 });
 
 test('bad fixture fails with every expected message and emits nothing', () => {
@@ -59,7 +62,6 @@ test('bad fixture fails with every expected message and emits nothing', () => {
     'integer',                                  // attendees 2.5
     'not found in data/moderators/avatars',     // bob.png missing
     'default.png',                              // fallback avatar missing
-    'email-shaped',                             // privacy lint
     'links[0].url',                             // ftp:// link
     'not valid YAML',                           // broken frontmatter syntax
   ];
@@ -68,9 +70,29 @@ test('bad fixture fails with every expected message and emits nothing', () => {
   }
   // Every error names its file.
   assert.match(all, /meetups\/2026-07-14-broken\.md/);
-  assert.match(all, /meetups\/2026-07-21\.md/);
   assert.match(all, /meetups\/2026-08-11-bad-yaml\.md/);
   assert.match(all, /moderators\/bob\.md/);
   // Nothing was emitted.
   assert.ok(!fs.existsSync(path.join(out, 'data')));
+});
+
+test('oversized avatar is rejected with its name and size', () => {
+  const dataDir = tmp();
+  fs.cpSync(path.join(FIXTURES, 'golden'), dataDir, { recursive: true });
+  fs.writeFileSync(path.join(dataDir, 'moderators/avatars/big.png'), Buffer.alloc(501 * 1024));
+  const out = tmp();
+  const { errors } = buildData({ dataDir, outDir: out });
+  const all = errors.join('\n');
+  assert.match(all, /moderators\/avatars\/big\.png/); // names the file
+  assert.match(all, /501 KB/); // reports the actual size
+  assert.match(all, /500 KB/); // states the cap
+  assert.ok(!fs.existsSync(path.join(out, 'data'))); // nothing emitted
+});
+
+test('avatar exactly at the 500 KB cap passes', () => {
+  const dataDir = tmp();
+  fs.cpSync(path.join(FIXTURES, 'golden'), dataDir, { recursive: true });
+  fs.writeFileSync(path.join(dataDir, 'moderators/avatars/atcap.png'), Buffer.alloc(500 * 1024));
+  const { errors } = buildData({ dataDir, outDir: tmp() });
+  assert.deepEqual(errors, []);
 });

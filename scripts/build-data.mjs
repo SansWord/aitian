@@ -7,12 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import yaml from 'js-yaml';
-import {
-  validateMeetup,
-  validateModerator,
-  validateCommunity,
-  privacyLintErrors,
-} from './lib/validate.mjs';
+import { validateMeetup, validateModerator, validateCommunity } from './lib/validate.mjs';
 import {
   meetupToJson,
   meetupIndexEntry,
@@ -26,6 +21,11 @@ import {
 const MATTER_OPTS = {
   engines: { yaml: { parse: (s) => yaml.load(s, { schema: yaml.CORE_SCHEMA }) } },
 };
+
+// Repo-bloat guard (readme-tree spec §4.2): avatars are committed binaries and
+// oversized ones are the one irreversible mistake. Dimensions are deliberately
+// unenforced — the CSS circle center-crops any shape.
+const MAX_AVATAR_KB = 500;
 
 function readEntry(filePath) {
   const raw = fs.readFileSync(filePath, 'utf8');
@@ -44,12 +44,13 @@ function readEntry(filePath) {
   }
 }
 
-// _*.md files are templates: skipped by validation and emission (spec §1.1).
+// _*.md files are templates and README.md is contributor docs: both are
+// skipped by validation and emission (spec §1.1; readme-tree spec §4.1).
 function listDataFiles(dir) {
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
-    .filter((f) => f.endsWith('.md') && !f.startsWith('_'))
+    .filter((f) => f.endsWith('.md') && !f.startsWith('_') && f !== 'README.md')
     .sort();
 }
 
@@ -69,7 +70,6 @@ export function buildData({ dataDir, outDir }) {
     } else {
       addErrors('community.md', validateCommunity({ data: community.data }));
     }
-    addErrors('community.md', privacyLintErrors(community.raw));
   }
 
   const avatarsDir = path.join(dataDir, 'moderators', 'avatars');
@@ -80,6 +80,16 @@ export function buildData({ dataDir, outDir }) {
     errors.push('moderators/avatars/default.png: missing (required fallback avatar)');
   }
 
+  for (const f of avatarFiles) {
+    const size = fs.statSync(path.join(avatarsDir, f)).size;
+    if (size > MAX_AVATAR_KB * 1024) {
+      errors.push(
+        `moderators/avatars/${f}: ${Math.ceil(size / 1024)} KB — avatar files must be ` +
+          `${MAX_AVATAR_KB} KB or smaller (resize/compress before committing)`,
+      );
+    }
+  }
+
   const meetups = listDataFiles(path.join(dataDir, 'meetups')).map((filename) => {
     const entry = readEntry(path.join(dataDir, 'meetups', filename));
     if (entry.parseError) {
@@ -87,7 +97,6 @@ export function buildData({ dataDir, outDir }) {
     } else {
       addErrors(`meetups/${filename}`, validateMeetup({ filename, data: entry.data }));
     }
-    addErrors(`meetups/${filename}`, privacyLintErrors(entry.raw));
     return { filename, ...entry };
   });
 
@@ -101,7 +110,6 @@ export function buildData({ dataDir, outDir }) {
         validateModerator({ filename, data: entry.data, avatarFiles }),
       );
     }
-    addErrors(`moderators/${filename}`, privacyLintErrors(entry.raw));
     return { filename, ...entry };
   });
 

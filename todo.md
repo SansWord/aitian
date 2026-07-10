@@ -13,9 +13,15 @@ current as part of the end-of-session checklist.
       (well past the 7/14 cutline), incl. the meetup detail and moderators pages.
 - [x] **Write the implementation plan** from the approved spec — done 2026-07-10:
       [`docs/superpowers/plans/2026-07-10-mvp-scaffold.md`](docs/superpowers/plans/2026-07-10-mvp-scaffold.md).
+- [x] **Write the implementation plan for the README tree** from the approved spec
+      ([`docs/superpowers/specs/2026-07-10-readme-tree-design.md`](docs/superpowers/specs/2026-07-10-readme-tree-design.md))
+      — done 2026-07-10 (v0.5.0): plan
+      ([`docs/superpowers/plans/2026-07-10-readme-tree.md`](docs/superpowers/plans/2026-07-10-readme-tree.md))
+      executed; READMEs, validator changes, and privacy unlock shipped.
 - [ ] **Back-fill booked weeks from the private sheet** (SansWord) — edit the seeded TBA files
       (7/21–9/1) with confirmed talks (Foucault, Charlie, Zoe, …). Edit `segments:` only — never
-      rename the files. No contact info (kickstart §4d).
+      rename the files. Nothing from the sheet's contact column (maintainer-side rule,
+      readme-tree spec §5).
 - [ ] **Repo settings (manual, SansWord)** — branch protection on `main` incl. no-bypass + required
       `build` check; Actions "Require approval for all outside collaborators" (spec §3.3).
 - [x] **Verify the deploy after merge** — done 2026-07-10: `aitian.dev` serves the new site
@@ -25,6 +31,12 @@ current as part of the end-of-session checklist.
       (Claire, 7/14 meetup) are now published. If the one-time community-channel announcement with
       opt-out (docs/data-schema.md §Privacy & consent) hasn't gone out yet, send it now; check this
       off once confirmed.
+- [ ] **PR review + merge the README-tree branch** (SansWord) — squash-merge, then tag the squash
+      commit `v0.5.0` (per CLAUDE.md post-merge rule).
+- [ ] **Post-v0.5.0 content polish** — replace placeholder speaker bios (`Claire's Bio`,
+      `SansWord's Bio`) in `data/meetups/2026-07-14-ai-role-play.md` and fix the `sansword.md`
+      bio typo; decide + document whether a deployed TBA file keeps its bare-date filename once
+      booked (meetups README wording gap).
 
 ## Later
 
@@ -34,10 +46,10 @@ current as part of the end-of-session checklist.
 - [x] **Create `docs/data-schema.md` + `docs/wording.md`** — done 2026-07-10 (v0.3.0), registered in
       `CLAUDE.md` "Maintained docs". Wording covers name lore (AI展 / 愛展 / "aitians"), tagline pair
       (en "Show off your AI work" / zh 「用你的 AI 作品展風神」), and CTA copy.
-- [ ] **Seed `data/` from the sign-up sheet** (weekly Tuesdays 7/14 → 9/1), excluding private contact
-      info (kickstart §4d) — **amended 2026-07-10:** seeding is done (8 PT Tuesdays, 7/14 booked with
-      the kickstart talks, 7 TBA placeholders); back-filling the remaining booked weeks is tracked
-      above under Now.
+- [ ] **Seed `data/` from the sign-up sheet** (weekly Tuesdays 7/14 → 9/1), excluding the sheet's
+      contact column (maintainer-side rule, readme-tree spec §5) — **amended 2026-07-10:** seeding
+      is done (8 PT Tuesdays, 7/14 booked with the kickstart talks, 7 TBA placeholders);
+      back-filling the remaining booked weeks is tracked above under Now.
 - [x] **Decide vs. Luma** for RSVP / the "get invite link" CTA (kickstart §2 note) — decided
       2026-07-10 (v0.4.1): Luma; the single 報名聚會 / RSVP CTA links to the event, with the link
       kept in `data/community.md` frontmatter for easy updates.

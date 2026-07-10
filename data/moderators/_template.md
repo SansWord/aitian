@@ -5,7 +5,8 @@ name: YourName
 bio:                    # short one-liner for the grid card; plain string or {en, zh}
   en: "What you do."
   zh: "你在做什麼。"
-# avatar: you.png       # optional; bare filename in data/moderators/avatars/ (omit → default.png)
+# avatar: you.png       # optional; PNG in data/moderators/avatars/, ≤ 500 KB CI-enforced
+#                       # (square 256–512px recommended; omit → default.png)
 # links:                # optional; any networks/portfolio you want public
 #   - label: LinkedIn
 #     url: "https://..."

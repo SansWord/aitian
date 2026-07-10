@@ -11,7 +11,8 @@ errors) makes a lagging validator impossible to hide.
 ## Contributing an entry
 
 1. Copy the `_template.md` in the right folder (`data/meetups/` or `data/moderators/`), rename it,
-   fill it in, open a PR. Templates (`_*.md`) are skipped by validation and never rendered.
+   fill it in, open a PR. Templates (`_*.md`) and `README.md` are skipped by validation and never
+   rendered.
 2. CI validates every file on your PR and lists every problem with its file and field.
 3. A maintainer merges; the site redeploys automatically.
 
@@ -43,7 +44,7 @@ PT meetup is Wednesday morning in Taipei and still uses the Tuesday PT date.
 | `segments` | ✅ | list (may be `[]`) | `[]` renders as "TBA — want to speak?" |
 | `segments[].type` | ✅ | `talk` \| `chat` | new types arrive as additive changes |
 | `segments[].title` | ✅ | string or `{en, zh}` | |
-| `segments[].speaker` | talk: ✅ | plain string | **display name only — never contact info** |
+| `segments[].speaker` | talk: ✅ | plain string | display name |
 | `segments[].speakerBio` | – | string or `{en, zh}` | 1–2 sentences; markdown links OK, `http(s)://` only |
 | `segments[].materialsUrl` | – | `http(s)://` URL or `""` | |
 | `attendees` | – | integer ≥ 0 or `null` | back-fill after the event; hidden while null |
@@ -56,11 +57,13 @@ Body (optional): meetup-level intro, markdown, `## en` / `## zh` sections.
 |---|---|---|---|
 | `name` | ✅ | plain string | display name |
 | `bio` | ✅ | string or `{en, zh}` | one-liner for the grid card |
-| `avatar` | – | bare filename | must exist in `data/moderators/avatars/`; omitted → `default.png` |
+| `avatar` | – | bare filename | must exist in `data/moderators/avatars/`, file ≤ 500 KB (CI-enforced); omitted → `default.png` |
 | `links` | – | list of `{label, url}` | any networks/portfolio; `label` string or `{en, zh}`, `url` `http(s)://` |
 
 Body (optional): longer intro, markdown, `## en` / `## zh` sections. Avatar image files live in
-`data/moderators/avatars/` (owned by the data layer, so redesigns can't orphan them).
+`data/moderators/avatars/` (owned by the data layer, so redesigns can't orphan them). Square PNG,
+256–512px recommended — the site renders a 96px center-cropped circle, so exact dimensions are
+forgiving; **file size ≤ 500 KB is CI-enforced** (repo bloat is the one irreversible mistake).
 
 ## Community — `data/community.md`
 
@@ -81,21 +84,25 @@ Unknown fields anywhere (strict), missing required fields, malformed `date`/`sta
 unknown timezones, bad segment types, a frontmatter `id`, filename pattern violations, non-integer
 `attendees`, malformed bilingual values, any URL that isn't `http(s)://` (including links inside
 `speakerBio` markdown — `javascript:` URLs fail CI before they can reach a page), avatars that
-aren't a bare existing filename, duplicate `ctas[].id` values, a missing
-`data/moderators/avatars/default.png` (the required fallback avatar), frontmatter that isn't valid
-YAML, and **email-shaped strings anywhere in `data/`** (privacy lint).
+aren't a bare existing filename, avatar files over 500 KB, duplicate `ctas[].id` values, a missing
+`data/moderators/avatars/default.png` (the required fallback avatar), and frontmatter that isn't
+valid YAML.
 
 ## Privacy & consent
 
-- **Contact info never enters this repo** (it's public). Speaker logistics (the sign-up sheet's
-  contact column) stay in the private sheet. The privacy lint enforces the email case mechanically;
-  the rule covers all contact info.
+- **Everything you PR is public once merged** — the repo, its git history, and the built site.
+  Include contact info only if you are comfortable with it being public; profile/portfolio links
+  beat raw emails. The repo does not police contact info.
+- **Edits & removal:** speakers and moderators can ask for their content to be edited or removed at
+  any time — a PR (by the person or an organizer) deleting or redacting the entry, honored without
+  question.
 - **Moderators:** PR-your-own-entry **is** the consent — a profile exists only if its subject
   authored or explicitly approved the PR. The consent trail is git history.
 - **Speakers:** sheet sign-up = consent for name + topic + materials link (exactly what they
   submitted to present). A one-time community-channel announcement with opt-out **must precede the
-  first publication**. Removal: a PR (by the person or an organizer) deleting or redacting the
-  entry, honored without question.
+  first publication**.
+- **Maintainer side:** logistics from the private sign-up sheet (the contact column) never enter
+  this repo.
 
 ## How the site fetches the JSON (delivery & caching)
 

@@ -48,8 +48,10 @@ Stable facts:
 - **Schema stability:** the `data/*.md` schema is additive-only; every change updates
   `docs/data-schema.md` + validator + `_template.md` in one PR. → spec 2026-07-09 §1.4
 - **A meetup is a multi-segment session** (Talk 1 / Talk 2 / Chat), not a single talk. → kickstart §4
-- **Privacy:** speaker contact info (email/thread) **never** enters the public repo — logistics stay
-  in the private sign-up sheet; only topic, speaker name, and materials link are public. → kickstart §4d
+- **Privacy:** everything a contributor PRs is **public once merged** — contact info is allowed when
+  its author wants it public (links beat raw emails); edits/removal honored on request.
+  Maintainer-side logistics from the private sign-up sheet still never enter the repo.
+  → spec 2026-07-10 §5 (unlocked from kickstart §4d)
 - **Contribution:** speakers/moderators add or edit **their own** Markdown file via PR (conflict-free).
   → kickstart §4
 
@@ -64,6 +66,12 @@ Stable facts:
   - [`docs/theming.md`](docs/theming.md) — the color system: palette references, token roles +
     contrast requirements, and the how-to for changing the theme. **Update trigger:** any change to
     the token blocks in `site/site.css` (same PR).
+  - **Contributor READMEs** — root [`README.md`](README.md), [`data/README.md`](data/README.md),
+    [`data/meetups/README.md`](data/meetups/README.md),
+    [`data/moderators/README.md`](data/moderators/README.md): contributor how-tos; field detail
+    stays in `docs/data-schema.md`. **Update trigger:** any change to the contribution flow,
+    file-naming rules, folder layout, URL/stack, PR flow, local-test commands, or a validation
+    limit the READMEs state (e.g. the avatar size cap) — same PR.
 - **Historical** (how we got here; allowed to go stale; kept forever):
   - [`docs/kickstart.md`](docs/kickstart.md) — the founding brainstorm/spec. **Read before any planning.**
   - [`docs/superpowers/specs/`](docs/superpowers/specs/) & [`docs/superpowers/plans/`](docs/superpowers/plans/)
@@ -94,7 +102,7 @@ Each milestone: **brainstorm → spec → plan → implement → fold decisions 
 
 Updating docs is a **gate, not a nicety** — before the work counts as done / before a PR opens:
 
-1. Update every maintained `docs/*.md` the session touched. ("No docs needed" is a claim to justify.)
+1. Update every maintained doc the session touched. ("No docs needed" is a claim to justify.)
 2. Append a newest-on-top entry to [`docs/devlog.md`](docs/devlog.md) (global `CLAUDE.md` owns the
    format), linking its spec/plan.
 3. Update [`todo.md`](todo.md).
@@ -126,6 +134,7 @@ entries get no tag.
 
 ## Before committing (load-bearing — public repo)
 
-Scan **every** commit for secrets / API keys / tokens, `.env*` files, and **speaker contact info /
-private PII** (kickstart §4d) before pushing. This repo is public and holds a community with private
-sign-up data — this scan is required, not precautionary.
+Scan **every** commit for secrets / API keys / tokens, `.env*` files, and **maintainer-side leaks
+from the private sign-up sheet** (its contact column, logistics — spec 2026-07-10 §5) before pushing.
+Contributor-authored contact info is fine: public-by-PR is the consent model. This repo is public and
+holds a community with private sign-up data — this scan is required, not precautionary.

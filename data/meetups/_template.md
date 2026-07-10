@@ -11,7 +11,7 @@ segments: []
 # segments:
 #   - type: talk                 # talk | chat
 #     title: "My talk title"     # or { en: "...", zh: "..." }
-#     speaker: YourName          # display name only — NEVER emails or contact info
+#     speaker: YourName          # display name; anything merged here is public — links beat raw emails
 #     speakerBio: ""             # optional; 1-2 sentences, markdown links OK (http(s) only)
 #     materialsUrl: ""           # optional; http(s) link to slides/demo
 attendees: null                  # back-fill after the event (integer)

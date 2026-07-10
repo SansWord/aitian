@@ -17,6 +17,8 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.5.0](#v050--contributor-readme-tree--privacy-unlock-2026-07-10-1547) | **README tree shipped** — four contributor READMEs (root front door incl. Claude Code / Fable 5 credit, `data/` overview, meetups + moderators how-tos), validator README-skip + ≤ 500 KB avatar cap, and the privacy unlock implemented (email lint removed; docs/CLAUDE.md reworded to public-once-merged consent). |
+| [v0.5.0-design](#v050-design--contributor-readme-tree--privacy-unlock-2026-07-10-1213) | **README tree spec approved** — four contributor-facing READMEs (root front door with local-testing guide, `data/` overview, per-folder how-tos) with a layered doc-role rule (READMEs = how-to; `data-schema.md` stays the only field reference), a validator README-skip, an avatar file-size cap (≤ 500 KB, dimensions stay a recommendation), and an **unlocked privacy stance**: contact info allowed under "everything you PR is public" awareness, with edit/removal honored on request (email lint to be removed). |
 | [v0.4.4](#v044--landing-hero-images-added-and-dark-visual-language-corrected-2026-07-10-1608) | **Hero visuals** — the landing page now uses generated demo-stage hero artwork in both themes, and the dark background/glow system was pulled back toward the chosen `B` preview language. |
 | [v0.4.3](#v043--showroom-restyle-b-chosen-with-less-wireframe-2026-07-10-1455) | **Visual restyle** — the live site now follows the chosen `B` direction: showroom-style gradients and panel contrast stay, while borders are demoted so the pages feel less like a wireframe and more like a finished interface. |
 | [v0.4.2](#v042--dark-theme-palette-corrected-to-the-intended-five-hexes-2026-07-10-1238) | **Dark palette correction** — light theme stays as-is, while the dark token block is remapped to the intended five colors (`#000411`, `#E1EFE6`, `#82C0CC`, `#EFCB68`, `#16697A`) and `docs/theming.md` now documents the split light/dark strategy. |
@@ -31,6 +33,77 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.5.0 — Contributor README tree + privacy unlock (2026-07-10 15:47)
+
+**Review:** not yet
+
+**Design docs:**
+- Contributor README tree: [Spec](superpowers/specs/2026-07-10-readme-tree-design.md) [Plan](superpowers/plans/2026-07-10-readme-tree.md)
+
+**What was built:**
+- Four contributor READMEs: root front door (name lore + tagline, contribute routing table, local
+  test commands with the `file://` warning, public-visibility note, and a "designed/developed with
+  Claude Code, mostly Fable 5" credit linking this devlog as the build history — added during
+  planning at SansWord's request: the site is itself a demo of AI work), `data/` overview
+  (never-rename rule, 5-step flow, bilingual one-liner),
+  and meetups/moderators how-tos with worked-example links and computed deep-link anchors into
+  `docs/data-schema.md`.
+- Validator: `listDataFiles()` skips `README.md`; avatar files capped at ≤ 500 KB (name + actual
+  size in the error; dimensions stay a README recommendation); email privacy lint removed.
+- Privacy unlock folded into the maintained docs: `docs/data-schema.md` §Privacy & consent rewritten
+  to the public-once-merged consent model; `CLAUDE.md` locked decision reworded and the
+  Before-committing scan narrowed to maintainer-side sign-up-sheet leaks; both `_template.md`
+  comments updated. `docs/kickstart.md` §4d untouched (historical).
+- READMEs registered as maintained docs in `CLAUDE.md`; post-review follow-up widened the bullet's
+  update trigger to validation limits the READMEs restate (the avatar cap) and reworded the
+  end-of-session gate to "every maintained doc" so the non-`docs/` READMEs are covered.
+
+**Key technical learnings:**
+- `[note]` GitHub heading anchors for code-span headings strip `/`, `.`, `[`, `]` and the em dash
+  entirely (each space still becomes a hyphen), so `## Meetup — \`data/meetups/YYYY-MM-DD[-slug].md\``
+  → `#meetup--datameetupsyyyy-mm-dd-slugmd` — compute anchors, don't guess them.
+- `[insight]` Oversized-file fixtures don't belong in git: the 500 KB-cap test generates its
+  fixture with `Buffer.alloc(501 * 1024)` at test time — committing a big binary to test a
+  repo-bloat guard would recreate the problem it guards against.
+- `[note]` Removing a validator rule still gets a regression test: an email now lives in a golden
+  fixture body, so the lint can't silently come back.
+
+**Process learnings:**
+- `[gotcha]` A plan's "expected failure" predictions go stale against the plan's own earlier tasks:
+  Task 3 predicted exactly one failing test, but Task 2's avatar-cap test (added two tasks earlier)
+  also copies the golden fixture dir, so the planted email tripped it too — same root cause, two
+  failures. Predict failure *reasons*, not counts.
+- `[note]` Review follow-ups that survived: the meetups README never says a deployed TBA file keeps
+  its bare-date name once booked (spec-wording gap), and the worked examples carry placeholder bios
+  (`Claire's Bio` / `SansWord's Bio`) — both parked in `todo.md` rather than patched mid-release.
+
+## v0.5.0-design — Contributor README tree + privacy unlock (2026-07-10 12:13)
+
+**Review:** not yet
+
+**Design docs:**
+- Contributor README tree: [Spec](superpowers/specs/2026-07-10-readme-tree-design.md)
+
+**What was built:**
+- Spec for four English-only READMEs: root (community front door + "test locally" commands +
+  contribute routing), `data/` (backend overview + PR flow), `data/meetups/` and `data/moderators/`
+  (per-type how-tos with real committed files as worked examples).
+- Layering rule to prevent drift: READMEs are how-to guides that deep-link `docs/data-schema.md`;
+  field tables stay only there; `_template.md` stays the inline cheat-sheet.
+- **Locked-decision change (privacy):** replaced "contact info never enters the public repo" with
+  an awareness model — everything PR'd is public; contact info is allowed, links preferred over
+  raw emails; speakers/moderators can have their content edited or removed on request; the
+  maintainer-side rule (sign-up-sheet logistics stay private) survives. Implementation will remove
+  the validator's email lint and reword `data-schema.md` §Privacy, `CLAUDE.md`, and the meetup
+  template.
+
+**Key technical learnings:**
+- `[gotcha]` `listDataFiles()` includes every `*.md` not starting with `_` — a `README.md` dropped
+  into `data/meetups/` or `data/moderators/` would be validated as an entry and fail CI. The spec
+  adds a README skip to the filter; without it the README milestone can't even build.
+- `[note]` `data/README.md` alone would have been safe: `community.md` is read by exact path and
+  nothing globs the `data/` root.
 
 ## v0.4.4 — Landing hero images added and dark visual language corrected (2026-07-10 16:08)
 
