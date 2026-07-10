@@ -22,6 +22,7 @@ locked-decision change (privacy stance) that surfaced during design.
 | Root README framing | Community front door: name lore + tagline + aitian.dev link, then contributor guide; under ~2 screens |
 | Where field detail lives | **Layered roles** — READMEs are how-to guides; `docs/data-schema.md` stays the only normative field reference (deep-linked); `_template.md` stays the inline cheat-sheet. No duplicated field tables. |
 | Privacy stance | **Unlocked** (was: contact info never enters the repo) — see §5 |
+| Avatar constraints | README recommends square PNG, 256–512px; validator enforces only a ≤ 500 KB file-size cap (repo bloat is the one irreversible mistake; wrong dimensions are harmless — CSS center-crops) |
 
 ## 2. Doc-role layering (the rule that prevents drift)
 
@@ -85,10 +86,15 @@ locked-decision change (privacy stance) that surfaced during design.
 - One file per moderator; filename = your lowercase handle = your card id.
 - Steps: copy `_template.md` → `your-handle.md` → fill `name`/`bio`/`links` → optional avatar
   (PNG into `avatars/`, referenced by bare filename in `avatar:`; omitted → `default.png`).
+- Avatar guidance: **square PNG, 256–512px recommended** (it renders in a 96px circle; non-square
+  images are center-cropped, so exact dimensions are forgiving); **file size must be ≤ 500 KB** —
+  CI enforces this (§4.2).
 - **PR-ing your own entry is the consent to publish it.**
 - Worked example: link `sansword.md`. Deep link to `docs/data-schema.md#moderator...`.
 
-## 4. Validator change: skip `README.md` in data folders
+## 4. Validator changes
+
+### 4.1 Skip `README.md` in data folders
 
 `listDataFiles()` (`scripts/build-data.mjs`) currently includes every `*.md` not starting with
 `_`, so `data/meetups/README.md` would be validated as a meetup and fail CI. Change:
@@ -100,6 +106,14 @@ locked-decision change (privacy stance) that surfaced during design.
 
 `data/README.md` itself is safe today (`community.md` is read by exact path; nothing globs the
 `data/` root), but the filter change covers all three folders uniformly anyway.
+
+### 4.2 Avatar file-size cap
+
+Every non-dot file in `data/moderators/avatars/` must be **≤ 500 KB** (`fs.statSync().size`);
+larger files fail validation with the file name and its actual size in the error. Dimensions are
+deliberately unenforced — the CSS circle center-crops any shape, so the 256–512px guidance stays a
+README/template recommendation. Schema-rule trio applies: same PR updates `docs/data-schema.md`
+(avatar row gains the cap) and the moderator `_template.md` avatar comment.
 
 ## 5. Privacy unlock (locked-decision change)
 
@@ -148,7 +162,8 @@ ask a maintainer."*
 
 ## 8. Testing
 
-- `npm test` green after the validator changes (lint removal + README-skip + new regression test).
+- `npm test` green after the validator changes (lint removal + README-skip + avatar size cap +
+  their tests, including an over-cap fixture rejected with a useful message).
 - `npm run build` with the READMEs in place: build succeeds; `dist/data/` contains no README
   artifacts; `index.json` unchanged.
 - Link check (manual): every deep link in the READMEs resolves on GitHub (anchors included).
