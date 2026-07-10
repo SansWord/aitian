@@ -53,7 +53,7 @@ locked-decision change (privacy stance) that surfaced during design.
    ```
    With the explicit warning that opening `dist/index.html` via `file://` does not work (the site
    fetches JSON; browsers block fetch on file URLs) — serve it over HTTP.
-5. **Public-forever note:** one short paragraph (§5 wording).
+5. **Public-visibility note:** one short paragraph (§5 wording).
 
 ### 3.2 `data/README.md`
 
@@ -65,7 +65,7 @@ locked-decision change (privacy stance) that surfaced during design.
   reports per-field errors; maintainer merge deploys the site).
 - Bilingual rule in one line (plain string serves both languages, or `{en, zh}`; prose bodies use
   `## en` / `## zh`) with a deep link to `docs/data-schema.md#bilingual-fields--one-rule-per-shape`.
-- Public-forever note (§5).
+- Public-visibility note (§5).
 
 ### 3.3 `data/meetups/README.md`
 
@@ -104,10 +104,12 @@ locked-decision change (privacy stance) that surfaced during design.
 **Old locked decision:** speaker contact info (email/thread) never enters the public repo; CI
 rejects email-shaped strings.
 
-**New stance (decided this session):** the repo does not police contact info. The consent model is:
-**everything you PR is public, forever — including in git history after deletion.** Contributors
-may include contact info if they understand that; prefer profile/portfolio links over raw emails.
-Logistics from the private sign-up sheet still never enter the repo from the maintainer side.
+**New stance (decided this session, softened on review):** the repo does not police contact info.
+The consent model is: **everything you PR is public once merged.** Contributors may include
+contact info if they are comfortable with that; prefer profile/portfolio links over raw emails.
+Speakers and moderators can ask for their content to be edited or removed at any time, and we
+honor those requests. Logistics from the private sign-up sheet still never enter the repo from
+the maintainer side.
 
 Changes required:
 
@@ -121,8 +123,9 @@ Changes required:
 - Devlog entry logs the unlock (per the locked-decision change rule). `docs/kickstart.md` §4d
   stays untouched — it is historical.
 
-READMEs carry a one-line version: *"Anything merged here is public forever (git history included).
-Only include contact info you want public — links beat raw emails."*
+READMEs carry a short version: *"Anything merged here is public. Only include contact info you
+want public — links beat raw emails. Want your content changed or removed later? Open a PR or
+ask a maintainer."*
 
 ## 6. Maintenance rules
 
