@@ -2,8 +2,9 @@
 // <body data-page="..."> and this module dispatches to its renderer.
 //
 // Safety (spec §2.7): all data-sourced strings are inserted via textContent
-// (the el() helper). The ONLY innerHTML sink is the `html:` attribute, used
-// exclusively for build-sanitized HTML (bodyHtml / speakerBioHtml fields).
+// (the el() helper). The only innerHTML sinks are the `html:` attribute and
+// the landing intro assignment in renderLanding — both restricted to
+// build-sanitized HTML (bodyHtml / speakerBioHtml fields).
 // URL-typed fields land in href/src — the build validator guarantees http(s).
 
 const LANG_KEY = 'aitian.lang';
@@ -174,7 +175,7 @@ function renderLanding() {
     ),
   );
 
-  document.getElementById('intro').innerHTML = community.bodyHtml[lang] || '';
+  document.getElementById('intro').innerHTML = community.bodyHtml?.[lang] || '';
 
   const { featured, upcoming } = splitMeetups(meetupIndex);
   document.getElementById('featured').replaceChildren(
@@ -260,6 +261,9 @@ async function renderMeetupFromHash() {
       kids.push(sec);
     }
   }
+  // The fetch above yielded — if the hash changed while it was in flight,
+  // drop this stale render (the newer call owns the DOM).
+  if (decodeURIComponent(location.hash.slice(1)) !== hash) return;
   container.replaceChildren(...kids);
 }
 
@@ -323,4 +327,13 @@ async function main() {
   else if (page === 'moderators') await initModerators();
 }
 
-main();
+main().catch((err) => {
+  console.error(err);
+  const mainEl = document.querySelector('main');
+  if (mainEl) {
+    const p = document.createElement('p');
+    p.className = 'not-found';
+    p.textContent = 'Something went wrong loading the page data — try refreshing.';
+    mainEl.replaceChildren(p);
+  }
+});
