@@ -3,114 +3,41 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AI展 (aitian) — hello world</title>
-  <meta name="description" content="AI展 (aitian) — AI Demo Meetup. Deployment test page." />
-  <style>
-    :root {
-      --bg: #ffffff;
-      --fg: #16161a;
-      --muted: #6b7280;
-      --accent: #e0344b;
-      --card: #f6f6f7;
-      --border: #e5e7eb;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0d0d10;
-        --fg: #f2f2f5;
-        --muted: #9ca3af;
-        --accent: #ff5a6e;
-        --card: #17171c;
-        --border: #26262d;
-      }
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--fg);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-        "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      line-height: 1.5;
-    }
-    main {
-      max-width: 34rem;
-      width: 100%;
-      text-align: center;
-    }
-    .wordmark {
-      font-size: clamp(3rem, 12vw, 5.5rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin: 0;
-    }
-    .wordmark .zhan { color: var(--accent); }
-    .romanization {
-      color: var(--muted);
-      font-size: 1.05rem;
-      margin: 0.25rem 0 0;
-      letter-spacing: 0.04em;
-    }
-    .tagline {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin: 1.75rem 0 0.5rem;
-    }
-    .sub {
-      color: var(--muted);
-      margin: 0 0 2rem;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      padding: 0.5rem 1rem;
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-    .dot {
-      width: 0.55rem;
-      height: 0.55rem;
-      border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 0 3px color-mix(in srgb, #22c55e 25%, transparent);
-    }
-    footer {
-      margin-top: 2.5rem;
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-    code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 0.1rem 0.4rem;
-      font-size: 0.85em;
-    }
-  </style>
+  <title>AI展 (aitian) — AI Demo Meetup</title>
+  <meta name="description" content="AI展 (aitian) — a weekly meetup community for showing off AI work." />
+  <script>
+    // Apply a saved theme before first paint to avoid a flash.
+    try { var t = localStorage.getItem('aitian.theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="./site.css" />
 </head>
-<body>
+<body data-page="landing">
+  <header class="site-header">
+    <a class="brand" href="./index.html">AI<span class="zhan">展</span></a>
+    <nav>
+      <a href="./index.html" data-i18n="nav.home"></a>
+      <a href="./meetup.html" data-i18n="nav.meetups"></a>
+      <a href="./moderators.html" data-i18n="nav.moderators"></a>
+    </nav>
+    <div class="toggles">
+      <button id="lang-toggle" type="button" aria-label="Switch language">中</button>
+      <button id="theme-toggle" type="button" aria-label="Switch theme">◐</button>
+    </div>
+  </header>
   <main>
-    <h1 class="wordmark">AI<span class="zhan">展</span></h1>
-    <p class="romanization">aitian · <em>Ài-Tián</em></p>
-
-    <p class="tagline">Hello, aitians 👋</p>
-    <p class="sub">AI展 — AI Demo Meetup. If you can read this, GitHub Pages is live.</p>
-
-    <span class="badge"><span class="dot" aria-hidden="true"></span> Deployment test — the real site is coming</span>
-
-    <footer>
-      Served from <code>site/</code> via GitHub Actions.
-    </footer>
+    <section class="hero">
+      <h1 class="wordmark">AI<span class="zhan">展</span></h1>
+      <p class="romanization">aitian · <em>Ài-Tián</em></p>
+      <p class="tagline" id="tagline"></p>
+      <div id="cta" class="cta-row"></div>
+      <div class="hero-visual" aria-hidden="true"></div>
+    </section>
+    <section id="intro" class="intro"></section>
+    <section id="featured"></section>
+    <section id="coming-up"></section>
   </main>
+  <footer class="site-footer"><p>AI展 (aitian)</p></footer>
+  <noscript><p style="text-align:center">This site needs JavaScript to show the meetup schedule.</p></noscript>
+  <script type="module" src="./site.js"></script>
 </body>
 </html>
