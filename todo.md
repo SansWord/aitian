@@ -5,9 +5,8 @@ current as part of the end-of-session checklist.
 
 ## Now
 
-- [ ] **Merge the MVP PR** ([#1](https://github.com/SansWord/aitian/pull/1)) — one combined PR
-      (spec + plan + implementation; the spec branch never got its own PR, `feat/mvp-scaffold`
-      stacks on it). Squash-merge after review + the speaker-consent gate below.
+- [x] **Merge the MVP PR** ([#1](https://github.com/SansWord/aitian/pull/1)) — merged 2026-07-10;
+      one combined PR (spec + plan + implementation).
 - [x] **Execute the plan** ([`docs/superpowers/plans/2026-07-10-mvp-scaffold.md`](docs/superpowers/plans/2026-07-10-mvp-scaffold.md))
       — done 2026-07-10 (v0.3.0): built on `feat/mvp-scaffold`, stacked on the unmerged
       `feat/mvp-scaffold-spec`; both land together via the combined PR #1. All 19 tasks shipped
@@ -19,13 +18,13 @@ current as part of the end-of-session checklist.
       rename the files. No contact info (kickstart §4d).
 - [ ] **Repo settings (manual, SansWord)** — branch protection on `main` incl. no-bypass + required
       `build` check; Actions "Require approval for all outside collaborators" (spec §3.3).
-- [ ] **Verify the deploy after merge** — confirm `aitian.dev` serves the new site and
-      `meetup.html#2026-07-14-ai-role-play` renders. (PR half verified 2026-07-10: on PR #1 the
-      `build` check passed and `deploy` was skipped, as designed.)
-- [ ] **Speaker-consent announcement (pre-merge gate, SansWord)** — merging the MVP PR is the first
-      publication of speaker names (Claire, 7/14 meetup). The one-time community-channel announcement
-      with opt-out must happen BEFORE merge (docs/data-schema.md §Privacy & consent). Confirm done or
-      hold the merge.
+- [x] **Verify the deploy after merge** — done 2026-07-10: `aitian.dev` serves the new site
+      (landing 200 + `data-page="landing"`, `meetup.html` 200, data JSON 200). PR half verified
+      earlier the same day: on PR #1 the `build` check passed and `deploy` was skipped, as designed.
+- [ ] **Speaker-consent announcement (SansWord)** — the MVP PR merged 2026-07-10, so speaker names
+      (Claire, 7/14 meetup) are now published. If the one-time community-channel announcement with
+      opt-out (docs/data-schema.md §Privacy & consent) hasn't gone out yet, send it now; check this
+      off once confirmed.
 
 ## Later
 

@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.3.1](#v031--content-moderator-links--714-intro-2026-07-10-1005) | **Content follow-up** — real moderator links (portfolio/LinkedIn), founder/co-organizer bio roles corrected, first speakerBio + bilingual intro content on the 7/14 meetup; post-merge deploy to `aitian.dev` verified. |
 | [v0.3.0](#v030--mvp-data-pipeline--three-pages-2026-07-10-0234) | **MVP shipped** — `data/` Markdown backend with strict CI validation, `build-data.mjs` emit pipeline, and three bilingual/theme-toggling pages (landing, hash-routed meetup detail, moderators) publishing `dist/` to Pages. |
 | [v0.3.0-design](#v030-design--mvp-scaffold-design-2026-07-10-0003) | **MVP scaffold spec approved** — resolved all kickstart §5 opens (vanilla JS, runtime i18n, text-first hero, PR-as-consent, featured+3 landing) and locked the data md schema as a stable "backend" contract. Also: `aitian.dev` live with HTTPS enforced; new feature-branch convention. |
 | [v0.2.0](#v020--end-to-end-cicd-setup-2026-07-09-1724) | Stood up the **end-to-end CI/CD pipeline** — a hello-world page under `site/` deploys to GitHub Pages via Actions and is live at `sansword.github.io/aitian`. |
@@ -24,7 +25,20 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 ---
 
-## v0.3.0 — MVP: data pipeline + three pages (2026-07-10 02:34)
+## v0.3.1 — Content: moderator links + 7/14 intro (2026-07-10 10:05)
+
+**Review:** not yet
+
+**What was built:**
+- Moderator data filled in: portfolio + LinkedIn links on `sansword.md`; founder/co-organizer roles
+  corrected between the two bios (pinku: Founder & organizer · Product & design; SansWord:
+  Co-organizer · builds AI-powered tools).
+- First real segment/body content on `data/meetups/2026-07-14-ai-role-play.md`: `speakerBio` for both
+  talks and a bilingual (`## en` / `## zh`) meetup intro — initial copy, still to be polished in the
+  zh copy review (see todo).
+- Post-merge verification of the v0.3.0 deploy: `aitian.dev` serves the new landing page,
+  `meetup.html` + data JSON respond 200; on the MVP PR the `build` check ran and `deploy` was
+  skipped, as designed.
 
 **Review:** not yet
 **Design docs:**
