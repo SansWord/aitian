@@ -21,6 +21,5 @@ current as part of the end-of-session checklist.
       info (kickstart §4d).
 - [ ] **Decide vs. Luma** for RSVP / the "get invite link" CTA (kickstart §2 note).
 - [x] **Custom domain** — `aitian.dev` is live (CNAME added 2026-07-10, serving HTTP 200).
-- [ ] **Enable "Enforce HTTPS"** in Settings → Pages once the cert is provisioned (currently off,
-      so plain `http://` doesn't redirect).
+- [x] **Enable "Enforce HTTPS"** — done 2026-07-10; verified `http://` 301s to `https://aitian.dev/`.
 - [x] **Enable GitHub Pages** (deploy from Actions) — live at `sansword.github.io/aitian` (v0.2.0).
