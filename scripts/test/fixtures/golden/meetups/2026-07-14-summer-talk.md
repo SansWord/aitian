@@ -5,3 +5,6 @@ segments:
   - type: chat
     title: { en: "Open chat", zh: "自由聊" }
 ---
+
+Questions? Mail organizer@example.com — contributor-authored contact info is allowed
+(privacy unlock, readme-tree spec §5).

@@ -1,7 +1,7 @@
 // scripts/test/validate-others.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { validateModerator, validateCommunity, privacyLintErrors } from '../lib/validate.mjs';
+import { validateModerator, validateCommunity } from '../lib/validate.mjs';
 
 const AVATARS = ['default.png', 'alice.png'];
 
@@ -97,11 +97,3 @@ test('non-http cta href is rejected', () =>
   ));
 test('empty cta href is allowed (placeholder button)', () =>
   assert.deepEqual(commErrs({ ctas: [{ id: 'x', label: 'x', href: '' }] }), []));
-
-test('privacy lint flags email-shaped strings', () => {
-  const errors = privacyLintErrors('---\ndate: 2026-07-14\n---\nMail eve@example.com!');
-  assert.equal(errors.length, 1);
-  assert.match(errors[0], /email-shaped/);
-});
-test('privacy lint passes clean content', () =>
-  assert.deepEqual(privacyLintErrors('---\ndate: 2026-07-14\n---\nNo contact info here.'), []));

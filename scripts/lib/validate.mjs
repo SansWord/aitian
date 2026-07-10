@@ -8,7 +8,6 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const TIME_RE = /^([01]\d|2[0-3]):[0-5]\d$/;
 const MEETUP_FILENAME_RE = /^\d{4}-\d{2}-\d{2}(-[a-z0-9]+(?:-[a-z0-9]+)*)?\.md$/;
 const HTTP_URL_RE = /^https?:\/\//i;
-const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g;
 const MD_LINK_SCHEME_RE = /\]\(\s*([a-z][a-z0-9+.-]*):/gi;
 
 function isRealDate(s) {
@@ -111,7 +110,7 @@ export function validateMeetup({ filename, data }) {
       if (seg.speaker !== undefined && typeof seg.speaker !== 'string') {
         errors.push(`${ctx}.speaker: must be a plain string display name`);
       } else if (seg.type === 'talk' && (typeof seg.speaker !== 'string' || seg.speaker.trim() === '')) {
-        errors.push(`${ctx}.speaker: required for talk segments (display name only — never contact info)`);
+        errors.push(`${ctx}.speaker: required for talk segments (plain display name)`);
       }
       errors.push(...bilingualErrors(seg.speakerBio, `${ctx}.speakerBio`, { markdownLinks: true }));
       if (seg.materialsUrl !== undefined) {
@@ -131,7 +130,7 @@ export function validateMeetup({ filename, data }) {
   return errors;
 }
 
-export { TIME_RE, HTTP_URL_RE, EMAIL_RE, urlError, unknownKeyErrors, bilingualErrors };
+export { TIME_RE, HTTP_URL_RE, urlError, unknownKeyErrors, bilingualErrors };
 
 const MODERATOR_FILENAME_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*\.md$/;
 const AVATAR_RE = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
@@ -234,13 +233,4 @@ export function validateCommunity({ data }) {
     });
   }
   return errors;
-}
-
-// Privacy lint (kickstart §4d): contact info never enters data/. Runs over the
-// RAW file text so frontmatter and body are both covered.
-export function privacyLintErrors(raw) {
-  if (!raw.includes('@')) return []; // fast path — avoids quadratic regex scans on large @-free files
-  return [...raw.matchAll(EMAIL_RE)].map(
-    (m) => `privacy: email-shaped string "${m[0]}" — contact info never enters data/ (kickstart §4d)`,
-  );
 }

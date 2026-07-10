@@ -7,12 +7,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import matter from 'gray-matter';
 import yaml from 'js-yaml';
-import {
-  validateMeetup,
-  validateModerator,
-  validateCommunity,
-  privacyLintErrors,
-} from './lib/validate.mjs';
+import { validateMeetup, validateModerator, validateCommunity } from './lib/validate.mjs';
 import {
   meetupToJson,
   meetupIndexEntry,
@@ -75,7 +70,6 @@ export function buildData({ dataDir, outDir }) {
     } else {
       addErrors('community.md', validateCommunity({ data: community.data }));
     }
-    addErrors('community.md', privacyLintErrors(community.raw));
   }
 
   const avatarsDir = path.join(dataDir, 'moderators', 'avatars');
@@ -103,7 +97,6 @@ export function buildData({ dataDir, outDir }) {
     } else {
       addErrors(`meetups/${filename}`, validateMeetup({ filename, data: entry.data }));
     }
-    addErrors(`meetups/${filename}`, privacyLintErrors(entry.raw));
     return { filename, ...entry };
   });
 
@@ -117,7 +110,6 @@ export function buildData({ dataDir, outDir }) {
         validateModerator({ filename, data: entry.data, avatarFiles }),
       );
     }
-    addErrors(`moderators/${filename}`, privacyLintErrors(entry.raw));
     return { filename, ...entry };
   });
 

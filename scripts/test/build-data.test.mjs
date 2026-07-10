@@ -62,7 +62,6 @@ test('bad fixture fails with every expected message and emits nothing', () => {
     'integer',                                  // attendees 2.5
     'not found in data/moderators/avatars',     // bob.png missing
     'default.png',                              // fallback avatar missing
-    'email-shaped',                             // privacy lint
     'links[0].url',                             // ftp:// link
     'not valid YAML',                           // broken frontmatter syntax
   ];
@@ -71,7 +70,6 @@ test('bad fixture fails with every expected message and emits nothing', () => {
   }
   // Every error names its file.
   assert.match(all, /meetups\/2026-07-14-broken\.md/);
-  assert.match(all, /meetups\/2026-07-21\.md/);
   assert.match(all, /meetups\/2026-08-11-bad-yaml\.md/);
   assert.match(all, /moderators\/bob\.md/);
   // Nothing was emitted.
