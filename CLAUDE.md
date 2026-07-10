@@ -57,7 +57,8 @@ Stable facts:
 
 - **Maintained `docs/*.md`** (source of truth; must match the code):
   - [`docs/data-schema.md`](docs/data-schema.md) — the `data/` contract: schemas, consent, evolution
-    rules. **Update trigger:** any schema change (same PR as validator + `_template.md`, per its rules).
+    rules, and how the site fetches/caches the built JSON. **Update trigger:** any schema change
+    (same PR as validator + `_template.md`, per its rules) or any change to `fetchJson()` behavior.
   - [`docs/wording.md`](docs/wording.md) — name lore + all bilingual copy. **Update trigger:** any
     user-visible wording change (same PR as `site/ui-strings.json` / `data/community.md`).
 - **Historical** (how we got here; allowed to go stale; kept forever):

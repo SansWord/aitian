@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.3.3](#v033--json-fetch-cache-revalidation-2026-07-10-1039) | **Fix** — JSON fetches use `cache: 'no-cache'` (ETag revalidation), so freshly merged data shows up immediately instead of after GitHub Pages' 10-min browser cache; fetch/caching behavior documented in `docs/data-schema.md`. |
 | [v0.3.2](#v032--coming-up-strip-one-card-per-row-2026-07-10-1027) | **Layout tweak** — the landing "Coming up" strip renders one full-width card per row (was a multi-column auto-fit grid). |
 | [v0.3.1](#v031--content-moderator-links--714-intro-2026-07-10-1005) | **Content follow-up** — real moderator links (portfolio/LinkedIn), founder/co-organizer bio roles corrected, first speakerBio + bilingual intro content on the 7/14 meetup; post-merge deploy to `aitian.dev` verified. |
 | [v0.3.0](#v030--mvp-data-pipeline--three-pages-2026-07-10-0234) | **MVP shipped** — `data/` Markdown backend with strict CI validation, `build-data.mjs` emit pipeline, and three bilingual/theme-toggling pages (landing, hash-routed meetup detail, moderators) publishing `dist/` to Pages. |
@@ -25,6 +26,32 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.3.3 — JSON fetch cache revalidation (2026-07-10 10:39)
+
+**Review:** not yet
+
+**What was built:**
+- `fetchJson()` (`site/site.js`) now fetches with `{ cache: 'no-cache' }` — the browser revalidates
+  every JSON load via ETag, so newly deployed data appears immediately (SansWord hit stale data
+  after a merge).
+- New maintained-doc section: `docs/data-schema.md` §"How the site fetches the JSON (delivery &
+  caching)" records the choke point, the rationale, and why query-string cachebusters were rejected.
+  `CLAUDE.md`'s docs index gained "any change to `fetchJson()` behavior" as an update trigger.
+- Restored the `## v0.3.0` devlog heading that had gone missing (its entry sat headless under
+  v0.3.1 and the TL;DR anchor was broken).
+
+**Key technical learnings:**
+- `[note]` GitHub Pages serves everything with `Cache-Control: max-age=600` — browsers reuse cached
+  JSON for up to 10 minutes with no request at all; the CDN edge itself is purged on deploy, so the
+  stale layer is the browser.
+- `[insight]` `fetch(..., { cache: 'no-cache' })` means *revalidate*, never *don't cache*: the
+  browser sends `If-None-Match` and GitHub Pages answers `304` when unchanged — fresh-on-deploy at
+  a few bytes per request, strictly better here than `?t=Date.now()` (full re-downloads, busts the
+  CDN edge cache too).
+- `[insight]` A build-hash `?v=` cachebuster can't fix data staleness on this stack: the `site.js`
+  carrying the hash is itself cached for the same 10 minutes, so it just moves the staleness one
+  file up. Code (HTML/CSS/JS) changes still lag up to 10 min; only data is always revalidated.
 
 ## v0.3.2 — Coming-up strip: one card per row (2026-07-10 10:27)
 
@@ -49,6 +76,8 @@ spec / plan / design doc from that session so a later session can lazily load th
 - Post-merge verification of the v0.3.0 deploy: `aitian.dev` serves the new landing page,
   `meetup.html` + data JSON respond 200; on the MVP PR the `build` check ran and `deploy` was
   skipped, as designed.
+
+## v0.3.0 — MVP data pipeline + three pages (2026-07-10 02:34)
 
 **Review:** not yet
 **Design docs:**

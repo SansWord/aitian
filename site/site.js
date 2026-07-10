@@ -55,7 +55,9 @@ function detectTheme() {
 
 // ---------- data ----------
 async function fetchJson(relPath) {
-  const res = await fetch(relPath);
+  // GitHub Pages serves max-age=600; 'no-cache' forces an ETag revalidation
+  // (304 when unchanged) so freshly deployed data shows up immediately.
+  const res = await fetch(relPath, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`${relPath}: HTTP ${res.status}`);
   return res.json();
 }
