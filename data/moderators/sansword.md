@@ -9,5 +9,8 @@ links:
   - label: LinkedIn
     url: "https://www.linkedin.com/in/sansword/"
 ---
+## en
+The one talk to Claude to ask for this site.
 
-Optional longer intro (markdown). Use "## en" / "## zh" headings for bilingual content.
+## zh
+跟 Claude 說話來要到這個網站的人
