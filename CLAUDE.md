@@ -93,6 +93,10 @@ without it, **remind them**.
 
 ## Conventions
 
+- **Branching: never develop on `main`** — all work (code *and* docs/specs) happens on a feature
+  branch and lands via PR, **squash-merged** into `main` after review. Sole exception: hotfixes.
+  If a session finds itself with commits on `main` ahead of `origin/main`, move them to a branch
+  before continuing.
 - **Staging: explicit paths only** — never `git add -A` / `git add .`. Confirm scope with
   `git diff --name-only main...HEAD` before a PR.
 - **Publish only the built site** (`dist/`) to Pages — never `path: .`; keep `CLAUDE.md`, `todo.md`,
