@@ -51,6 +51,11 @@ test('script tags in a body are stripped at build time', () => {
   assert.ok(html.en.includes('Hello'));
 });
 
+test('protocol-relative links are stripped at build time', () => {
+  const html = renderBilingualBody('see [x](//evil.example/phish)');
+  assert.ok(!html.en.includes('//evil.example'));
+});
+
 test('language-sectioned body splits and renders per language', () => {
   const html = renderBilingualBody('## en\n**English**\n\n## zh\n**中文**');
   assert.match(html.en, /<strong>English<\/strong>/);

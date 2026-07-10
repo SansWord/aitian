@@ -11,6 +11,7 @@ const SANITIZE_OPTS = {
   allowedTags: ['p', 'a', 'em', 'strong', 'ul', 'ol', 'li', 'code', 'pre', 'br', 'blockquote'],
   allowedAttributes: { a: ['href'] },
   allowedSchemes: ['http', 'https'],
+  allowProtocolRelative: false,
 };
 
 export function renderMarkdown(md) {
