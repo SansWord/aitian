@@ -70,7 +70,8 @@ Stable facts:
     [`data/meetups/README.md`](data/meetups/README.md),
     [`data/moderators/README.md`](data/moderators/README.md): contributor how-tos; field detail
     stays in `docs/data-schema.md`. **Update trigger:** any change to the contribution flow,
-    file-naming rules, folder layout, URL/stack, PR flow, or local-test commands (same PR).
+    file-naming rules, folder layout, URL/stack, PR flow, local-test commands, or a validation
+    limit the READMEs state (e.g. the avatar size cap) — same PR.
 - **Historical** (how we got here; allowed to go stale; kept forever):
   - [`docs/kickstart.md`](docs/kickstart.md) — the founding brainstorm/spec. **Read before any planning.**
   - [`docs/superpowers/specs/`](docs/superpowers/specs/) & [`docs/superpowers/plans/`](docs/superpowers/plans/)
@@ -101,7 +102,7 @@ Each milestone: **brainstorm → spec → plan → implement → fold decisions 
 
 Updating docs is a **gate, not a nicety** — before the work counts as done / before a PR opens:
 
-1. Update every maintained `docs/*.md` the session touched. ("No docs needed" is a claim to justify.)
+1. Update every maintained doc the session touched. ("No docs needed" is a claim to justify.)
 2. Append a newest-on-top entry to [`docs/devlog.md`](docs/devlog.md) (global `CLAUDE.md` owns the
    format), linking its spec/plan.
 3. Update [`todo.md`](todo.md).
