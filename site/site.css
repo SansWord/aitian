@@ -1,30 +1,47 @@
 /* Design tokens. Light is the base. Dark applies two ways — explicit toggle
    ([data-theme="dark"]) or OS preference when no explicit choice was made —
-   so the two dark blocks must stay identical (spec §2.6). */
+   so the two dark blocks must stay identical (spec §2.6).
+   Light palette: lagoon teals on warm cream, orange as the pop
+   (coolors 16697a-489fb5-82c0cc-ede7e3-ffa62b). Orange fails contrast as
+   text on cream, so teal carries links/labels and orange carries fills.
+   Dark palette: rich black, dark-purple surfaces, gold accent, mint text
+   (coolors 160c28-efcb68-e1efe6-aeb7b3-000411). */
 :root {
-  --bg: #ffffff;
-  --fg: #16161a;
-  --muted: #6b7280;
-  --accent: #e0344b;
-  --card: #f6f6f7;
-  --border: #e5e7eb;
+  color-scheme: light;
+  --bg: #ede7e3;
+  --fg: #0c3540;
+  --muted: #52686e;
+  --accent: #16697a;
+  --accent-pop: #ffa62b;
+  --accent-contrast: #0c3540;
+  --card: #f8f4f0;
+  --border: #c2d7da;
+  --hero-tint: #cddbdc;
 }
 :root[data-theme="dark"] {
-  --bg: #0d0d10;
-  --fg: #f2f2f5;
-  --muted: #9ca3af;
-  --accent: #ff5a6e;
-  --card: #17171c;
-  --border: #26262d;
+  color-scheme: dark;
+  --bg: #000411;
+  --fg: #e1efe6;
+  --muted: #aeb7b3;
+  --accent: #efcb68;
+  --accent-pop: #efcb68;
+  --accent-contrast: #160c28;
+  --card: #160c28;
+  --border: #2c2244;
+  --hero-tint: #160c28;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0d0d10;
-    --fg: #f2f2f5;
-    --muted: #9ca3af;
-    --accent: #ff5a6e;
-    --card: #17171c;
-    --border: #26262d;
+    color-scheme: dark;
+    --bg: #000411;
+    --fg: #e1efe6;
+    --muted: #aeb7b3;
+    --accent: #efcb68;
+    --accent-pop: #efcb68;
+    --accent-contrast: #160c28;
+    --card: #160c28;
+    --border: #2c2244;
+    --hero-tint: #160c28;
   }
 }
 
@@ -71,7 +88,7 @@ h2 { font-size: 1.15rem; margin: 2.5rem 0 0.75rem; }
   text-align: center;
   padding: 3rem 1rem 2rem;
   border-radius: 0 0 2rem 2rem;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 9%, var(--bg)), var(--bg));
+  background: linear-gradient(180deg, var(--hero-tint), var(--bg));
 }
 .wordmark {
   font-size: clamp(3rem, 12vw, 5.5rem);
@@ -92,8 +109,9 @@ h2 { font-size: 1.15rem; margin: 2.5rem 0 0.75rem; }
   font-size: 1rem;
   font-family: inherit;
   text-decoration: none;
-  background: var(--accent);
-  color: #fff;
+  background: var(--accent-pop);
+  color: var(--accent-contrast);
+  font-weight: 650;
   border: none;
 }
 button.cta[disabled] { opacity: 0.55; cursor: not-allowed; }
@@ -108,7 +126,7 @@ button.cta[disabled] { opacity: 0.55; cursor: not-allowed; }
   text-decoration: none;
   color: var(--fg);
 }
-.card:hover { border-color: var(--accent); }
+.card:hover { border-color: var(--accent-pop); }
 .card-featured { padding: 1.5rem; }
 .card-time { font-weight: 600; margin: 0; }
 .card-time-tpe { color: var(--muted); font-size: 0.9rem; margin: 0.1rem 0 0; }

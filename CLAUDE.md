@@ -61,6 +61,9 @@ Stable facts:
     (same PR as validator + `_template.md`, per its rules) or any change to `fetchJson()` behavior.
   - [`docs/wording.md`](docs/wording.md) — name lore + all bilingual copy. **Update trigger:** any
     user-visible wording change (same PR as `site/ui-strings.json` / `data/community.md`).
+  - [`docs/theming.md`](docs/theming.md) — the color system: palette references, token roles +
+    contrast requirements, and the how-to for changing the theme. **Update trigger:** any change to
+    the token blocks in `site/site.css` (same PR).
 - **Historical** (how we got here; allowed to go stale; kept forever):
   - [`docs/kickstart.md`](docs/kickstart.md) — the founding brainstorm/spec. **Read before any planning.**
   - [`docs/superpowers/specs/`](docs/superpowers/specs/) & [`docs/superpowers/plans/`](docs/superpowers/plans/)

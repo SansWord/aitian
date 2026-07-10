@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.4.0](#v040--color-theme-refresh-lagooncream-light-blackpurplegold-dark-2026-07-10-1136) | **Theme refresh** — new palettes (light: lagoon teals on warm cream + orange pop; dark: rich black, purple cards, gold accent), three new tokens (`--accent-pop`, `--accent-contrast`, `--hero-tint`), and a new maintained doc `docs/theming.md` with token roles, contrast requirements, and the adjustment procedure. |
 | [v0.3.3](#v033--json-fetch-cache-revalidation-2026-07-10-1039) | **Fix** — JSON fetches use `cache: 'no-cache'` (ETag revalidation), so freshly merged data shows up immediately instead of after GitHub Pages' 10-min browser cache; fetch/caching behavior documented in `docs/data-schema.md`. |
 | [v0.3.2](#v032--coming-up-strip-one-card-per-row-2026-07-10-1027) | **Layout tweak** — the landing "Coming up" strip renders one full-width card per row (was a multi-column auto-fit grid). |
 | [v0.3.1](#v031--content-moderator-links--714-intro-2026-07-10-1005) | **Content follow-up** — real moderator links (portfolio/LinkedIn), founder/co-organizer bio roles corrected, first speakerBio + bilingual intro content on the 7/14 meetup; post-merge deploy to `aitian.dev` verified. |
@@ -26,6 +27,38 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.4.0 — Color theme refresh: lagoon/cream light, black/purple/gold dark (2026-07-10 11:36)
+
+**Review:** not yet
+
+**What was built:**
+- New color system in the `site/site.css` token blocks, from two coolors references (pinku/SansWord
+  styling pass): light = lagoon teals on warm cream with orange as the pop
+  (`16697a-489fb5-82c0cc-ede7e3-ffa62b`); dark = rich black with dark-purple card surfaces, gold
+  accent, mint text (`160c28-efcb68-e1efe6-aeb7b3-000411`).
+- Three new tokens: `--accent-pop` (CTA fill + card hover border), `--accent-contrast` (text on
+  accent fills — CTA text was hardcoded `#fff`, which fails on orange/gold), and `--hero-tint`
+  (hero-gradient top, replacing the `color-mix` on `--accent`). Each theme block also declares
+  `color-scheme` so native controls follow.
+- New maintained doc [`docs/theming.md`](theming.md): token-roles table with per-role contrast
+  requirements, the mapping rationale as reusable principles, and the step-by-step procedure for
+  swapping palettes. Registered in `CLAUDE.md`'s docs index (trigger: any token-block change).
+- Verified both themes on the landing + moderators pages via headless-Chromium screenshots; all
+  text roles pass WCAG AA (body ink well above, at ~10:1).
+
+**Key technical learnings:**
+- `[insight]` A palette is an ingredient list and tokens are roles — the mapping is where design
+  happens. The loudest palette color usually can't carry text (orange on cream is ~1.6:1) and lands
+  as a fill; body ink needed a deepened shade of a palette hue (`#16697a` → `#0c3540`) because 5.2:1
+  reads thin for paragraphs while staying fine for muted text.
+- `[gotcha]` `node scripts/build-data.mjs` alone only emits `dist/data/` — the `site/` → `dist/`
+  copy lives in `npm run build`. Previewing a CSS change after running only the data script shows
+  the *old* stylesheet from the previous full build (bit this session; first screenshots showed the
+  old theme).
+- `[note]` Playwright's browser cache (`~/Library/Caches/ms-playwright`) already had Chromium, so
+  `playwright-core` + an explicit `executablePath` to the cached headless shell gives scripted
+  screenshots with no browser download.
 
 ## v0.3.3 — JSON fetch cache revalidation (2026-07-10 10:39)
 
