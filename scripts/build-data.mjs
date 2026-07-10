@@ -44,12 +44,13 @@ function readEntry(filePath) {
   }
 }
 
-// _*.md files are templates: skipped by validation and emission (spec §1.1).
+// _*.md files are templates and README.md is contributor docs: both are
+// skipped by validation and emission (spec §1.1; readme-tree spec §4.1).
 function listDataFiles(dir) {
   if (!fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
-    .filter((f) => f.endsWith('.md') && !f.startsWith('_'))
+    .filter((f) => f.endsWith('.md') && !f.startsWith('_') && f !== 'README.md')
     .sort();
 }
 

@@ -16,7 +16,7 @@ test('golden fixture validates and emits the expected shapes', () => {
   assert.deepEqual(errors, []);
 
   const index = JSON.parse(fs.readFileSync(path.join(out, 'data/meetups/index.json'), 'utf8'));
-  assert.equal(index.length, 2); // _template.md skipped
+  assert.equal(index.length, 2); // _template.md and README.md skipped
   assert.equal(index[0].id, '2026-01-13-winter-talk'); // date-sorted ascending
   assert.equal(index[0].timezone, 'America/Los_Angeles'); // cards format PT-first from the index
   assert.equal(index[0].start, '2026-01-14T02:00:00.000Z'); // PST (UTC-8)
@@ -43,6 +43,9 @@ test('golden fixture validates and emits the expected shapes', () => {
 
   assert.ok(fs.existsSync(path.join(out, 'data/moderators/avatars/default.png')));
   assert.ok(fs.existsSync(path.join(out, 'data/moderators/avatars/alice.png')));
+
+  assert.ok(!fs.existsSync(path.join(out, 'data/meetups/README.json'))); // README.md never emitted
+  assert.ok(!fs.existsSync(path.join(out, 'data/moderators/README.json')));
 });
 
 test('bad fixture fails with every expected message and emits nothing', () => {

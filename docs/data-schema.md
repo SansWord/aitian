@@ -11,7 +11,8 @@ errors) makes a lagging validator impossible to hide.
 ## Contributing an entry
 
 1. Copy the `_template.md` in the right folder (`data/meetups/` or `data/moderators/`), rename it,
-   fill it in, open a PR. Templates (`_*.md`) are skipped by validation and never rendered.
+   fill it in, open a PR. Templates (`_*.md`) and `README.md` are skipped by validation and never
+   rendered.
 2. CI validates every file on your PR and lists every problem with its file and field.
 3. A maintainer merges; the site redeploys automatically.
 
