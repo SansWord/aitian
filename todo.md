@@ -14,9 +14,11 @@ current as part of the end-of-session checklist.
 ## Later
 
 - [ ] **Build the MVP** — pages (landing, hash-routed meetup detail, moderators), `data/` Markdown,
-      `scripts/build-data.mjs` (parse Markdown → JSON + manifest), GitHub Actions Pages deploy.
+      `scripts/build-data.mjs` (parse Markdown → JSON + manifest). Deploy pipeline already stands up
+      (`.github/workflows/deploy.yml`); the MVP build step slots into it (swap `path: site` → `path: dist`
+      once there's a `dist/` to build).
 - [ ] **Seed `data/` from the sign-up sheet** (weekly Tuesdays 7/14 → 9/1), excluding private contact
       info (kickstart §4d).
 - [ ] **Decide vs. Luma** for RSVP / the "get invite link" CTA (kickstart §2 note).
-- [ ] **Enable GitHub Pages** (deploy from Actions).
 - [ ] **Custom domain** (`aitian.dev` or similar) once the site is up.
+- [x] **Enable GitHub Pages** (deploy from Actions) — live at `sansword.github.io/aitian` (v0.2.0).

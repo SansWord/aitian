@@ -23,14 +23,14 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # No build step yet — the hello-world page is hand-authored under site/.
       # Publish ONLY site/, never path: . — keeps CLAUDE.md, todo.md, and docs/
       # off the served site (kickstart §4c).
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
