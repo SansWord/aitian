@@ -1,36 +1,51 @@
-name: Deploy to GitHub Pages
+name: Build & deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
-# Allow the workflow to publish to Pages.
+# Read-only by default — PR validate runs never get more than this.
+# The deploy job declares its own write permissions below.
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-# One live deploy at a time; don't cancel an in-progress publish.
-concurrency:
-  group: pages
-  cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      # Validates data/ (the contributor PR gate) and assembles dist/.
+      - run: npm run build
+      # Publish ONLY dist/, never path: . — keeps CLAUDE.md, todo.md, and
+      # docs/ off the served site (kickstart §4c).
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    # PR events only build + validate; publishing happens on push to main
+    # (and manual dispatch).
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    # One live deploy at a time; don't cancel an in-progress publish.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v7
-
-      # No build step yet — the hello-world page is hand-authored under site/.
-      # Publish ONLY site/, never path: . — keeps CLAUDE.md, todo.md, and docs/
-      # off the served site (kickstart §4c).
-      - uses: actions/upload-pages-artifact@v5
-        with:
-          path: site
-
       - id: deployment
         uses: actions/deploy-pages@v5
