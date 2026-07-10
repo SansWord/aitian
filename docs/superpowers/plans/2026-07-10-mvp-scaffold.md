@@ -12,7 +12,10 @@
 
 **Ship deadline:** first seeded meetup is **2026-07-14**. The **ship-alone cutline is Tasks 0–11** (data layer + build/validate + CI + landing); Tasks 12–13 (meetup detail, moderators) can land in a follow-up PR if time runs short (spec §5). The doc tasks (14–16, 18) are a **gate before any PR** regardless of cutline.
 
-**Two decisions this plan makes inside the spec's freedom (flag to SansWord in review, don't block on them):**
+**Decisions this plan makes inside the spec's freedom (flag to SansWord in review, don't block on them):**
+0. **Deploy guard:** spec §3.2 literally says `if: github.event_name == 'push'`; the plan uses
+   `!= 'pull_request'` so `workflow_dispatch` can still deploy (as the v0.2.0 workflow already
+   could). Containment is unchanged — dispatch requires write access; PRs still never deploy.
 1. **Seed content:** only the 7/14 meetup is booked in the docs (kickstart §4b example); the other 7 Tuesdays are seeded as TBA (`segments: []`). Booked weeks for Foucault/Charlie/Zoe live in the **private sheet** — SansWord back-fills them by editing the seeded TBA files (never renaming them). Added to todo in Task 18.
 2. **Avatars:** ship only `default.png` (a transparent placeholder over a CSS circle); `sansword.png`/`pinku.png` from spec §1.1 are a human follow-up (real photos need the humans). The `avatar:` field is simply omitted from the two moderator files, which the schema defines as "use default".
 
@@ -1035,10 +1038,11 @@ export function meetupToJson({ id, data, content, defaults }) {
 // Compact card data: enough to render the featured card and coming-up strip
 // without fetching detail files (spec §1.5).
 export function meetupIndexEntry(meetupJson) {
-  const { id, date, start, end, attendees } = meetupJson;
+  const { id, date, timezone, start, end, attendees } = meetupJson;
   return {
     id,
     date,
+    timezone, // cards format times from the index — must be PT-first, never viewer-local (spec §2.2)
     start,
     end,
     attendees,
@@ -1212,6 +1216,15 @@ segments: []
 Contact me at eve@example.com to speak!
 ```
 
+Create `scripts/test/fixtures/bad/meetups/2026-08-04-bad-date.md` (malformed date — spec §3.5 lists it as a fixture case):
+
+```markdown
+---
+date: "2026-99-99"
+segments: []
+---
+```
+
 Create `scripts/test/fixtures/bad/moderators/bob.md` (missing avatar file — the bad fixture has **no** avatars dir at all, which also exercises the missing-`default.png` check):
 
 ```markdown
@@ -1248,6 +1261,7 @@ test('golden fixture validates and emits the expected shapes', () => {
   const index = JSON.parse(fs.readFileSync(path.join(out, 'data/meetups/index.json'), 'utf8'));
   assert.equal(index.length, 2); // _template.md skipped
   assert.equal(index[0].id, '2026-01-13-winter-talk'); // date-sorted ascending
+  assert.equal(index[0].timezone, 'America/Los_Angeles'); // cards format PT-first from the index
   assert.equal(index[0].start, '2026-01-14T02:00:00.000Z'); // PST (UTC-8)
   assert.equal(index[1].start, '2026-07-15T02:00:00.000Z'); // PDT (UTC-7) + 19:00 override
   assert.equal(index[0].segments[0].speaker, 'Alice'); // segment summary present
@@ -1284,6 +1298,7 @@ test('bad fixture fails with every expected message and emits nothing', () => {
     '"talk" or "chat"',                         // bad segment type
     'speaker: required for talk',               // missing speaker
     'must start with http',                     // javascript: URL
+    'YYYY-MM-DD',                               // malformed date
     'integer',                                  // attendees 2.5
     'not found in data/moderators/avatars',     // bob.png missing
     'default.png',                              // fallback avatar missing
@@ -1867,7 +1882,9 @@ button.cta[disabled] { opacity: 0.55; cursor: not-allowed; }
 .card-tba { color: var(--muted); font-style: italic; margin: 0.6rem 0 0; }
 .strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 0.75rem; }
 
-/* --- meetup detail --- */
+/* --- landing intro + meetup detail --- */
+.intro { margin-top: 1.5rem; }
+.meetup-intro { margin: 1rem 0; }
 .detail-time { font-weight: 700; font-size: 1.25rem; margin: 1.5rem 0 0; }
 .detail-time-tpe { color: var(--muted); margin: 0.15rem 0 1rem; }
 .attendees { color: var(--muted); }
@@ -2177,7 +2194,7 @@ async function renderMeetupFromHash() {
   if (m.bodyHtml?.[lang]) kids.push(el('div', { class: 'meetup-intro', html: m.bodyHtml[lang] }));
 
   if (m.segments.length === 0) {
-    kids.push(el('a', { class: 'card card-tba-link', href: './index.html#cta' }, [
+    kids.push(el('a', { class: 'card', href: './index.html#cta' }, [
       el('p', { class: 'card-tba', text: t('meetup.tba') }),
     ]));
   } else {
@@ -2841,7 +2858,7 @@ git log -p main...HEAD -- data/ | grep -iE '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,
 git log -p main...HEAD | grep -iE 'api[_-]?key|secret|token|password' ; echo "secret scan exit: $?"
 ```
 
-Expected: file list contains only `package*.json`, `.gitignore`, `scripts/`, `data/`, `site/`, `.github/`, `docs/`, `CLAUDE.md`, `todo.md`; both greps find nothing real (exit 1). The CI validator also enforces the email rule, but this scan covers the whole diff.
+Expected: file list contains only `package*.json`, `.gitignore`, `scripts/`, `data/`, `site/`, `.github/`, `docs/`, `CLAUDE.md`, `todo.md`. The email scan finds nothing (exit 1). The secret scan WILL hit known noise — `id-token: write` in the workflow, and possibly package names inside `package-lock.json` — that's expected; what must not appear is any actual credential value. Eyeball every hit before concluding it's noise. The CI validator also enforces the email rule, but this scan covers the whole diff.
 
 - [ ] **Step 4: Commit the doc updates**
 
