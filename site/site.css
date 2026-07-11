@@ -291,7 +291,16 @@ button.cta[disabled] { opacity: 0.55; cursor: not-allowed; }
   margin: 0;
 }
 .segment-title { font-size: 1.15rem; font-weight: 650; line-height: 1.2; margin: 0.55rem 0 0.2rem; }
-.segment-speaker { margin: 0; color: var(--muted); }
+.segment-speaker-card {
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
+  border-radius: 0.85rem;
+  padding: 0.7rem 0.95rem 0.8rem;
+  margin-top: 0.9rem;
+}
+.segment-speaker { margin: 0; color: var(--muted); font-weight: 650; }
+.segment-speaker-links { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0.4rem 0 0; }
+.segment-speaker-links a { color: var(--accent-pop); }
 .segment-bio { font-size: 0.95rem; margin: 0.5rem 0 0; }
 .segment-materials { display: inline-block; margin-top: 0.5rem; }
 .not-found { text-align: center; padding: 3rem 0; }
