@@ -12,7 +12,9 @@
   "meetup.aitians": { "en": "aitians", "zh": "位 aitians" },
   "segment.talk": { "en": "Talk", "zh": "分享" },
   "segment.chat": { "en": "Chat", "zh": "自由聊" },
-  "toggle.lang": { "en": "中", "zh": "EN" },
+  "toggle.en": { "en": "EN", "zh": "EN" },
+  "toggle.zh": { "en": "中文", "zh": "中文" },
+  "toggle.aria": { "en": "切換至中文", "zh": "切換至英文" },
   "time.taipei": { "en": "Taipei: ", "zh": "台北時間" },
   "time.westCoast": { "en": "", "zh": "美國西岸時間" }
 }

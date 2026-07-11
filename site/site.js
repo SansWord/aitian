@@ -42,7 +42,14 @@ function applyLang() {
   for (const node of document.querySelectorAll('[data-i18n]')) {
     node.textContent = t(node.dataset.i18n);
   }
-  document.getElementById('lang-toggle').textContent = t('toggle.lang');
+  // Segmented toggle: both labels always visible, the CURRENT language
+  // highlighted; the aria-label carries the switch action for screen readers.
+  const toggle = document.getElementById('lang-toggle');
+  toggle.setAttribute('aria-label', t('toggle.aria'));
+  toggle.replaceChildren(
+    el('span', { class: lang === 'en' ? 'lang-opt active' : 'lang-opt', text: t('toggle.en') }),
+    el('span', { class: lang === 'zh' ? 'lang-opt active' : 'lang-opt', text: t('toggle.zh') }),
+  );
   renderPage();
 }
 
