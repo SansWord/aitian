@@ -48,6 +48,21 @@ strings — don't trim them.
 | `time.taipei` | `Taipei: ` (trailing space) | `台北時間` (no space) | prefix on the Taipei reminder line |
 | `time.westCoast` | — (unused: EN keeps the Intl zone suffix, e.g. `PT`) | `美國西岸時間` | zh Pacific-line prefix; applied only when the meetup timezone is `America/Los_Angeles` — other timezones show Intl's zh zone name instead (deliberate override of Intl's 太平洋時間) |
 
+### Language toggle
+
+Segmented `EN｜中文` — both labels always visible, the **current** language highlighted
+([spec](superpowers/specs/2026-07-10-segmented-lang-toggle-design.md)). `toggle.en` / `toggle.zh`
+carry the same value in both languages on purpose: the labels are language-invariant, which is what
+makes the control unambiguous. `toggle.aria` carries the screen-reader action **in Chinese for both
+modes** — SansWord's call during implementation, avoiding the English word "Chinese"; each mode
+still names its actual target language. The old target-language `toggle.lang` (`中`/`EN`) is gone.
+
+| key | en | zh | Notes |
+|---|---|---|---|
+| `toggle.en` | `EN` | `EN` | invariant label, highlighted in EN mode |
+| `toggle.zh` | `中文` | `中文` | invariant label, highlighted in ZH mode |
+| `toggle.aria` | `切換至中文` | `切換至英文` | button `aria-label` — the action, not the state |
+
 ## Community intro
 
 Lives in [`data/community.md`](../data/community.md) (`## en` / `## zh` body). Also first-draft,

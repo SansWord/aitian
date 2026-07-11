@@ -17,7 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
-| [v0.5.2](#v052--localized-meetup-time-lines-2026-07-10-1717) | **Time-line i18n** — both meetup time lines follow the zh/en toggle (`Taipei: …` in EN, `美國西岸時間 …` in ZH, with a non-LA timezone fallback to Intl's zh zone name); new `time.*` ui-strings documented in `docs/wording.md`. |
+| [v0.5.2](#v052--localized-meetup-time-lines-2026-07-10-1717) | **Language chrome i18n** — both meetup time lines follow the zh/en toggle (`Taipei: …` in EN, `美國西岸時間 …` in ZH, with a non-LA timezone fallback to Intl's zh zone name), and the language toggle became a segmented `EN｜中文` control with the current language highlighted; new `time.*`/`toggle.*` ui-strings documented in `docs/wording.md`. |
 | [v0.5.1](#v051--pinku-avatar-wired-2026-07-10-1704) | **Moderator avatar** — `pinku` now uses the newly added `pinku.svg` avatar instead of falling back to `default.png`, and `todo.md` now tracks only the remaining SansWord avatar follow-up. |
 | [v0.5.0](#v050--contributor-readme-tree--privacy-unlock-2026-07-10-1547) | **README tree shipped** — four contributor READMEs (root front door incl. Claude Code / Fable 5 credit, `data/` overview, meetups + moderators how-tos), validator README-skip + ≤ 500 KB avatar cap, and the privacy unlock implemented (email lint removed; docs/CLAUDE.md reworded to public-once-merged consent). |
 | [v0.5.0-design](#v050-design--contributor-readme-tree--privacy-unlock-2026-07-10-1213) | **README tree spec approved** — four contributor-facing READMEs (root front door with local-testing guide, `data/` overview, per-folder how-tos) with a layered doc-role rule (READMEs = how-to; `data-schema.md` stays the only field reference), a validator README-skip, an avatar file-size cap (≤ 500 KB, dimensions stay a recommendation), and an **unlocked privacy stance**: contact info allowed under "everything you PR is public" awareness, with edit/removal honored on request (email lint to be removed). |
@@ -50,6 +50,12 @@ spec / plan / design doc from that session so a later session can lazily load th
   copy table added to `docs/wording.md`.
 - ZH Pacific label is `美國西岸時間` only for the default `America/Los_Angeles` timezone; per-meetup
   `timezone:` overrides fall back to Intl's own zh zone name so the line is never mislabeled.
+- Segmented language toggle: `EN｜中文` with the current language highlighted (was a single-label
+  `中`/`EN` button naming the *target* language, which read ambiguously as a state badge).
+  `toggle.lang` replaced by invariant `toggle.en`/`toggle.zh` plus `toggle.aria`; segmented no-JS
+  fallback markup in all three HTML pages. Mid-implementation copy change (SansWord): both
+  aria-labels are in Chinese (`切換至中文` / `切換至英文`), avoiding the English word "Chinese" —
+  the toggle spec's original en aria copy is stale on this point; `docs/wording.md` is current.
 
 **Key technical learnings:**
 - `[note]` `formatMeetupTimes()` reads the module-level `lang` and is recomputed by `applyLang()`'s
@@ -59,6 +65,9 @@ spec / plan / design doc from that session so a later session can lazily load th
   language-agnostic.
 - `[note]` `美國西岸時間` is a deliberate copy override of Intl zh-TW's `太平洋時間`, so it must stay
   gated on the exact default timezone rather than applied to whatever zone a meetup declares.
+- `[insight]` A toggle label naming the *target* language reads as a state badge ("which mode am I
+  in?"). Showing both options with the current one highlighted removes the ambiguity structurally
+  instead of re-wording it.
 
 ## v0.5.1 — pinku avatar wired (2026-07-10 17:04)
 
