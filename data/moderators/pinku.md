@@ -3,6 +3,7 @@ name: Claire Tsao
 bio:
   en: "Organizer. Talk to people."
   zh: "主辦人，出一張嘴"
+avatar: pinku.svg
 links:
   - label: Substack
     url: "https://clairetsao.substack.com/"

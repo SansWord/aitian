@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.5.1](#v051--pinku-avatar-wired-2026-07-10-1704) | **Moderator avatar** — `pinku` now uses the newly added `pinku.svg` avatar instead of falling back to `default.png`, and `todo.md` now tracks only the remaining SansWord avatar follow-up. |
 | [v0.5.0](#v050--contributor-readme-tree--privacy-unlock-2026-07-10-1547) | **README tree shipped** — four contributor READMEs (root front door incl. Claude Code / Fable 5 credit, `data/` overview, meetups + moderators how-tos), validator README-skip + ≤ 500 KB avatar cap, and the privacy unlock implemented (email lint removed; docs/CLAUDE.md reworded to public-once-merged consent). |
 | [v0.5.0-design](#v050-design--contributor-readme-tree--privacy-unlock-2026-07-10-1213) | **README tree spec approved** — four contributor-facing READMEs (root front door with local-testing guide, `data/` overview, per-folder how-tos) with a layered doc-role rule (READMEs = how-to; `data-schema.md` stays the only field reference), a validator README-skip, an avatar file-size cap (≤ 500 KB, dimensions stay a recommendation), and an **unlocked privacy stance**: contact info allowed under "everything you PR is public" awareness, with edit/removal honored on request (email lint to be removed). |
 | [v0.4.4](#v044--landing-hero-images-added-and-dark-visual-language-corrected-2026-07-10-1608) | **Hero visuals** — the landing page now uses generated demo-stage hero artwork in both themes, and the dark background/glow system was pulled back toward the chosen `B` preview language. |
@@ -33,6 +34,20 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.5.1 — pinku avatar wired (2026-07-10 17:04)
+
+**Review:** not yet
+
+**What was built:**
+- `data/moderators/pinku.md` now points `avatar:` at `pinku.svg`, so Claire's moderator card no
+  longer falls back to the shared default avatar.
+- `todo.md` was updated to reflect the new state accurately: `pinku` is done, and only SansWord's
+  avatar remains in the "real avatars" follow-up.
+
+**Key technical learnings:**
+- `[note]` Moderator avatars are opt-in per file: adding an asset under `data/moderators/avatars/`
+  does nothing until the matching moderator frontmatter explicitly sets `avatar: <filename>`.
 
 ## v0.5.0 — Contributor README tree + privacy unlock (2026-07-10 15:47)
 

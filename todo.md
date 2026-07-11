@@ -31,8 +31,6 @@ current as part of the end-of-session checklist.
       (Claire, 7/14 meetup) are now published. If the one-time community-channel announcement with
       opt-out (docs/data-schema.md §Privacy & consent) hasn't gone out yet, send it now; check this
       off once confirmed.
-- [ ] **PR review + merge the README-tree branch** (SansWord) — squash-merge, then tag the squash
-      commit `v0.5.0` (per CLAUDE.md post-merge rule).
 - [ ] **Post-v0.5.0 content polish** — replace placeholder speaker bios (`Claire's Bio`,
       `SansWord's Bio`) in `data/meetups/2026-07-14-ai-role-play.md` and fix the `sansword.md`
       bio typo; decide + document whether a deployed TBA file keeps its bare-date filename once
@@ -53,8 +51,9 @@ current as part of the end-of-session checklist.
 - [x] **Decide vs. Luma** for RSVP / the "get invite link" CTA (kickstart §2 note) — decided
       2026-07-10 (v0.4.1): Luma; the single 報名聚會 / RSVP CTA links to the event, with the link
       kept in `data/community.md` frontmatter for easy updates.
-- [ ] **Real avatars** — replace `default.png` placeholder usage: add `sansword.png` / `pinku.png`
-      to `data/moderators/avatars/` + `avatar:` fields (photos from the humans).
+- [ ] **Real avatars** — `pinku.svg` is now wired; still replace the remaining `default.png`
+      placeholder usage by adding SansWord's avatar under `data/moderators/avatars/` and pointing
+      `data/moderators/sansword.md` at it.
 - [ ] **zh copy review** — pinku/SansWord native pass over `site/ui-strings.json`, moderator bios,
       and the community intro (flagged in `docs/wording.md`).
 - [ ] **Styling pass** — pinku's look-and-feel refs on the hero/section design (post-MVP, spec §5).
