@@ -261,6 +261,7 @@ button.cta[disabled] { opacity: 0.55; cursor: not-allowed; }
 .meetup-intro { margin: 1rem 0; }
 .detail-time { font-weight: 700; font-size: 1.25rem; margin: 1.5rem 0 0; letter-spacing: -0.02em; }
 .detail-time-tpe { color: var(--muted); margin: 0.15rem 0 1rem; }
+.detail-ctas { margin: 0 0 1.4rem; }
 .attendees { color: var(--muted); }
 .segment {
   background:

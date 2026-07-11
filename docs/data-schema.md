@@ -73,7 +73,7 @@ forgiving; **file size ≤ 500 KB is CI-enforced** (repo bloat is the one irreve
 | `tagline` | ✅ | string or `{en, zh}` | hero tagline |
 | `schedule.timezone` | ✅ | IANA name | default for every meetup |
 | `schedule.startTime` / `.endTime` | ✅ | `"HH:MM"` strings | defaults, per-meetup overridable |
-| `ctas[].id` | ✅ | string | stable key the frontend targets (`speak`, `join`) |
+| `ctas[].id` | ✅ | string | stable key the frontend can target — every CTA renders on the landing hero and on upcoming meetup detail pages |
 | `ctas[].label` | ✅ | string or `{en, zh}` | |
 | `ctas[].href` | – | `http(s)://` URL or `""` | `""` renders a disabled placeholder button |
 
