@@ -56,6 +56,8 @@ spec / plan / design doc from that session so a later session can lazily load th
   fallback markup in all three HTML pages. Mid-implementation copy change (SansWord): both
   aria-labels are in Chinese (`切換至中文` / `切換至英文`), avoiding the English word "Chinese" —
   the toggle spec's original en aria copy is stale on this point; `docs/wording.md` is current.
+- Content (SansWord): the 7/14 meetup's talk-1 and chat titles are now bilingual `{en, zh}` maps
+  (first real use of the map shape in `data/`); talk 2 stays a single-string title serving both.
 
 **Key technical learnings:**
 - `[note]` `formatMeetupTimes()` reads the module-level `lang` and is recomputed by `applyLang()`'s
