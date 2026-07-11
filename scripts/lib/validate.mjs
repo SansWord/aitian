@@ -84,7 +84,7 @@ function linkListErrors(links, ctx) {
 }
 
 const MEETUP_KEYS = ['id', 'date', 'startTime', 'endTime', 'timezone', 'segments', 'attendees'];
-const SEGMENT_KEYS = ['type', 'title', 'speaker', 'speakerBio', 'materialsUrl'];
+const SEGMENT_KEYS = ['type', 'title', 'speaker', 'speakerBio', 'materialsUrl', 'links'];
 
 export function validateMeetup({ filename, data }) {
   const errors = [];
@@ -139,6 +139,12 @@ export function validateMeetup({ filename, data }) {
       if (seg.materialsUrl !== undefined) {
         const e = urlError(seg.materialsUrl, `${ctx}.materialsUrl`);
         if (e) errors.push(e);
+      }
+      errors.push(...linkListErrors(seg.links, `${ctx}.links`));
+      if (seg.links !== undefined && (typeof seg.speaker !== 'string' || seg.speaker.trim() === '')) {
+        errors.push(
+          `${ctx}.links: requires a non-empty "speaker" on the same segment — links belong to a person`,
+        );
       }
     });
   }

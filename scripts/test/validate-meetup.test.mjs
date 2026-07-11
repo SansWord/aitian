@@ -90,3 +90,95 @@ test('fractional attendees is rejected', () =>
 test('negative attendees is rejected', () =>
   assert.match(errs({ attendees: -1 }).join('\n'), /integer/));
 test('integer attendees is valid', () => assert.deepEqual(errs({ attendees: 12 }), []));
+
+test('segment links with plain and bilingual labels are valid', () =>
+  assert.deepEqual(
+    errs({
+      segments: [{
+        type: 'talk',
+        title: 'x',
+        speaker: 'A',
+        links: [
+          { label: 'GitHub', url: 'https://github.com/a' },
+          { label: { en: 'Site', zh: '網站' }, url: 'https://a.example' },
+        ],
+      }],
+    }),
+    [],
+  ));
+test('segment links on a chat with a speaker are valid', () =>
+  assert.deepEqual(
+    errs({
+      segments: [{
+        type: 'chat',
+        title: 'x',
+        speaker: 'A',
+        links: [{ label: 'Site', url: 'https://a.example' }],
+      }],
+    }),
+    [],
+  ));
+test('non-http segment link url is rejected', () =>
+  assert.match(
+    errs({
+      segments: [{
+        type: 'talk', title: 'x', speaker: 'A',
+        links: [{ label: 'X', url: 'ftp://x.example' }],
+      }],
+    }).join('\n'),
+    /segments\[0\]\.links\[0\]\.url: required, must start with http/,
+  ));
+test('segment link without label is rejected', () =>
+  assert.match(
+    errs({
+      segments: [{
+        type: 'talk', title: 'x', speaker: 'A',
+        links: [{ url: 'https://x.example' }],
+      }],
+    }).join('\n'),
+    /segments\[0\]\.links\[0\]\.label: required/,
+  ));
+test('segment link without url is rejected', () =>
+  assert.match(
+    errs({
+      segments: [{
+        type: 'talk', title: 'x', speaker: 'A',
+        links: [{ label: 'X' }],
+      }],
+    }).join('\n'),
+    /segments\[0\]\.links\[0\]\.url: required/,
+  ));
+test('unknown segment link key is rejected', () =>
+  assert.match(
+    errs({
+      segments: [{
+        type: 'talk', title: 'x', speaker: 'A',
+        links: [{ label: 'X', url: 'https://x.example', icon: 'star' }],
+      }],
+    }).join('\n'),
+    /segments\[0\]\.links\[0\]: unknown field "icon"/,
+  ));
+test('non-list segment links is rejected', () =>
+  assert.match(
+    errs({
+      segments: [{ type: 'talk', title: 'x', speaker: 'A', links: 'https://x.example' }],
+    }).join('\n'),
+    /segments\[0\]\.links: must be a list/,
+  ));
+test('segment links without a speaker are rejected (chat)', () =>
+  assert.match(
+    errs({
+      segments: [{ type: 'chat', title: 'x', links: [{ label: 'X', url: 'https://x.example' }] }],
+    }).join('\n'),
+    /segments\[0\]\.links: requires a non-empty "speaker"/,
+  ));
+test('segment links with an empty speaker are rejected (chat)', () =>
+  assert.match(
+    errs({
+      segments: [{
+        type: 'chat', title: 'x', speaker: '',
+        links: [{ label: 'X', url: 'https://x.example' }],
+      }],
+    }).join('\n'),
+    /segments\[0\]\.links: requires a non-empty "speaker"/,
+  ));
