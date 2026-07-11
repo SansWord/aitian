@@ -116,6 +116,13 @@ h2 { font-size: 1.05rem; margin: 2.8rem 0 0.85rem; letter-spacing: 0.01em; }
   transform: translateY(-1px);
   border-color: color-mix(in srgb, var(--accent) 40%, transparent);
 }
+#lang-toggle { display: inline-flex; align-items: center; gap: 0.45rem; }
+.lang-opt { color: var(--muted); }
+.lang-opt + .lang-opt {
+  border-left: 1px solid color-mix(in srgb, var(--border) 60%, transparent);
+  padding-left: 0.45rem;
+}
+.lang-opt.active { color: var(--accent); font-weight: 700; }
 
 /* --- hero shell; landing adds theme-specific artwork via ::after --- */
 .hero {

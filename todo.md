@@ -31,6 +31,8 @@ current as part of the end-of-session checklist.
       (Claire, 7/14 meetup) are now published. If the one-time community-channel announcement with
       opt-out (docs/data-schema.md §Privacy & consent) hasn't gone out yet, send it now; check this
       off once confirmed.
+- [ ] **PR review + merge `feat/localized-time-lines`** (SansWord) — squash-merge, then tag the
+      squash commit `v0.5.2` (per CLAUDE.md post-merge rule).
 - [ ] **Post-v0.5.0 content polish** — replace placeholder speaker bios (`Claire's Bio`,
       `SansWord's Bio`) in `data/meetups/2026-07-14-ai-role-play.md` and fix the `sansword.md`
       bio typo; decide + document whether a deployed TBA file keeps its bare-date filename once

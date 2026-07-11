@@ -42,7 +42,14 @@ function applyLang() {
   for (const node of document.querySelectorAll('[data-i18n]')) {
     node.textContent = t(node.dataset.i18n);
   }
-  document.getElementById('lang-toggle').textContent = t('toggle.lang');
+  // Segmented toggle: both labels always visible, the CURRENT language
+  // highlighted; the aria-label carries the switch action for screen readers.
+  const toggle = document.getElementById('lang-toggle');
+  toggle.setAttribute('aria-label', t('toggle.aria'));
+  toggle.replaceChildren(
+    el('span', { class: lang === 'en' ? 'lang-opt active' : 'lang-opt', text: t('toggle.en') }),
+    el('span', { class: lang === 'zh' ? 'lang-opt active' : 'lang-opt', text: t('toggle.zh') }),
+  );
   renderPage();
 }
 
@@ -71,33 +78,42 @@ function splitMeetups(index, now = Date.now()) {
 }
 
 // ---------- time display (spec §2.2): Pacific first, Taipei reminder ----------
+// Both lines follow the language toggle (2026-07-10 localized-time-lines spec);
+// applyLang()'s full re-render recomputes them on every toggle.
 function formatMeetupTimes(m) {
   const start = new Date(m.start);
   const end = new Date(m.end);
-  const dateFmt = new Intl.DateTimeFormat('en-US', {
+  const locale = lang === 'zh' ? 'zh-TW' : 'en-US';
+  const dateFmt = new Intl.DateTimeFormat(locale, {
     timeZone: m.timezone, weekday: 'short', month: 'short', day: 'numeric',
   });
-  const timeFmt = new Intl.DateTimeFormat('en-US', {
+  const timeFmt = new Intl.DateTimeFormat(locale, {
     timeZone: m.timezone, hour: 'numeric', minute: '2-digit', hour12: true,
   });
   let zone = '';
   for (const style of ['shortGeneric', 'short']) {
     try {
-      zone = new Intl.DateTimeFormat('en-US', { timeZone: m.timezone, timeZoneName: style })
+      zone = new Intl.DateTimeFormat(locale, { timeZone: m.timezone, timeZoneName: style })
         .formatToParts(start)
         .find((p) => p.type === 'timeZoneName')?.value ?? '';
       break;
     } catch { /* older engine without shortGeneric — fall back */ }
   }
-  const home = `${dateFmt.format(start)} · ${timeFmt.format(start)} – ${timeFmt.format(end)} ${zone}`;
+  const range = `${dateFmt.format(start)} · ${timeFmt.format(start)} – ${timeFmt.format(end)}`;
+  // zh labels the default venue timezone 美國西岸時間 (not Intl's 太平洋時間);
+  // any other timezone keeps Intl's zh zone name so the line is never mislabeled.
+  const home = lang === 'zh'
+    ? `${m.timezone === 'America/Los_Angeles' ? t('time.westCoast') : zone} ${range}`
+    : `${range} ${zone}`;
   // The Taipei reminder carries its own weekday — Tuesday evening PT is
-  // Wednesday morning in Taipei (spec §2.2).
-  const tpeDay = new Intl.DateTimeFormat('zh-TW', { timeZone: 'Asia/Taipei', weekday: 'short' })
+  // Wednesday morning in Taipei (spec §2.2). The prefix carries its own
+  // spacing: en "Taipei: " (trailing space), zh "台北時間" (none).
+  const tpeDay = new Intl.DateTimeFormat(locale, { timeZone: 'Asia/Taipei', weekday: 'short' })
     .format(start);
-  const tpeTime = new Intl.DateTimeFormat('zh-TW', {
+  const tpeTime = new Intl.DateTimeFormat(locale, {
     timeZone: 'Asia/Taipei', hour: 'numeric', minute: '2-digit', hour12: true,
   });
-  const taipei = `台北時間${tpeDay} ${tpeTime.format(start)} – ${tpeTime.format(end)}`;
+  const taipei = `${t('time.taipei')}${tpeDay} ${tpeTime.format(start)} – ${tpeTime.format(end)}`;
   return { home, taipei };
 }
 
