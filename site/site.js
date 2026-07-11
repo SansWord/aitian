@@ -263,10 +263,6 @@ async function renderMeetupFromHash() {
       const sec = el('section', { class: 'segment' });
       sec.append(el('h3', { class: 'segment-label', text: segmentLabel(seg, talkN) }));
       sec.append(el('p', { class: 'segment-title', text: pick(seg.title) }));
-      if (seg.speaker) sec.append(el('p', { class: 'segment-speaker', text: seg.speaker }));
-      if (seg.speakerBioHtml?.[lang]) {
-        sec.append(el('p', { class: 'segment-bio', html: seg.speakerBioHtml[lang] }));
-      }
       if (seg.materialsUrl) {
         sec.append(el('a', {
           class: 'segment-materials',
@@ -275,6 +271,22 @@ async function renderMeetupFromHash() {
           rel: 'noopener',
           text: t('meetup.materials'),
         }));
+      }
+      // Mini profile card for the speaker (spec 2026-07-10 §3): name, bio, links.
+      if (seg.speaker) {
+        const card = el('div', { class: 'segment-speaker-card' });
+        card.append(el('p', { class: 'segment-speaker', text: seg.speaker }));
+        if (seg.speakerBioHtml?.[lang]) {
+          card.append(el('p', { class: 'segment-bio', html: seg.speakerBioHtml[lang] }));
+        }
+        if (seg.links.length > 0) {
+          card.append(el('p', { class: 'segment-speaker-links' },
+            seg.links.map((l) => el('a', {
+              href: l.url, target: '_blank', rel: 'noopener', text: pick(l.label),
+            })),
+          ));
+        }
+        sec.append(card);
       }
       kids.push(sec);
     }

@@ -47,6 +47,7 @@ PT meetup is Wednesday morning in Taipei and still uses the Tuesday PT date.
 | `segments[].speaker` | talk: ✅ | plain string | display name |
 | `segments[].speakerBio` | – | string or `{en, zh}` | 1–2 sentences; markdown links OK, `http(s)://` only |
 | `segments[].materialsUrl` | – | `http(s)://` URL or `""` | |
+| `segments[].links` | – | list of `{label, url}` | the **speaker's** links (same shape as moderator `links`); `label` string or `{en, zh}`, `url` `http(s)://`; requires a non-empty `speaker` on the same segment |
 | `attendees` | – | integer ≥ 0 or `null` | back-fill after the event; hidden while null |
 
 Body (optional): meetup-level intro, markdown, `## en` / `## zh` sections.
@@ -81,8 +82,9 @@ Body: the community intro, `## en` / `## zh` sections.
 ## What CI rejects
 
 Unknown fields anywhere (strict), missing required fields, malformed `date`/`startTime`/`endTime`,
-unknown timezones, bad segment types, a frontmatter `id`, filename pattern violations, non-integer
-`attendees`, malformed bilingual values, any URL that isn't `http(s)://` (including links inside
+unknown timezones, bad segment types, segment `links` without a non-empty `speaker` on the same
+segment, a frontmatter `id`, filename pattern violations, non-integer `attendees`, malformed
+bilingual values, any URL that isn't `http(s)://` (including links inside
 `speakerBio` markdown — `javascript:` URLs fail CI before they can reach a page), avatars that
 aren't a bare existing filename, avatar files over 500 KB, duplicate `ctas[].id` values, a missing
 `data/moderators/avatars/default.png` (the required fallback avatar), and frontmatter that isn't

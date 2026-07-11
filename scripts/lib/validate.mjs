@@ -60,8 +60,31 @@ function bilingualErrors(value, ctx, { required = false, markdownLinks = false }
   return errors;
 }
 
+// Shared by moderator `links` and meetup `segments[].links` — identical rules,
+// identical error wording (spec 2026-07-10 §2).
+const LINK_KEYS = ['label', 'url'];
+
+function linkListErrors(links, ctx) {
+  if (links === undefined) return [];
+  if (!Array.isArray(links)) return [`${ctx}: must be a list of {label, url} entries`];
+  const errors = [];
+  links.forEach((link, i) => {
+    const lctx = `${ctx}[${i}]`;
+    if (link === null || typeof link !== 'object' || Array.isArray(link)) {
+      errors.push(`${lctx}: must be a map with label + url`);
+      return;
+    }
+    errors.push(...unknownKeyErrors(link, LINK_KEYS, lctx));
+    errors.push(...bilingualErrors(link.label, `${lctx}.label`, { required: true }));
+    if (typeof link.url !== 'string' || !HTTP_URL_RE.test(link.url)) {
+      errors.push(`${lctx}.url: required, must start with http:// or https://`);
+    }
+  });
+  return errors;
+}
+
 const MEETUP_KEYS = ['id', 'date', 'startTime', 'endTime', 'timezone', 'segments', 'attendees'];
-const SEGMENT_KEYS = ['type', 'title', 'speaker', 'speakerBio', 'materialsUrl'];
+const SEGMENT_KEYS = ['type', 'title', 'speaker', 'speakerBio', 'materialsUrl', 'links'];
 
 export function validateMeetup({ filename, data }) {
   const errors = [];
@@ -117,6 +140,12 @@ export function validateMeetup({ filename, data }) {
         const e = urlError(seg.materialsUrl, `${ctx}.materialsUrl`);
         if (e) errors.push(e);
       }
+      errors.push(...linkListErrors(seg.links, `${ctx}.links`));
+      if (seg.links !== undefined && (typeof seg.speaker !== 'string' || seg.speaker.trim() === '')) {
+        errors.push(
+          `${ctx}.links: requires a non-empty "speaker" on the same segment — links belong to a person`,
+        );
+      }
     });
   }
 
@@ -135,7 +164,6 @@ export { TIME_RE, HTTP_URL_RE, urlError, unknownKeyErrors, bilingualErrors };
 const MODERATOR_FILENAME_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*\.md$/;
 const AVATAR_RE = /^[A-Za-z0-9][A-Za-z0-9._-]*$/;
 const MODERATOR_KEYS = ['id', 'name', 'bio', 'avatar', 'links'];
-const LINK_KEYS = ['label', 'url'];
 
 export function validateModerator({ filename, data, avatarFiles }) {
   const errors = [];
@@ -162,24 +190,7 @@ export function validateModerator({ filename, data, avatarFiles }) {
       errors.push(`avatar: "${data.avatar}" not found in data/moderators/avatars/`);
     }
   }
-  if (data.links !== undefined) {
-    if (!Array.isArray(data.links)) {
-      errors.push('links: must be a list of {label, url} entries');
-    } else {
-      data.links.forEach((link, i) => {
-        const ctx = `links[${i}]`;
-        if (link === null || typeof link !== 'object' || Array.isArray(link)) {
-          errors.push(`${ctx}: must be a map with label + url`);
-          return;
-        }
-        errors.push(...unknownKeyErrors(link, LINK_KEYS, ctx));
-        errors.push(...bilingualErrors(link.label, `${ctx}.label`, { required: true }));
-        if (typeof link.url !== 'string' || !HTTP_URL_RE.test(link.url)) {
-          errors.push(`${ctx}.url: required, must start with http:// or https://`);
-        }
-      });
-    }
-  }
+  errors.push(...linkListErrors(data.links, 'links'));
   return errors;
 }
 

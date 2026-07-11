@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.6.0](#v060--speaker-links--speaker-sub-panel-2026-07-10-1828) | **Speaker links** — meetup segments can carry the speaker's public links ({label, url}, CI-enforced speaker requirement), rendered as a tinted speaker sub-panel (name, bio, links) on the detail page; light-theme link contrast fixed to AA during manual check. |
 | [v0.5.2](#v052--localized-meetup-time-lines-2026-07-10-1717) | **Language chrome i18n** — both meetup time lines follow the zh/en toggle (`Taipei: …` in EN, `美國西岸時間 …` in ZH, with a non-LA timezone fallback to Intl's zh zone name), and the language toggle became a segmented `EN｜中文` control with the current language highlighted; new `time.*`/`toggle.*` ui-strings documented in `docs/wording.md`. |
 | [v0.5.1](#v051--pinku-avatar-wired-2026-07-10-1704) | **Moderator avatar** — `pinku` now uses the newly added `pinku.svg` avatar instead of falling back to `default.png`, and `todo.md` now tracks only the remaining SansWord avatar follow-up. |
 | [v0.5.0](#v050--contributor-readme-tree--privacy-unlock-2026-07-10-1547) | **README tree shipped** — four contributor READMEs (root front door incl. Claude Code / Fable 5 credit, `data/` overview, meetups + moderators how-tos), validator README-skip + ≤ 500 KB avatar cap, and the privacy unlock implemented (email lint removed; docs/CLAUDE.md reworded to public-once-merged consent). |
@@ -35,6 +36,38 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.6.0 — Speaker links + speaker sub-panel (2026-07-10 18:28)
+
+**Review:** not yet
+
+**Design docs:**
+- Speaker links + speaker sub-panel: [Spec](superpowers/specs/2026-07-10-speaker-links-design.md) [Plan](superpowers/plans/2026-07-10-speaker-links.md)
+
+**What was built:**
+- New optional `segments[].links` field ({label, url} list, same shape as moderator `links`); CI
+  rejects links on a segment without a non-empty `speaker`.
+- Moderator link validation extracted into a shared `linkListErrors` helper used by both schemas —
+  identical rules and error wording.
+- `meetupToJson` emits `links` per segment (absent → `[]`); index entries stay link-free.
+- Meetup detail segment cards reordered to label → title → materials → speaker sub-panel; the
+  sub-panel (`.segment-speaker-card`) is a tinted inset mini profile card holding name, bio, and a
+  link row.
+- Manual-check contrast fix: speaker-link color switched from the spec's `--accent-pop` to
+  `--accent` (light theme measured ~1.6:1, below AA; `--accent` gives 5.05:1 and is identical to
+  `--accent-pop` in both dark blocks, so dark is unchanged).
+- Same-PR doc updates: `docs/data-schema.md`, `data/meetups/_template.md`, `data/meetups/README.md`.
+
+**Key technical learnings:**
+- `[note]` Token-based `color-mix` styling needs no dark-theme override blocks — both dark paths
+  adapt through the token values, unlike the theme-scoped rgba layers elsewhere in `site.css`.
+- `[gotcha]` `--accent-pop` is a ≥3:1 glow token, not link text — `.mod-links a` already uses it on
+  light backgrounds at ~2:1. The new panel reused the pattern and failed AA (~1.6:1); measure
+  contrast when reusing an accent token in a new context, and note `.mod-links a` still carries the
+  old color.
+- `[note]` Manual Playwright-driven verification (light/dark via both the `data-theme` toggle and
+  the OS `prefers-color-scheme` path, EN + 中文, landing page unchanged) is what caught the contrast
+  issue — the automated suite (83/83 green) had no way to surface a visual contrast regression.
 
 ## v0.5.2 — Localized meetup time lines (2026-07-10 17:17)
 
