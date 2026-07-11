@@ -33,6 +33,12 @@ current as part of the end-of-session checklist.
       off once confirmed.
 - [ ] **PR review + merge `feat/localized-time-lines`** (SansWord) — squash-merge, then tag the
       squash commit `v0.5.2` (per CLAUDE.md post-merge rule).
+- [ ] **PR review + merge `speaker-links`** (SansWord) — squash-merge, then tag the squash commit
+      `v0.6.0` (per CLAUDE.md post-merge rule). Two open calls surfaced at review: (1) whether to
+      seed real speaker links (e.g. SansWord's GitHub/LinkedIn on the 7/14 talk) — plan Task 7 left
+      this to SansWord; (2) whether `docs/data-schema.md` §Privacy & consent should state who may
+      add a speaker's `links` (speaker's own PR vs organizer with approval) — the section's
+      Speakers bullet predates this field.
 - [ ] **Post-v0.5.0 content polish** — replace placeholder speaker bios (`Claire's Bio`,
       `SansWord's Bio`) in `data/meetups/2026-07-14-ai-role-play.md` and fix the `sansword.md`
       bio typo; decide + document whether a deployed TBA file keeps its bare-date filename once
