@@ -39,6 +39,9 @@ current as part of the end-of-session checklist.
       this to SansWord; (2) whether `docs/data-schema.md` §Privacy & consent should state who may
       add a speaker's `links` (speaker's own PR vs organizer with approval) — the section's
       Speakers bullet predates this field.
+- [ ] **Fix `.mod-links a` light-theme contrast** — moderator links still use `--accent-pop`
+      (~2:1 on light backgrounds, below AA); apply the same `--accent` fix that v0.6.0 made for
+      `.segment-speaker-links a` (devlog v0.6.0 gotcha has the measurements).
 - [ ] **Post-v0.5.0 content polish** — replace placeholder speaker bios (`Claire's Bio`,
       `SansWord's Bio`) in `data/meetups/2026-07-14-ai-role-play.md` and fix the `sansword.md`
       bio typo; decide + document whether a deployed TBA file keeps its bare-date filename once
