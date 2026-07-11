@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.7.1](#v071--content-polish-avatar-rename-bio-copy-tba-filename-rule-2026-07-11-0218) | **Content polish** — SansWord's avatar renamed `sanword.jpg` → `sansword.jpg`, his en bio line rewritten, and the TBA-filename rule documented: the slug is chosen at file creation only, so a deployed TBA file keeps its bare-date name when booked (booked ≠ has-slug); avatar-format docs synced to reality (square image PNG/JPG/SVG, was "PNG"). |
 | [v0.7.0](#v070--rsvp-button-on-the-meetup-detail-page-2026-07-10-2316) | **RSVP on detail pages** — the meetup detail page now renders the community CTA row (today the single RSVP button, Luma link from `data/community.md`) below the time lines via a `ctaButtons()` helper shared with the landing hero, for upcoming meetups only (new `isUpcoming()` helper, same 1h-grace rule as `splitMeetups`); past meetups stay button-free, TBA weeks show it. |
 | [v0.6.0](#v060--speaker-links--speaker-sub-panel-2026-07-10-1828) | **Speaker links** — meetup segments can carry the speaker's public links ({label, url}, CI-enforced speaker requirement), rendered as a tinted speaker sub-panel (name, bio, links) on the detail page; light-theme link contrast fixed to AA during manual check. |
 | [v0.5.2](#v052--localized-meetup-time-lines-2026-07-10-1717) | **Language chrome i18n** — both meetup time lines follow the zh/en toggle (`Taipei: …` in EN, `美國西岸時間 …` in ZH, with a non-LA timezone fallback to Intl's zh zone name), and the language toggle became a segmented `EN｜中文` control with the current language highlighted; new `time.*`/`toggle.*` ui-strings documented in `docs/wording.md`. |
@@ -37,6 +38,34 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.7.1 — Content polish: avatar rename, bio copy, TBA-filename rule (2026-07-11 02:18)
+
+**Review:** not yet
+
+**What was built:**
+- Avatar file renamed `sanword.jpg` → `sansword.jpg` (`git mv` + reference update in
+  `data/moderators/sansword.md`, same PR — the avatar filename is an internal asset reference,
+  so the never-rename rule for citable ids doesn't apply).
+- `sansword.md` en body line fixed: "The one who talked Claude into building this site."
+  (matches the zh 「跟 Claude 說話來要到這個網站的人」).
+- **TBA-filename rule decided + documented** (closes the meetups README wording gap): the slug is
+  chosen at file creation only — a deployed TBA file that later gets booked keeps its bare-date
+  name and only fills in `segments:`, so **booked ≠ has-slug**. Documented in the meetups README
+  Naming section and `docs/data-schema.md` §Meetup.
+- Avatar-format wording synced to reality across `data/moderators/README.md` (×2),
+  `docs/data-schema.md`, and `_template.md`: "square image (PNG/JPG/SVG)" — the live avatars were
+  already `.svg` and `.jpg` while every doc said "PNG".
+
+**Key technical learnings:**
+- `[note]` The validator checks avatar existence + the ≤ 500 KB cap only — file extension is
+  unconstrained, so JPG/SVG avatars pass CI and render fine.
+- `[gotcha]` Worked examples are docs too: the moderators README said "drop a PNG" while both live
+  avatars (its own worked example among them) were `.svg`/`.jpg`. When prose and a linked example
+  disagree, one of them is lying — check which on every docs pass.
+- `[note]` The meetups README's "Week booked: `YYYY-MM-DD-short-slug.md`" read as a rename
+  instruction and silently conflicted with the schema's never-rename rule; the fix was scoping it
+  to file-creation time rather than changing either rule.
 
 ## v0.7.0 — RSVP button on the meetup detail page (2026-07-10 23:16)
 

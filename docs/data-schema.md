@@ -32,7 +32,8 @@ change the `date` field, not the filename. Don't put `id:` in frontmatter; the v
 ## Meetup — `data/meetups/YYYY-MM-DD[-slug].md`
 
 The slug is optional (use it to make the URL readable / disambiguate two events on one date);
-TBA weeks use the bare date. Dates are the meetup's **US-Pacific calendar date** — a Tuesday-evening
+TBA weeks use the bare date. The slug is chosen at creation only — a deployed TBA file that later
+gets booked keeps its bare-date name (the never-rename rule above), so booked ≠ has-slug. Dates are the meetup's **US-Pacific calendar date** — a Tuesday-evening
 PT meetup is Wednesday morning in Taipei and still uses the Tuesday PT date.
 
 | Field | Required | Type | Notes |
@@ -62,9 +63,9 @@ Body (optional): meetup-level intro, markdown, `## en` / `## zh` sections.
 | `links` | – | list of `{label, url}` | any networks/portfolio; `label` string or `{en, zh}`, `url` `http(s)://` |
 
 Body (optional): longer intro, markdown, `## en` / `## zh` sections. Avatar image files live in
-`data/moderators/avatars/` (owned by the data layer, so redesigns can't orphan them). Square PNG,
-256–512px recommended — the site renders a 96px center-cropped circle, so exact dimensions are
-forgiving; **file size ≤ 500 KB is CI-enforced** (repo bloat is the one irreversible mistake).
+`data/moderators/avatars/` (owned by the data layer, so redesigns can't orphan them). Square image
+(PNG/JPG/SVG), 256–512px recommended — the site renders a 96px center-cropped circle, so exact
+dimensions are forgiving; **file size ≤ 500 KB is CI-enforced** (repo bloat is the one irreversible mistake).
 
 ## Community — `data/community.md`
 

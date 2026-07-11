@@ -47,11 +47,10 @@ current as part of the end-of-session checklist.
 - [ ] **Fix `.mod-links a` light-theme contrast** — moderator links still use `--accent-pop`
       (~2:1 on light backgrounds, below AA); apply the same `--accent` fix that v0.6.0 made for
       `.segment-speaker-links a` (devlog v0.6.0 gotcha has the measurements).
-- [ ] **Post-v0.5.0 content polish** — **amended 2026-07-11:** placeholder speaker bios in
-      `data/meetups/2026-07-14-ai-role-play.md` replaced with real bios (via #14/#15) — done.
-      Still open: the `sansword.md` typos (body reads "The one talk to Claude…"; avatar file is
-      `sanword.jpg`, missing an "s"), and decide + document whether a deployed TBA file keeps its
-      bare-date filename once booked (meetups README wording gap).
+- [x] **Post-v0.5.0 content polish** — done 2026-07-11 (v0.7.1): bios replaced earlier via
+      #14/#15; avatar renamed to `sansword.jpg`; `sansword.md` en body line fixed; TBA-filename
+      rule documented (slug chosen at creation only — a deployed TBA file keeps its bare-date name
+      when booked; meetups README + data-schema.md).
 
 ## Later
 
