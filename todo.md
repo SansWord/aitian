@@ -31,24 +31,27 @@ current as part of the end-of-session checklist.
       (Claire, 7/14 meetup) are now published. If the one-time community-channel announcement with
       opt-out (docs/data-schema.md §Privacy & consent) hasn't gone out yet, send it now; check this
       off once confirmed.
-- [ ] **PR review + merge `feat/localized-time-lines`** (SansWord) — squash-merge, then tag the
-      squash commit `v0.5.2` (per CLAUDE.md post-merge rule).
-- [ ] **PR review + merge `speaker-links`** (SansWord) — squash-merge, then tag the squash commit
-      `v0.6.0` (per CLAUDE.md post-merge rule). Two open calls surfaced at review: (1) whether to
-      seed real speaker links (e.g. SansWord's GitHub/LinkedIn on the 7/14 talk) — plan Task 7 left
-      this to SansWord; (2) whether `docs/data-schema.md` §Privacy & consent should state who may
-      add a speaker's `links` (speaker's own PR vs organizer with approval) — the section's
-      Speakers bullet predates this field.
-- [ ] **PR review + merge `feat/rsvp-button`** (SansWord) — squash-merge, then tag the squash
-      commit `v0.7.0` (per CLAUDE.md post-merge rule). Adds the RSVP button (community `rsvp` CTA)
-      to upcoming meetup detail pages.
+- [x] **PR review + merge `feat/localized-time-lines`** — merged 2026-07-10 as
+      [#12](https://github.com/SansWord/aitian/pull/12); `v0.5.2` tagged (2026-07-11).
+- [x] **PR review + merge `speaker-links`** — merged as
+      [#14](https://github.com/SansWord/aitian/pull/14); `v0.6.0` tagged. Open call (1) resolved:
+      real speaker links seeded via [#15](https://github.com/SansWord/aitian/pull/15) (Claire's +
+      SansWord's links on the 7/14 talks). Open call (2) moved to its own item below.
+- [x] **PR review + merge `feat/rsvp-button`** — merged as
+      [#16](https://github.com/SansWord/aitian/pull/16); `v0.7.0` tagged (2026-07-11). Adds the
+      RSVP button (community `rsvp` CTA) to upcoming meetup detail pages.
+- [ ] **Document who may add a speaker's `links`** — `docs/data-schema.md` §Privacy & consent's
+      Speakers bullet predates the `links` field; decide + state whether links come from the
+      speaker's own PR or an organizer with approval (open call (2) from the `speaker-links`
+      review).
 - [ ] **Fix `.mod-links a` light-theme contrast** — moderator links still use `--accent-pop`
       (~2:1 on light backgrounds, below AA); apply the same `--accent` fix that v0.6.0 made for
       `.segment-speaker-links a` (devlog v0.6.0 gotcha has the measurements).
-- [ ] **Post-v0.5.0 content polish** — replace placeholder speaker bios (`Claire's Bio`,
-      `SansWord's Bio`) in `data/meetups/2026-07-14-ai-role-play.md` and fix the `sansword.md`
-      bio typo; decide + document whether a deployed TBA file keeps its bare-date filename once
-      booked (meetups README wording gap).
+- [ ] **Post-v0.5.0 content polish** — **amended 2026-07-11:** placeholder speaker bios in
+      `data/meetups/2026-07-14-ai-role-play.md` replaced with real bios (via #14/#15) — done.
+      Still open: the `sansword.md` typos (body reads "The one talk to Claude…"; avatar file is
+      `sanword.jpg`, missing an "s"), and decide + document whether a deployed TBA file keeps its
+      bare-date filename once booked (meetups README wording gap).
 
 ## Later
 
@@ -65,9 +68,9 @@ current as part of the end-of-session checklist.
 - [x] **Decide vs. Luma** for RSVP / the "get invite link" CTA (kickstart §2 note) — decided
       2026-07-10 (v0.4.1): Luma; the single 報名聚會 / RSVP CTA links to the event, with the link
       kept in `data/community.md` frontmatter for easy updates.
-- [ ] **Real avatars** — `pinku.svg` is now wired; still replace the remaining `default.png`
-      placeholder usage by adding SansWord's avatar under `data/moderators/avatars/` and pointing
-      `data/moderators/sansword.md` at it.
+- [x] **Real avatars** — done: `pinku.svg` wired, and SansWord's avatar added + wired via
+      [#13](https://github.com/SansWord/aitian/pull/13) (note: the file landed as `sanword.jpg` —
+      rename tracked under "Post-v0.5.0 content polish" above).
 - [ ] **zh copy review** — pinku/SansWord native pass over `site/ui-strings.json`, moderator bios,
       and the community intro (flagged in `docs/wording.md`).
 - [ ] **Styling pass** — pinku's look-and-feel refs on the hero/section design (post-MVP, spec §5).
