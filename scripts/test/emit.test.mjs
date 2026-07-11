@@ -1,7 +1,7 @@
 // scripts/test/emit.test.mjs
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { meetupToJson, moderatorToJson, renderBilingualBody } from '../lib/emit.mjs';
+import { meetupToJson, meetupIndexEntry, moderatorToJson, renderBilingualBody } from '../lib/emit.mjs';
 
 const DEFAULTS = { timezone: 'America/Los_Angeles', startTime: '18:00', endTime: '19:30' };
 
@@ -60,6 +60,47 @@ test('language-sectioned body splits and renders per language', () => {
   const html = renderBilingualBody('## en\n**English**\n\n## zh\n**中文**');
   assert.match(html.en, /<strong>English<\/strong>/);
   assert.match(html.zh, /<strong>中文<\/strong>/);
+});
+
+test('segment links pass through to detail JSON; absent links emit []', () => {
+  const m = meetupToJson({
+    id: '2026-07-14-x',
+    data: {
+      date: '2026-07-14',
+      segments: [
+        {
+          type: 'talk', title: 'T', speaker: 'A',
+          links: [{ label: { en: 'Site', zh: '網站' }, url: 'https://a.example' }],
+        },
+        { type: 'chat', title: 'C' },
+      ],
+    },
+    content: '',
+    defaults: DEFAULTS,
+  });
+  assert.deepEqual(m.segments[0].links, [
+    { label: { en: 'Site', zh: '網站' }, url: 'https://a.example' },
+  ]);
+  assert.deepEqual(m.segments[1].links, []);
+});
+
+test('index entries carry no links', () => {
+  const m = meetupToJson({
+    id: '2026-07-14-x',
+    data: {
+      date: '2026-07-14',
+      segments: [
+        {
+          type: 'talk', title: 'T', speaker: 'A',
+          links: [{ label: 'Site', url: 'https://a.example' }],
+        },
+      ],
+    },
+    content: '',
+    defaults: DEFAULTS,
+  });
+  const entry = meetupIndexEntry(m);
+  assert.deepEqual(Object.keys(entry.segments[0]), ['type', 'title', 'speaker']);
 });
 
 test('moderator avatar falls back to default.png and empty body renders empty', () => {

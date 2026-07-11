@@ -57,6 +57,7 @@ export function meetupToJson({ id, data, content, defaults }) {
       speaker: seg.speaker ?? '',
       speakerBioHtml: bilingualInlineHtml(seg.speakerBio),
       materialsUrl: seg.materialsUrl ?? '',
+      links: (seg.links ?? []).map(({ label, url }) => ({ label, url })),
     })),
     attendees: data.attendees ?? null,
     bodyHtml: renderBilingualBody(content),
