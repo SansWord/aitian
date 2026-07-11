@@ -3,6 +3,7 @@ name: SansWord
 bio:
   en: "Co-organizer. Builds AI-powered tools."
   zh: "共同主辦，打造 AI 應用工具。"
+avatar: sanword.jpg
 links:
   - label: Portfolio
     url: "https://sansword.github.io/resume/"
