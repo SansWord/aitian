@@ -18,7 +18,7 @@ Talk 2 / open chat), never a single talk. One file per week.
 2. Fill in the frontmatter. A TBA week keeps `segments: []` — the site renders it as a
    "want to speak?" slot.
 3. For each booked segment fill `type`, `title`, and `speaker` (plus `speakerBio` /
-   `materialsUrl` if you have them).
+   `materialsUrl` / `links` — the speaker's public links — if you have them).
 4. Open a PR; CI reports any problems per field. Anything merged is public — see the
    [visibility note](../README.md#public-visibility).
 5. After the event, back-fill `attendees` with a follow-up PR.
