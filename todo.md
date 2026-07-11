@@ -39,6 +39,9 @@ current as part of the end-of-session checklist.
       this to SansWord; (2) whether `docs/data-schema.md` §Privacy & consent should state who may
       add a speaker's `links` (speaker's own PR vs organizer with approval) — the section's
       Speakers bullet predates this field.
+- [ ] **PR review + merge `feat/rsvp-button`** (SansWord) — squash-merge, then tag the squash
+      commit `v0.7.0` (per CLAUDE.md post-merge rule). Adds the RSVP button (community `rsvp` CTA)
+      to upcoming meetup detail pages.
 - [ ] **Fix `.mod-links a` light-theme contrast** — moderator links still use `--accent-pop`
       (~2:1 on light backgrounds, below AA); apply the same `--accent` fix that v0.6.0 made for
       `.segment-speaker-links a` (devlog v0.6.0 gotcha has the measurements).

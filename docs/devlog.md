@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.7.0](#v070--rsvp-button-on-the-meetup-detail-page-2026-07-10-2316) | **RSVP on detail pages** — the meetup detail page now renders the community CTA row (today the single RSVP button, Luma link from `data/community.md`) below the time lines via a `ctaButtons()` helper shared with the landing hero, for upcoming meetups only (new `isUpcoming()` helper, same 1h-grace rule as `splitMeetups`); past meetups stay button-free, TBA weeks show it. |
 | [v0.6.0](#v060--speaker-links--speaker-sub-panel-2026-07-10-1828) | **Speaker links** — meetup segments can carry the speaker's public links ({label, url}, CI-enforced speaker requirement), rendered as a tinted speaker sub-panel (name, bio, links) on the detail page; light-theme link contrast fixed to AA during manual check. |
 | [v0.5.2](#v052--localized-meetup-time-lines-2026-07-10-1717) | **Language chrome i18n** — both meetup time lines follow the zh/en toggle (`Taipei: …` in EN, `美國西岸時間 …` in ZH, with a non-LA timezone fallback to Intl's zh zone name), and the language toggle became a segmented `EN｜中文` control with the current language highlighted; new `time.*`/`toggle.*` ui-strings documented in `docs/wording.md`. |
 | [v0.5.1](#v051--pinku-avatar-wired-2026-07-10-1704) | **Moderator avatar** — `pinku` now uses the newly added `pinku.svg` avatar instead of falling back to `default.png`, and `todo.md` now tracks only the remaining SansWord avatar follow-up. |
@@ -36,6 +37,43 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.7.0 — RSVP button on the meetup detail page (2026-07-10 23:16)
+
+**Review:** not yet
+
+**Design docs:**
+- RSVP button: [Spec](superpowers/specs/2026-07-10-rsvp-button-design.md) [Plan](superpowers/plans/2026-07-10-rsvp-button.md)
+
+**What was built:**
+- `meetup.html` now renders the community CTA row (today: the single RSVP button) directly below
+  the two time lines — `initMeetup()` fetches `community.json` in parallel with the meetup index;
+  no schema change, no new copy (labels + Luma href come from `data/community.md`, per the v0.4.1
+  decision).
+- The row is rendered by a new `ctaButtons()` helper shared with the landing hero (mid-session
+  revision: SansWord widened the scope from just the `rsvp` entry to **all** `ctas`), so both pages
+  behave identically — non-empty `href` → link, empty `href` → disabled placeholder — and future
+  CTAs appear on both automatically.
+- Shown only while the meetup counts as upcoming — a new shared `isUpcoming()` helper (`end + 1h
+  grace`, the rule `splitMeetups` already used); past meetups never show it, upcoming TBA weeks do.
+- One spacing rule (`.detail-ctas`) in `site.css`; the row reuses `.cta-row`/`.cta` unchanged.
+- Same-PR doc updates: `docs/data-schema.md` (`ctas[].id` note now names the real live id) and
+  `docs/wording.md` (CTA table records both render locations).
+- Verified via Playwright against a locally served `dist/`: EN/中文 labels, TBA week shows the
+  button, past meetup (clock frozen at 2027 via `addInitScript`) hides it, landing CTA unchanged;
+  `npm test` 83/83 green.
+
+**Key technical learnings:**
+- `[note]` The whole `ctas` list is frontend-consumed on two pages now (landing hero + upcoming
+  meetup detail), so adding a CTA in `data/community.md` is a pure content edit that ships to both.
+- `[gotcha]` Playwright pins an exact browser build per version — a bare `npm install playwright`
+  in a scratch dir couldn't reuse the machine's cached `chromium-1217` and needed
+  `npx playwright install chromium-headless-shell` (~90 MB) before `launch()` worked.
+
+**Process learnings:**
+- `[note]` First one-shot session (design → plan → implement without phase handoffs, at SansWord's
+  request): workable for a feature this small because every product decision (Luma, copy, data
+  location) was already locked; the spec/plan docs were still written for the record.
 
 ## v0.6.0 — Speaker links + speaker sub-panel (2026-07-10 18:28)
 

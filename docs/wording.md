@@ -29,7 +29,7 @@ user-visible wording — update the copy tables here and the corresponding
 
 | id | en | zh | Status |
 |---|---|---|---|
-| `rsvp` | RSVP | 報名聚會 | live — links to the Luma event; when the event link changes, update `href` in [`data/community.md`](../data/community.md) |
+| `rsvp` | RSVP | 報名聚會 | live — links to the Luma event; shown on the landing hero and on upcoming meetup detail pages; when the event link changes, update `href` in [`data/community.md`](../data/community.md) |
 
 ## UI chrome strings
 

@@ -69,11 +69,17 @@ async function fetchJson(relPath) {
   return res.json();
 }
 
+// The site's one upcoming/past rule (spec §2.4): a meetup stays "upcoming"
+// until 1h past its end.
+function isUpcoming(m, now = Date.now()) {
+  return Date.parse(m.end) + GRACE_MS > now;
+}
+
 // The one helper behind the featured pick, the coming-up strip, and every
 // upcoming/past split (spec §2.4). `index` is sorted ascending by start.
 function splitMeetups(index, now = Date.now()) {
-  const upcoming = index.filter((m) => Date.parse(m.end) + GRACE_MS > now);
-  const past = index.filter((m) => Date.parse(m.end) + GRACE_MS <= now).reverse();
+  const upcoming = index.filter((m) => isUpcoming(m, now));
+  const past = index.filter((m) => !isUpcoming(m, now)).reverse();
   return { featured: upcoming[0] ?? null, upcoming, past };
 }
 
@@ -162,6 +168,16 @@ function meetupCard(m, { featured = false } = {}) {
   return card;
 }
 
+// One CTA row for both the landing hero and the meetup detail page: linked
+// button when the CTA has an href, disabled placeholder when it doesn't.
+function ctaButtons(ctas) {
+  return ctas.map((cta) =>
+    cta.href
+      ? el('a', { class: 'cta', href: cta.href, text: pick(cta.label) })
+      : el('button', { class: 'cta', type: 'button', disabled: '', text: pick(cta.label) }),
+  );
+}
+
 function noneScheduledCard() {
   return el('a', { class: 'card card-featured', href: './index.html#cta' }, [
     el('p', { class: 'card-tba', text: t('meetup.noneScheduled') }),
@@ -185,13 +201,7 @@ function renderLanding() {
   const { community, meetupIndex } = landingData;
   document.getElementById('tagline').textContent = pick(community.tagline);
 
-  document.getElementById('cta').replaceChildren(
-    ...community.ctas.map((cta) =>
-      cta.href
-        ? el('a', { class: 'cta', href: cta.href, text: pick(cta.label) })
-        : el('button', { class: 'cta', type: 'button', disabled: '', text: pick(cta.label) }),
-    ),
-  );
+  document.getElementById('cta').replaceChildren(...ctaButtons(community.ctas));
 
   document.getElementById('intro').innerHTML = community.bodyHtml?.[lang] || '';
 
@@ -211,9 +221,13 @@ function renderLanding() {
 
 // ---------- meetup detail (filled in by the meetup.html task) ----------
 let meetupIndexCache = null;
+let meetupCommunity = null;
 
 async function initMeetup() {
-  meetupIndexCache = await fetchJson('./data/meetups/index.json');
+  [meetupIndexCache, meetupCommunity] = await Promise.all([
+    fetchJson('./data/meetups/index.json'),
+    fetchJson('./data/community.json'),
+  ]);
   renderPage = () => { renderMeetupFromHash(); };
   window.addEventListener('hashchange', () => renderPage());
   renderPage();
@@ -247,6 +261,10 @@ async function renderMeetupFromHash() {
     el('p', { class: 'detail-time', text: home }),
     el('p', { class: 'detail-time-tpe', text: taipei }),
   ];
+  // The community CTA row (RSVP etc.) only while the meetup counts as upcoming.
+  if (meetupCommunity.ctas.length > 0 && isUpcoming(m)) {
+    kids.push(el('div', { class: 'cta-row detail-ctas' }, ctaButtons(meetupCommunity.ctas)));
+  }
   if (Number.isInteger(m.attendees)) {
     kids.push(el('p', { class: 'attendees', text: `👥 ${m.attendees} ${t('meetup.aitians')}` }));
   }
