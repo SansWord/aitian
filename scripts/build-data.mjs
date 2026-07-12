@@ -14,6 +14,7 @@ import {
   moderatorToJson,
   communityToJson,
 } from './lib/emit.mjs';
+import { annotationLines, stepSummaryMarkdown } from './lib/annotations.mjs';
 
 // CORE_SCHEMA (YAML 1.2) keeps `date: 2026-07-14` and `startTime: 18:00` as
 // plain strings — js-yaml's default schema would turn the former into a JS
@@ -165,6 +166,12 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   if (errors.length > 0) {
     console.error(`✗ data validation failed (${errors.length} error${errors.length === 1 ? '' : 's'}):\n`);
     for (const e of errors) console.error(`  ${e}`);
+    // PR-facing surfaces (spec 2026-07-12 §3): inline annotations + the check's
+    // summary page — zero extra permissions, so fork PRs get them too.
+    for (const line of annotationLines(errors)) console.log(line);
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, stepSummaryMarkdown(errors));
+    }
     process.exit(1);
   }
   console.log('✓ data validated and emitted to dist/data/');
