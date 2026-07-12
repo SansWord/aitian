@@ -40,3 +40,10 @@ test('step summary groups errors by file and counts them', () => {
   assert.match(md, /### `data\/moderators\/bob\.md`/);
   assert.match(md, /- date: required/);
 });
+
+test('a colon-free error lands in the "build" group with singular count', () => {
+  const md = stepSummaryMarkdown(['something exploded']);
+  assert.match(md, /1 error\)/);
+  assert.match(md, /### `build`/);
+  assert.match(md, /- something exploded/);
+});
