@@ -14,6 +14,12 @@ export function bilingualShapeError(value, fieldPath) {
     }
     for (const k of keys) {
       if (typeof value[k] !== 'string') return `${fieldPath}.${k}: must be a string`;
+      if (value[k].trim() === '') {
+        return (
+          `${fieldPath}.${k}: empty — omit the key instead; ` +
+          'the missing language falls back to the one provided'
+        );
+      }
     }
     return null;
   }

@@ -60,6 +60,14 @@ test('bad bilingual title shape is rejected', () =>
     errs({ segments: [{ type: 'talk', title: { fr: 'x' }, speaker: 'A' }] }).join('\n'),
     /unknown language key/,
   ));
+test('empty-string bilingual language value is rejected', () =>
+  assert.match(
+    errs({ segments: [{ type: 'talk', title: { en: 'x', zh: '' }, speaker: 'A' }] }).join('\n'),
+    /title\.zh: empty — omit the key/,
+  ));
+test('omitted-key bilingual map still passes', () =>
+  assert.deepEqual(errs({ segments: [{ type: 'talk', title: { en: 'x' }, speaker: 'A' }] }), []));
+
 test('non-http materialsUrl is rejected', () =>
   assert.match(
     errs({

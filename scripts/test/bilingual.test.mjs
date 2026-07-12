@@ -24,6 +24,11 @@ test('non-string values inside the map are invalid', () => {
   assert.match(bilingualShapeError({ en: 3 }, 'title'), /must be a string/);
 });
 
+test('empty or whitespace-only map values are invalid', () => {
+  assert.match(bilingualShapeError({ en: 'hi', zh: '' }, 'title'), /title\.zh: empty — omit the key/);
+  assert.match(bilingualShapeError({ en: '   ' }, 'title'), /title\.en: empty — omit the key/);
+});
+
 test('arrays and numbers are invalid', () => {
   assert.match(bilingualShapeError(['x'], 'title'), /plain string or an \{en, zh\} map/);
   assert.match(bilingualShapeError(7, 'title'), /plain string or an \{en, zh\} map/);
