@@ -6,7 +6,12 @@ import { validateMeetup } from '../lib/validate.mjs';
 const GOOD = {
   date: '2026-07-14',
   segments: [
-    { type: 'talk', title: 'A talk', speaker: 'Claire', materialsUrl: 'https://example.com/x' },
+    {
+      type: 'talk',
+      title: 'A talk',
+      speaker: 'Claire',
+      materials: [{ label: 'Demo', url: 'https://example.com/x' }],
+    },
     { type: 'chat', title: { en: 'Open chat', zh: '自由聊' } },
   ],
   attendees: null,
@@ -68,13 +73,59 @@ test('empty-string bilingual language value is rejected', () =>
 test('omitted-key bilingual map still passes', () =>
   assert.deepEqual(errs({ segments: [{ type: 'talk', title: { en: 'x' }, speaker: 'A' }] }), []));
 
-test('non-http materialsUrl is rejected', () =>
+test('segment materials with plain and bilingual labels are valid', () =>
+  assert.deepEqual(
+    errs({
+      segments: [{
+        type: 'talk', title: 'x', speaker: 'A',
+        materials: [
+          { label: 'Slides', url: 'https://example.com/slides.pdf' },
+          { label: { en: 'Demo', zh: '示範' }, url: 'https://example.com/demo' },
+        ],
+      }],
+    }),
+    [],
+  ));
+test('materials on a chat segment without a speaker are valid', () =>
+  assert.deepEqual(
+    errs({
+      segments: [{ type: 'chat', title: 'x', materials: [{ label: 'Notes', url: 'https://x.example' }] }],
+    }),
+    [],
+  ));
+test('materials entry without a label is rejected', () =>
   assert.match(
     errs({
-      segments: [{ type: 'talk', title: 'x', speaker: 'A', materialsUrl: 'javascript:alert(1)' }],
+      segments: [{ type: 'talk', title: 'x', speaker: 'A', materials: [{ url: 'https://x.example' }] }],
     }).join('\n'),
-    /http/,
+    /segments\[0\]\.materials\[0\]\.label: required/,
   ));
+test('non-http materials url is rejected', () =>
+  assert.match(
+    errs({
+      segments: [{ type: 'talk', title: 'x', speaker: 'A', materials: [{ label: 'X', url: 'javascript:alert(1)' }] }],
+    }).join('\n'),
+    /segments\[0\]\.materials\[0\]\.url: required, must start with http/,
+  ));
+test('materialsUrl gets the dedicated migration error, not "unknown field"', () => {
+  const out = errs({
+    segments: [{ type: 'talk', title: 'x', speaker: 'A', materialsUrl: 'https://x.example' }],
+  }).join('\n');
+  assert.match(out, /segments\[0\]\.materialsUrl: replaced by "materials"/);
+  assert.ok(!out.includes('unknown field "materialsUrl"'));
+});
+test('a segment using both materials and materialsUrl: materials still validates', () => {
+  const out = errs({
+    segments: [{
+      type: 'talk', title: 'x', speaker: 'A',
+      materialsUrl: 'https://old.example',
+      materials: [{ label: 'X', url: 'ftp://bad.example' }],
+    }],
+  }).join('\n');
+  assert.match(out, /materialsUrl: replaced by "materials"/);
+  assert.match(out, /materials\[0\]\.url: required, must start with http/);
+});
+
 test('javascript: link inside speakerBio markdown is rejected', () =>
   assert.match(
     errs({

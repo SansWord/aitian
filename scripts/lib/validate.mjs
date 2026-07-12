@@ -114,7 +114,7 @@ function ctaListErrors(ctas, ctx) {
 }
 
 const MEETUP_KEYS = ['id', 'date', 'startTime', 'endTime', 'timezone', 'segments', 'ctas', 'attendees'];
-const SEGMENT_KEYS = ['type', 'title', 'speaker', 'speakerBio', 'materialsUrl', 'links'];
+const SEGMENT_KEYS = ['type', 'title', 'speaker', 'speakerBio', 'materials', 'links'];
 
 export function validateMeetup({ filename, data }) {
   const errors = [];
@@ -155,7 +155,13 @@ export function validateMeetup({ filename, data }) {
         errors.push(`${ctx}: must be a map with at least "type" and "title"`);
         return;
       }
-      errors.push(...unknownKeyErrors(seg, SEGMENT_KEYS, ctx));
+      if ('materialsUrl' in seg) {
+        errors.push(
+          `${ctx}.materialsUrl: replaced by "materials" — ` +
+            'write materials: [{label: "Slides", url: "..."}]',
+        );
+      }
+      errors.push(...unknownKeyErrors(seg, [...SEGMENT_KEYS, 'materialsUrl'], ctx, SEGMENT_KEYS));
       if (seg.type !== 'talk' && seg.type !== 'chat') {
         errors.push(`${ctx}.type: must be "talk" or "chat" (got ${JSON.stringify(seg.type ?? null)})`);
       }
@@ -166,10 +172,7 @@ export function validateMeetup({ filename, data }) {
         errors.push(`${ctx}.speaker: required for talk segments (plain display name)`);
       }
       errors.push(...bilingualErrors(seg.speakerBio, `${ctx}.speakerBio`, { markdownLinks: true }));
-      if (seg.materialsUrl !== undefined) {
-        const e = urlError(seg.materialsUrl, `${ctx}.materialsUrl`);
-        if (e) errors.push(e);
-      }
+      errors.push(...linkListErrors(seg.materials, `${ctx}.materials`));
       errors.push(...linkListErrors(seg.links, `${ctx}.links`));
       if (seg.links !== undefined && (typeof seg.speaker !== 'string' || seg.speaker.trim() === '')) {
         errors.push(
