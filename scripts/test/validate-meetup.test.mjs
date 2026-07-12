@@ -190,3 +190,30 @@ test('segment links with an empty speaker are rejected (chat)', () =>
     }).join('\n'),
     /segments\[0\]\.links: requires a non-empty "speaker"/,
   ));
+
+test('meetup ctas happy path (override list) is valid', () =>
+  assert.deepEqual(
+    errs({ ctas: [{ id: 'rsvp', label: { en: 'RSVP', zh: '報名' }, href: 'https://lu.ma/x' }] }),
+    [],
+  ));
+test('ctas: [] is a valid explicit no-CTAs override', () =>
+  assert.deepEqual(errs({ ctas: [] }), []));
+test('meetup cta without id is rejected', () =>
+  assert.match(errs({ ctas: [{ label: 'x', href: '' }] }).join('\n'), /ctas\[0\]\.id: required/));
+test('duplicate meetup cta ids are rejected', () =>
+  assert.match(
+    errs({
+      ctas: [
+        { id: 'x', label: 'a', href: '' },
+        { id: 'x', label: 'b', href: '' },
+      ],
+    }).join('\n'),
+    /duplicate "x"/,
+  ));
+test('non-http meetup cta href is rejected', () =>
+  assert.match(
+    errs({ ctas: [{ id: 'x', label: 'x', href: 'javascript:alert(1)' }] }).join('\n'),
+    /http/,
+  ));
+test('non-list meetup ctas is rejected', () =>
+  assert.match(errs({ ctas: 'rsvp' }).join('\n'), /ctas: must be a list/));

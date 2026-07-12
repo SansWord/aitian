@@ -83,7 +83,37 @@ function linkListErrors(links, ctx) {
   return errors;
 }
 
-const MEETUP_KEYS = ['id', 'date', 'startTime', 'endTime', 'timezone', 'segments', 'attendees'];
+// Shared by community `ctas` and per-meetup `ctas` — identical rules, identical
+// error wording (spec 2026-07-12 §2). Ids are unique within one file only.
+const CTA_KEYS = ['id', 'label', 'href'];
+
+function ctaListErrors(ctas, ctx) {
+  const errors = [];
+  const seen = new Set();
+  ctas.forEach((cta, i) => {
+    const cctx = `${ctx}[${i}]`;
+    if (cta === null || typeof cta !== 'object' || Array.isArray(cta)) {
+      errors.push(`${cctx}: must be a map with id, label, href`);
+      return;
+    }
+    errors.push(...unknownKeyErrors(cta, CTA_KEYS, cctx));
+    if (typeof cta.id !== 'string' || cta.id.trim() === '') {
+      errors.push(`${cctx}.id: required stable key (the frontend targets it)`);
+    } else if (seen.has(cta.id)) {
+      errors.push(`${cctx}.id: duplicate "${cta.id}"`);
+    } else {
+      seen.add(cta.id);
+    }
+    errors.push(...bilingualErrors(cta.label, `${cctx}.label`, { required: true }));
+    if (cta.href !== undefined) {
+      const e = urlError(cta.href, `${cctx}.href`);
+      if (e) errors.push(e);
+    }
+  });
+  return errors;
+}
+
+const MEETUP_KEYS = ['id', 'date', 'startTime', 'endTime', 'timezone', 'segments', 'ctas', 'attendees'];
 const SEGMENT_KEYS = ['type', 'title', 'speaker', 'speakerBio', 'materialsUrl', 'links'];
 
 export function validateMeetup({ filename, data }) {
@@ -156,6 +186,14 @@ export function validateMeetup({ filename, data }) {
   ) {
     errors.push(`attendees: must be an integer >= 0 or null (got ${JSON.stringify(data.attendees)})`);
   }
+
+  if (data.ctas !== undefined) {
+    if (!Array.isArray(data.ctas)) {
+      errors.push('ctas: must be a list (use "ctas: []" to hide the community CTAs on this meetup)');
+    } else {
+      errors.push(...ctaListErrors(data.ctas, 'ctas'));
+    }
+  }
   return errors;
 }
 
@@ -196,7 +234,6 @@ export function validateModerator({ filename, data, avatarFiles }) {
 
 const COMMUNITY_KEYS = ['tagline', 'schedule', 'ctas'];
 const SCHEDULE_KEYS = ['timezone', 'startTime', 'endTime'];
-const CTA_KEYS = ['id', 'label', 'href'];
 
 export function validateCommunity({ data }) {
   const errors = [];
@@ -221,27 +258,7 @@ export function validateCommunity({ data }) {
   if (!Array.isArray(data.ctas)) {
     errors.push('ctas: required list');
   } else {
-    const seen = new Set();
-    data.ctas.forEach((cta, i) => {
-      const ctx = `ctas[${i}]`;
-      if (cta === null || typeof cta !== 'object' || Array.isArray(cta)) {
-        errors.push(`${ctx}: must be a map with id, label, href`);
-        return;
-      }
-      errors.push(...unknownKeyErrors(cta, CTA_KEYS, ctx));
-      if (typeof cta.id !== 'string' || cta.id.trim() === '') {
-        errors.push(`${ctx}.id: required stable key (the frontend targets it)`);
-      } else if (seen.has(cta.id)) {
-        errors.push(`${ctx}.id: duplicate "${cta.id}"`);
-      } else {
-        seen.add(cta.id);
-      }
-      errors.push(...bilingualErrors(cta.label, `${ctx}.label`, { required: true }));
-      if (cta.href !== undefined) {
-        const e = urlError(cta.href, `${ctx}.href`);
-        if (e) errors.push(e);
-      }
-    });
+    errors.push(...ctaListErrors(data.ctas, 'ctas'));
   }
   return errors;
 }
