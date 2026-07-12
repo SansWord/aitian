@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.8.0-design](#v080-design--contributor-feedback-improvements-2026-07-12-1341) | **Contributor-feedback improvements spec approved** — `segments[].materials` ({label, url} list) replaces `materialsUrl` via the schema's first breaking migration (evolution rule unlocked: additive by default, breaking changes only as deliberate all-in-one-PR migrations), per-meetup `ctas` whole-list override, validation failures surfaced as zero-permission GitHub annotations + step summary, and CI rejection of empty bilingual map values (plain-string form kept). |
 | [v0.7.1](#v071--content-polish-avatar-rename-bio-copy-tba-filename-rule-2026-07-11-0218) | **Content polish** — SansWord's avatar renamed `sanword.jpg` → `sansword.jpg`, his en bio line rewritten, and the TBA-filename rule documented: the slug is chosen at file creation only, so a deployed TBA file keeps its bare-date name when booked (booked ≠ has-slug); avatar-format docs synced to reality (square image PNG/JPG/SVG, was "PNG"). |
 | [v0.7.0](#v070--rsvp-button-on-the-meetup-detail-page-2026-07-10-2316) | **RSVP on detail pages** — the meetup detail page now renders the community CTA row (today the single RSVP button, Luma link from `data/community.md`) below the time lines via a `ctaButtons()` helper shared with the landing hero, for upcoming meetups only (new `isUpcoming()` helper, same 1h-grace rule as `splitMeetups`); past meetups stay button-free, TBA weeks show it. |
 | [v0.6.0](#v060--speaker-links--speaker-sub-panel-2026-07-10-1828) | **Speaker links** — meetup segments can carry the speaker's public links ({label, url}, CI-enforced speaker requirement), rendered as a tinted speaker sub-panel (name, bio, links) on the detail page; light-theme link contrast fixed to AA during manual check. |
@@ -38,6 +39,56 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## Meta — public feature changelog added (2026-07-12 13:48)
+
+**Review:** not yet
+
+**What was built:**
+- Root [`CHANGELOG.md`](../CHANGELOG.md): public-facing, feature-only, English, newest-first —
+  entries for v0.3.0 → v0.7.0 with the four v0.4.x visual releases collapsed into one "v0.4"
+  entry; fix-only / content-only / internal releases (v0.2.0, v0.3.1–.3, v0.4.2, v0.5.1, v0.7.1)
+  excluded by design.
+- Registered as a maintained doc in `CLAUDE.md` with the update trigger: a release PR shipping a
+  user-visible feature appends an entry in the same PR.
+
+**Process learnings:**
+- `[note]` The public changelog is a filtering pass over the devlog TL;DR (drop fixes/internals,
+  collapse restyle chains, strip the "how") — keeping TL;DR summaries feature-first keeps that
+  pass cheap on every release.
+
+## v0.8.0-design — Contributor-feedback improvements (2026-07-12 13:41)
+
+**Review:** not yet
+
+**Design docs:**
+- Contributor-feedback improvements: [Spec](superpowers/specs/2026-07-12-contributor-feedback-improvements-design.md)
+
+**What was built:** *(design session — no code)*
+- Spec approved for four changes prompted by the first public contributor PRs:
+  1. `segments[].materials` — list of `{label, url}` (same shape as `links`, no speaker
+     requirement); `materialsUrl` removed with a dedicated migration error, the two live data
+     files patched in the same PR.
+  2. Per-meetup `ctas` — optional, same shape as `community.ctas`, **whole-list override** on the
+     detail page (`ctas: []` = explicitly none); landing hero + `community.md` unchanged.
+  3. Validation failures as GitHub `::error file=...` annotations + a `GITHUB_STEP_SUMMARY` table
+     — visible on the PR without opening build logs, zero extra workflow permissions.
+  4. Bilingual short fields: empty/whitespace-only map values become CI errors ("omit the key
+     instead"); the plain-string form stays legal.
+- **Locked-decision unlock (schema evolution):** rule 1 amended from "additive-only" to *additive
+  by default; breaking changes only as deliberate migrations — one PR updates validator + docs +
+  templates and patches every affected `data/` file, with a dedicated CI error naming the
+  replacement*. Implementation must update `docs/data-schema.md` + the `CLAUDE.md` locked-decisions
+  line accordingly.
+
+**Key technical learnings:**
+- `[gotcha]` `{en: "Hello", zh: ""}` passes CI today yet renders a **blank** in zh mode — every
+  fallback uses `??` (`pick()` in `site/site.js`, `bilingualInlineHtml` in `emit.mjs`), which
+  treats only a *missing* key as absent; an empty string sails through. Omitted keys fall back
+  correctly.
+- `[note]` Fork PRs run with a read-only `GITHUB_TOKEN`, so the validate job can never post PR
+  comments directly; `::error` annotations and `GITHUB_STEP_SUMMARY` need no permissions at all
+  and still surface on the PR (Files changed + check summary).
 
 ## v0.7.1 — Content polish: avatar rename, bio copy, TBA-filename rule (2026-07-11 02:18)
 

@@ -5,6 +5,10 @@ current as part of the end-of-session checklist.
 
 ## Now
 
+- [ ] **Write the implementation plan for the contributor-feedback improvements** from the approved
+      spec ([`docs/superpowers/specs/2026-07-12-contributor-feedback-improvements-design.md`](docs/superpowers/specs/2026-07-12-contributor-feedback-improvements-design.md))
+      — fresh session per the phase handoff; the spec includes the schema-evolution unlock, so
+      implementation also updates `docs/data-schema.md` + the `CLAUDE.md` locked-decisions line.
 - [x] **Merge the MVP PR** ([#1](https://github.com/SansWord/aitian/pull/1)) — merged 2026-07-10;
       one combined PR (spec + plan + implementation).
 - [x] **Execute the plan** ([`docs/superpowers/plans/2026-07-10-mvp-scaffold.md`](docs/superpowers/plans/2026-07-10-mvp-scaffold.md))

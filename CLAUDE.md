@@ -66,6 +66,10 @@ Stable facts:
   - [`docs/theming.md`](docs/theming.md) — the color system: palette references, token roles +
     contrast requirements, and the how-to for changing the theme. **Update trigger:** any change to
     the token blocks in `site/site.css` (same PR).
+  - [`CHANGELOG.md`](CHANGELOG.md) — public-facing, feature-only changelog (English, newest-first;
+    "what", never "how" — no file paths / CI / validator internals). **Update trigger:** any release
+    PR that ships a user-visible feature appends an entry in the same PR; internal-only or fix-only
+    releases skip it.
   - **Contributor READMEs** — root [`README.md`](README.md), [`data/README.md`](data/README.md),
     [`data/meetups/README.md`](data/meetups/README.md),
     [`data/moderators/README.md`](data/moderators/README.md): contributor how-tos; field detail
