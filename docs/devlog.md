@@ -40,6 +40,23 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 ---
 
+## Meta — public feature changelog added (2026-07-12 13:48)
+
+**Review:** not yet
+
+**What was built:**
+- Root [`CHANGELOG.md`](../CHANGELOG.md): public-facing, feature-only, English, newest-first —
+  entries for v0.3.0 → v0.7.0 with the four v0.4.x visual releases collapsed into one "v0.4"
+  entry; fix-only / content-only / internal releases (v0.2.0, v0.3.1–.3, v0.4.2, v0.5.1, v0.7.1)
+  excluded by design.
+- Registered as a maintained doc in `CLAUDE.md` with the update trigger: a release PR shipping a
+  user-visible feature appends an entry in the same PR.
+
+**Process learnings:**
+- `[note]` The public changelog is a filtering pass over the devlog TL;DR (drop fixes/internals,
+  collapse restyle chains, strip the "how") — keeping TL;DR summaries feature-first keeps that
+  pass cheap on every release.
+
 ## v0.8.0-design — Contributor-feedback improvements (2026-07-12 13:41)
 
 **Review:** not yet
