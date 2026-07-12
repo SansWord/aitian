@@ -86,6 +86,8 @@ test('segment materials with plain and bilingual labels are valid', () =>
     }),
     [],
   ));
+test('materials: [] is valid (no materials authored)', () =>
+  assert.deepEqual(errs({ segments: [{ type: 'talk', title: 'x', speaker: 'A', materials: [] }] }), []));
 test('materials on a chat segment without a speaker are valid', () =>
   assert.deepEqual(
     errs({
