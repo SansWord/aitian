@@ -71,6 +71,7 @@ test('bad fixture fails with every expected message and emits nothing', () => {
     '"talk" or "chat"',                         // bad segment type
     'speaker: required for talk',               // missing speaker
     'must start with http',                     // javascript: URL
+    'materials[0].url',                         // bad materials url pinned at this layer
     'YYYY-MM-DD',                               // malformed date
     'integer',                                  // attendees 2.5
     'not found in data/moderators/avatars',     // bob.png missing

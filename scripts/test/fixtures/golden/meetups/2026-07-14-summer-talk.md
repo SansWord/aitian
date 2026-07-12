@@ -12,3 +12,5 @@ ctas:
     label: { en: "Join us", zh: "加入我們" }
     href: "https://lu.ma/special"
 ---
+
+Questions? Mail organizer@example.com — contributor-authored contact info is public by consent.
