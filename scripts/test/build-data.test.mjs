@@ -28,6 +28,19 @@ test('golden fixture validates and emits the expected shapes', () => {
     fs.readFileSync(path.join(out, 'data/meetups/2026-01-13-winter-talk.json'), 'utf8'),
   );
   assert.match(winter.segments[0].speakerBioHtml.en, /<a href="https:\/\/alice\.example">/);
+  assert.deepEqual(winter.segments[0].materials, []); // no materials authored
+  assert.equal(winter.ctas, null); // no override → frontend falls back to community
+  assert.ok(!('materialsUrl' in winter.segments[0]));
+
+  const summer = JSON.parse(
+    fs.readFileSync(path.join(out, 'data/meetups/2026-07-14-summer-talk.json'), 'utf8'),
+  );
+  assert.deepEqual(summer.segments[0].materials, [
+    { label: { en: 'Notes', zh: '筆記' }, url: 'https://notes.example/chat' },
+  ]);
+  assert.deepEqual(summer.ctas, [
+    { id: 'special', label: { en: 'Join us', zh: '加入我們' }, href: 'https://lu.ma/special' },
+  ]);
 
   const modIndex = JSON.parse(
     fs.readFileSync(path.join(out, 'data/moderators/index.json'), 'utf8'),
@@ -64,6 +77,7 @@ test('bad fixture fails with every expected message and emits nothing', () => {
     'default.png',                              // fallback avatar missing
     'links[0].url',                             // ftp:// link
     'not valid YAML',                           // broken frontmatter syntax
+    'replaced by "materials"',                  // materialsUrl migration error
   ];
   for (const needle of needles) {
     assert.ok(all.includes(needle), `expected an error containing: ${needle}\ngot:\n${all}`);

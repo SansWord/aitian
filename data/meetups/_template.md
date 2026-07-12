@@ -16,8 +16,14 @@ segments: []
 #     links:                     # optional; the speaker's public links — public once merged
 #       - label: LinkedIn        # or { en: "...", zh: "..." }
 #         url: "https://www.linkedin.com/in/you"
-#     materialsUrl: ""           # optional; http(s) link to slides/demo
+#     materials:                 # optional; the segment's slides/demo/repo links
+#       - label: Slides          # or { en: "...", zh: "..." }
+#         url: "https://example.com/slides.pdf"
 attendees: null                  # back-fill after the event (integer)
+# ctas:                          # optional; REPLACES the community CTAs on this page while upcoming
+#   - id: rsvp                   # unique within this file
+#     label: RSVP                # or { en: "...", zh: "..." }
+#     href: "https://lu.ma/your-event"   # "" renders a disabled placeholder button
 ---
 
 Optional meetup intro (markdown). Use "## en" / "## zh" headings for bilingual content.
