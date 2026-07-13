@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.8.0](#v080--contributor-feedback-improvements-2026-07-12-1919) | **Contributor-feedback improvements** — materials with labels, per-meetup CTAs, PR error annotations, bilingual empty-value guard — first deliberate schema migration. |
 | [v0.8.0-design](#v080-design--contributor-feedback-improvements-2026-07-12-1341) | **Contributor-feedback improvements spec approved** — `segments[].materials` ({label, url} list) replaces `materialsUrl` via the schema's first breaking migration (evolution rule unlocked: additive by default, breaking changes only as deliberate all-in-one-PR migrations), per-meetup `ctas` whole-list override, validation failures surfaced as zero-permission GitHub annotations + step summary, and CI rejection of empty bilingual map values (plain-string form kept). |
 | [v0.7.1](#v071--content-polish-avatar-rename-bio-copy-tba-filename-rule-2026-07-11-0218) | **Content polish** — SansWord's avatar renamed `sanword.jpg` → `sansword.jpg`, his en bio line rewritten, and the TBA-filename rule documented: the slug is chosen at file creation only, so a deployed TBA file keeps its bare-date name when booked (booked ≠ has-slug); avatar-format docs synced to reality (square image PNG/JPG/SVG, was "PNG"). |
 | [v0.7.0](#v070--rsvp-button-on-the-meetup-detail-page-2026-07-10-2316) | **RSVP on detail pages** — the meetup detail page now renders the community CTA row (today the single RSVP button, Luma link from `data/community.md`) below the time lines via a `ctaButtons()` helper shared with the landing hero, for upcoming meetups only (new `isUpcoming()` helper, same 1h-grace rule as `splitMeetups`); past meetups stay button-free, TBA weeks show it. |
@@ -39,6 +40,56 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.8.0 — Contributor-feedback improvements (2026-07-12 19:19)
+
+**Review:** not yet
+
+**Design docs:**
+- Contributor-feedback improvements: [Spec](superpowers/specs/2026-07-12-contributor-feedback-improvements-design.md) [Plan](superpowers/plans/2026-07-12-contributor-feedback-improvements.md)
+
+**What was built:**
+- `segments[].materials` (labeled `{label, url}` list, no speaker requirement) replaces
+  `materialsUrl` — the first deliberate breaking migration; the removed field gets a dedicated CI
+  error naming its replacement, and both live meetup files were patched in the same PR.
+- **Locked-decision unlock:** the "additive-only" evolution rule (data-schema.md §Evolution rule 1)
+  is amended to "additive by default, breaking changes as deliberate migrations" — approved by
+  SansWord in the 2026-07-12 brainstorm; `CLAUDE.md` + `docs/data-schema.md` updated.
+- Per-meetup `ctas`: whole-list override of `community.ctas` on detail pages (`null` = no override,
+  `[]` = explicitly none); CTA validation extracted into one shared helper.
+- Validation failures now emit GitHub `::error` file annotations + a `$GITHUB_STEP_SUMMARY` report
+  (`scripts/lib/annotations.mjs`) — zero extra permissions, so fork PRs get them too.
+- Bilingual maps with empty/whitespace language values fail CI (omit the key instead); the
+  plain-string form stays legal.
+- `meetup.materials` UI string retired — material links carry contributor-authored labels.
+
+**Key technical learnings:**
+- `[gotcha]` The empty/whitespace-value CI rule only applies to the `{en, zh}` map form —
+  `bilingualErrors` in `scripts/lib/validate.mjs` only runs its whitespace check when
+  `required: true`, and `bilingualShapeError` returns `null` for plain strings, so a
+  whitespace-only plain string on an optional field (e.g. `speakerBio: '   '`) still passes CI;
+  the docs say "inside the `{en, zh}` map form" for exactly this reason.
+- `[insight]` Needle-based integration tests can lose their trigger silently: mutation-testing the
+  bad-fixture test showed the `'must start with http'` needle was also satisfied by an unrelated
+  moderator ftp-link error, so the fixture's `javascript:` materials URL wasn't actually pinned at
+  the integration layer until a dedicated `'materials[0].url'` needle was added.
+- `[insight]` Fixture rewrites can lose incidental coverage invisibly: rewriting the golden
+  summer-talk fixture dropped the only meetup body, silently removing the sole golden-build
+  coverage of the meetup-body → `bodyHtml` path (nothing asserted on it, so nothing failed);
+  restored with an explicit body line.
+- `[note]` `unknownKeyErrors`'s gate-vs-display split (allow a key in the gate check, omit it from
+  the displayed allow-list) is now used twice: first for frontmatter `id`, now for the
+  `materialsUrl` migration — one dedicated error, no double-report, and the removed field isn't
+  advertised as valid.
+- `[insight]` The `ctas` tri-state (`null` = no override / `[]` = explicit none / a list) rides on
+  `??` in the frontend (`site/site.js`) and a truthiness ternary in `emit.mjs` — safe only because
+  the validator rejects a YAML-null `ctas:`. A future "cleanup" to `data.ctas?.length ? … : null`
+  would silently break the `[]` case; pinned by tests.
+
+**Process learnings:**
+- `[insight]` A fresh-context reviewer executing the validator directly caught a docs overclaim
+  the plan itself dictated (the bilingual empty-value sentence above) — verify doc claims against
+  shipped behavior, never against the plan text.
 
 ## Meta — public feature changelog added (2026-07-12 13:48)
 

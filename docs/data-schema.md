@@ -24,7 +24,8 @@ change the `date` field, not the filename. Don't put `id:` in frontmatter; the v
 
 - **Short strings** (titles, bios, labels, taglines): either a plain string (renders for both
   languages) or an `{en, zh}` map. Either key may be omitted (at least one required); a missing
-  language falls back to the one provided.
+  language falls back to the one provided. An **empty or whitespace-only value inside the
+  `{en, zh}` map form is a CI error** — omit the key instead.
 - **Prose bodies**: `## en` / `## zh` markdown sections. A body with only one section (or no
   language headings at all) renders for both languages.
 - Adding a translation later is a content edit, never a schema migration.
@@ -47,8 +48,9 @@ PT meetup is Wednesday morning in Taipei and still uses the Tuesday PT date.
 | `segments[].title` | ✅ | string or `{en, zh}` | |
 | `segments[].speaker` | talk: ✅ | plain string | display name |
 | `segments[].speakerBio` | – | string or `{en, zh}` | 1–2 sentences; markdown links OK, `http(s)://` only |
-| `segments[].materialsUrl` | – | `http(s)://` URL or `""` | |
+| `segments[].materials` | – | list of `{label, url}` | the segment's slides/demo/repo links; `label` string or `{en, zh}`, `url` `http(s)://`; no `speaker` needed — materials belong to the segment |
 | `segments[].links` | – | list of `{label, url}` | the **speaker's** links (same shape as moderator `links`); `label` string or `{en, zh}`, `url` `http(s)://`; requires a non-empty `speaker` on the same segment |
+| `ctas` | – | list, same shape/rules as community `ctas[]` | **whole-list override** of the community CTAs on this meetup's detail page while it's upcoming; `[]` = no CTAs; `id` unique within the file only |
 | `attendees` | – | integer ≥ 0 or `null` | back-fill after the event; hidden while null |
 
 Body (optional): meetup-level intro, markdown, `## en` / `## zh` sections.
@@ -87,8 +89,10 @@ unknown timezones, bad segment types, segment `links` without a non-empty `speak
 segment, a frontmatter `id`, filename pattern violations, non-integer `attendees`, malformed
 bilingual values, any URL that isn't `http(s)://` (including links inside
 `speakerBio` markdown — `javascript:` URLs fail CI before they can reach a page), avatars that
-aren't a bare existing filename, avatar files over 500 KB, duplicate `ctas[].id` values, a missing
-`data/moderators/avatars/default.png` (the required fallback avatar), and frontmatter that isn't
+aren't a bare existing filename, avatar files over 500 KB, duplicate `ctas[].id` values (within one
+file — community or meetup), a missing `data/moderators/avatars/default.png` (the required fallback
+avatar), the removed `segments[].materialsUrl` (a dedicated error names `materials` as its
+replacement), empty or whitespace-only values inside `{en, zh}` maps, and frontmatter that isn't
 valid YAML.
 
 ## Privacy & consent
@@ -124,8 +128,11 @@ valid YAML.
 
 ## Evolution rules (the contract terms)
 
-1. **Additive-only.** New fields arrive optional-with-default. No renames, no restructures, no type
-   changes to existing fields.
+1. **Additive by default.** New fields arrive optional-with-default. A breaking change (rename,
+   removal, type change) is allowed only as a deliberate migration: one PR updates the validator,
+   docs, and `_template.md` **and patches every affected `data/` file**, and the removed field gets
+   a dedicated CI error naming its replacement. This is safe because all authored data lives in
+   this repo — nothing external consumes the `.md` schema.
 2. **No presentation concerns in data.** No colors, layout hints, or ordering fields beyond `date`.
 3. **Bilingual-capable from day one.** Every user-facing text field accepts the string-or-map shape.
 4. **Deliberate changes only.** Schema change = this doc + validator + `_template.md` in one PR.

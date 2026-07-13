@@ -305,7 +305,8 @@ button.cta[disabled] { opacity: 0.55; cursor: not-allowed; }
    is ~1.6:1 in light); in both dark blocks the two tokens are the same color. */
 .segment-speaker-links a { color: var(--accent); }
 .segment-bio { font-size: 0.95rem; margin: 0.5rem 0 0; }
-.segment-materials { display: inline-block; margin-top: 0.5rem; }
+.segment-materials { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0.5rem 0 0; }
+.segment-materials a { color: var(--accent); }
 .not-found { text-align: center; padding: 3rem 0; }
 
 /* --- moderators grid --- */

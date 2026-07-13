@@ -113,3 +113,38 @@ test('moderator avatar falls back to default.png and empty body renders empty', 
   assert.deepEqual(mod.links, []);
   assert.deepEqual(mod.bodyHtml, { en: '', zh: '' });
 });
+
+test('segment materials map to detail JSON; absent materials emit []; materialsUrl is gone', () => {
+  const m = meetupToJson({
+    id: '2026-07-14-x',
+    data: {
+      date: '2026-07-14',
+      segments: [
+        {
+          type: 'talk', title: 'T', speaker: 'A',
+          materials: [{ label: { en: 'Slides', zh: '簡報' }, url: 'https://a.example/s.pdf' }],
+        },
+        { type: 'chat', title: 'C' },
+      ],
+    },
+    content: '',
+    defaults: DEFAULTS,
+  });
+  assert.deepEqual(m.segments[0].materials, [
+    { label: { en: 'Slides', zh: '簡報' }, url: 'https://a.example/s.pdf' },
+  ]);
+  assert.deepEqual(m.segments[1].materials, []);
+  assert.ok(!('materialsUrl' in m.segments[0]));
+});
+
+test('meetup ctas emit as a mapped list when present, null when absent, [] when explicitly empty', () => {
+  const base = { date: '2026-07-14', segments: [] };
+  const withCtas = meetupToJson({
+    id: 'x', data: { ...base, ctas: [{ id: 'rsvp', label: 'RSVP' }] }, content: '', defaults: DEFAULTS,
+  });
+  assert.deepEqual(withCtas.ctas, [{ id: 'rsvp', label: 'RSVP', href: '' }]);
+  const noCtas = meetupToJson({ id: 'x', data: base, content: '', defaults: DEFAULTS });
+  assert.equal(noCtas.ctas, null);
+  const emptyCtas = meetupToJson({ id: 'x', data: { ...base, ctas: [] }, content: '', defaults: DEFAULTS });
+  assert.deepEqual(emptyCtas.ctas, []);
+});

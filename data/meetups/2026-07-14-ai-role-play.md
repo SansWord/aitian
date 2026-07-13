@@ -11,7 +11,9 @@ segments:
         Data @AWS. Write and build AI applications in my free time. Into agentic loop design lately.
       zh:
         在 AWS 生產資料的猴子。吱吱。最近迷上 AI，跟 AI 玩感覺很像打電動。
-    materialsUrl: "https://hooli-survival.vercel.app/"
+    materials:
+      - label: Demo
+        url: "https://hooli-survival.vercel.app/"
     links:
       - label: Substack
         url: "https://clairetsao.substack.com/"
@@ -36,6 +38,10 @@ segments:
     title:
       en: "What's your AI dev workflow setup? And what does your folder structure look like?"
       zh: "你的 dev workflow with AI setup 是什麼？資料夾結構長怎樣？"
+ctas:
+  - id: rsvp
+    label: { en: "RSVP", zh: "報名聚會" }
+    href: "https://luma.com/iwquc9lm"
 ---
 ## en
 English meetup intro

@@ -37,6 +37,9 @@ Live in [`site/ui-strings.json`](../site/ui-strings.json) (`{key: {en, zh}}`). T
 **first-draft copy pending a native review by SansWord/pinku** — notably: 主持群 (moderators),
 分享 (talk), 自由聊 (chat), 講者徵求中——想來分享嗎？ (TBA slot).
 
+Retired: `meetup.materials` (v0.8.0) — material links now carry their own contributor-authored
+labels from `segments[].materials`, so there is no shared UI label anymore.
+
 ### Meetup time lines
 
 Both time lines follow the language toggle

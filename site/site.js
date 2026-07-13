@@ -261,9 +261,11 @@ async function renderMeetupFromHash() {
     el('p', { class: 'detail-time', text: home }),
     el('p', { class: 'detail-time-tpe', text: taipei }),
   ];
-  // The community CTA row (RSVP etc.) only while the meetup counts as upcoming.
-  if (meetupCommunity.ctas.length > 0 && isUpcoming(m)) {
-    kids.push(el('div', { class: 'cta-row detail-ctas' }, ctaButtons(meetupCommunity.ctas)));
+  // CTA row while the meetup counts as upcoming. A meetup's own ctas replace
+  // the community list wholesale (null = no override, [] = explicitly none).
+  const ctas = m.ctas ?? meetupCommunity.ctas;
+  if (ctas.length > 0 && isUpcoming(m)) {
+    kids.push(el('div', { class: 'cta-row detail-ctas' }, ctaButtons(ctas)));
   }
   if (Number.isInteger(m.attendees)) {
     kids.push(el('p', { class: 'attendees', text: `👥 ${m.attendees} ${t('meetup.aitians')}` }));
@@ -281,14 +283,12 @@ async function renderMeetupFromHash() {
       const sec = el('section', { class: 'segment' });
       sec.append(el('h3', { class: 'segment-label', text: segmentLabel(seg, talkN) }));
       sec.append(el('p', { class: 'segment-title', text: pick(seg.title) }));
-      if (seg.materialsUrl) {
-        sec.append(el('a', {
-          class: 'segment-materials',
-          href: seg.materialsUrl,
-          target: '_blank',
-          rel: 'noopener',
-          text: t('meetup.materials'),
-        }));
+      if (seg.materials.length > 0) {
+        sec.append(el('p', { class: 'segment-materials' },
+          seg.materials.map((mat) => el('a', {
+            href: mat.url, target: '_blank', rel: 'noopener', text: pick(mat.label),
+          })),
+        ));
       }
       // Mini profile card for the speaker (spec 2026-07-10 §3): name, bio, links.
       if (seg.speaker) {

@@ -41,6 +41,9 @@ function bilingualInlineHtml(value) {
   return { en: renderInlineMarkdown(en), zh: renderInlineMarkdown(zh) };
 }
 
+// One CTA shape for community and meetup JSON: href always a string ('' = placeholder).
+const ctaJson = ({ id, label, href }) => ({ id, label, href: href ?? '' });
+
 export function meetupToJson({ id, data, content, defaults }) {
   const timezone = data.timezone ?? defaults.timezone;
   const startTime = data.startTime ?? defaults.startTime;
@@ -56,10 +59,11 @@ export function meetupToJson({ id, data, content, defaults }) {
       title: seg.title,
       speaker: seg.speaker ?? '',
       speakerBioHtml: bilingualInlineHtml(seg.speakerBio),
-      materialsUrl: seg.materialsUrl ?? '',
+      materials: (seg.materials ?? []).map(({ label, url }) => ({ label, url })),
       links: (seg.links ?? []).map(({ label, url }) => ({ label, url })),
     })),
     attendees: data.attendees ?? null,
+    ctas: data.ctas ? data.ctas.map(ctaJson) : null,
     bodyHtml: renderBilingualBody(content),
   };
 }
@@ -94,7 +98,7 @@ export function communityToJson({ data, content }) {
   return {
     tagline: data.tagline,
     schedule: data.schedule,
-    ctas: data.ctas.map(({ id, label, href }) => ({ id, label, href: href ?? '' })),
+    ctas: data.ctas.map(ctaJson),
     bodyHtml: renderBilingualBody(content),
   };
 }
