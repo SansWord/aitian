@@ -38,6 +38,10 @@ segments:
     title:
       en: "What's your AI dev workflow setup? And what does your folder structure look like?"
       zh: "你的 dev workflow with AI setup 是什麼？資料夾結構長怎樣？"
+ctas:
+  - id: rsvp
+    label: { en: "RSVP", zh: "報名聚會" }
+    href: "https://luma.com/iwquc9lm"
 ---
 ## en
 English meetup intro
