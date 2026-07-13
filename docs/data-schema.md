@@ -24,8 +24,8 @@ change the `date` field, not the filename. Don't put `id:` in frontmatter; the v
 
 - **Short strings** (titles, bios, labels, taglines): either a plain string (renders for both
   languages) or an `{en, zh}` map. Either key may be omitted (at least one required); a missing
-  language falls back to the one provided. An **empty or whitespace-only value is a CI error** —
-  omit the key instead.
+  language falls back to the one provided. An **empty or whitespace-only value inside the
+  `{en, zh}` map form is a CI error** — omit the key instead.
 - **Prose bodies**: `## en` / `## zh` markdown sections. A body with only one section (or no
   language headings at all) renders for both languages.
 - Adding a translation later is a content edit, never a schema migration.
