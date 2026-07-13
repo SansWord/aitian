@@ -67,17 +67,16 @@ spec / plan / design doc from that session so a later session can lazily load th
 - `[gotcha]` The empty/whitespace-value CI rule only applies to the `{en, zh}` map form —
   `bilingualErrors` in `scripts/lib/validate.mjs` only runs its whitespace check when
   `required: true`, and `bilingualShapeError` returns `null` for plain strings, so a
-  whitespace-only plain string on an optional field (e.g. `speakerBio: '   '`) still passes CI. A
-  spec reviewer caught the doc overclaim by running the validator directly; the docs were narrowed
-  (commits 6120838, a85911e) to say "inside the `{en, zh}` map form" rather than "a value".
+  whitespace-only plain string on an optional field (e.g. `speakerBio: '   '`) still passes CI;
+  the docs say "inside the `{en, zh}` map form" for exactly this reason.
 - `[insight]` Needle-based integration tests can lose their trigger silently: mutation-testing the
   bad-fixture test showed the `'must start with http'` needle was also satisfied by an unrelated
   moderator ftp-link error, so the fixture's `javascript:` materials URL wasn't actually pinned at
-  the integration layer until a dedicated `'materials[0].url'` needle was added (commit efa3817).
-- `[insight]` Rewriting the golden summer-talk fixture dropped the only meetup body in the golden
-  fixtures — silently removing the sole golden-build coverage of the meetup-body → `bodyHtml` path,
-  since nothing asserted on it so nothing failed. Restored with an explicit body line in the same
-  commit (efa3817). Fixture rewrites can lose incidental coverage invisibly.
+  the integration layer until a dedicated `'materials[0].url'` needle was added.
+- `[insight]` Fixture rewrites can lose incidental coverage invisibly: rewriting the golden
+  summer-talk fixture dropped the only meetup body, silently removing the sole golden-build
+  coverage of the meetup-body → `bodyHtml` path (nothing asserted on it, so nothing failed);
+  restored with an explicit body line.
 - `[note]` `unknownKeyErrors`'s gate-vs-display split (allow a key in the gate check, omit it from
   the displayed allow-list) is now used twice: first for frontmatter `id`, now for the
   `materialsUrl` migration — one dedicated error, no double-report, and the removed field isn't
@@ -86,6 +85,11 @@ spec / plan / design doc from that session so a later session can lazily load th
   `??` in the frontend (`site/site.js`) and a truthiness ternary in `emit.mjs` — safe only because
   the validator rejects a YAML-null `ctas:`. A future "cleanup" to `data.ctas?.length ? … : null`
   would silently break the `[]` case; pinned by tests.
+
+**Process learnings:**
+- `[insight]` A fresh-context reviewer executing the validator directly caught a docs overclaim
+  the plan itself dictated (the bilingual empty-value sentence above) — verify doc claims against
+  shipped behavior, never against the plan text.
 
 ## Meta — public feature changelog added (2026-07-12 13:48)
 
