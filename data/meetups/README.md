@@ -19,8 +19,8 @@ Talk 2 / open chat), never a single talk. One file per week.
 1. Copy [`_template.md`](_template.md) to a new file named as above.
 2. Fill in the frontmatter. A TBA week keeps `segments: []` — the site renders it as a
    "want to speak?" slot.
-3. For each booked segment fill `type`, `title`, and `speaker` (plus `speakerBio`, `links` — the
-   speaker's public links — and `materials` — labeled slides/demo/repo links — if you have them).
+3. For each booked segment fill `type`, `title`, and `speaker` — plus `speakerBio`, `links` (the
+   speaker's public links), and `materials` (labeled slides/demo/repo links) if you have them.
    A special event can also replace the site-wide buttons on its page with its own top-level
    `ctas:` list (see [`_template.md`](_template.md)).
 4. Open a PR; CI reports any problems per field. Anything merged is public — see the

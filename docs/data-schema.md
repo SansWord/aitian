@@ -92,8 +92,8 @@ bilingual values, any URL that isn't `http(s)://` (including links inside
 aren't a bare existing filename, avatar files over 500 KB, duplicate `ctas[].id` values (within one
 file — community or meetup), a missing `data/moderators/avatars/default.png` (the required fallback
 avatar), the removed `segments[].materialsUrl` (a dedicated error names `materials` as its
-replacement), empty or whitespace-only bilingual language values, and frontmatter that isn't valid
-YAML.
+replacement), empty or whitespace-only values inside `{en, zh}` maps, and frontmatter that isn't
+valid YAML.
 
 ## Privacy & consent
 
