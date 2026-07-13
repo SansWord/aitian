@@ -12,6 +12,8 @@ links:
 ---
 ## en
 The one who talked Claude into building this site.
+Open to work.
 
 ## zh
 跟 Claude 說話來要到這個網站的人
+正在找工作。
