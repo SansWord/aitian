@@ -45,8 +45,10 @@ Stable facts:
   generated `index.json` (never committed to the repo). → kickstart §4c
 - **Framework:** vanilla HTML/CSS/JS + standalone `scripts/build-data.mjs`; no framework, no client
   runtime deps. → spec 2026-07-09 §0
-- **Schema stability:** the `data/*.md` schema is additive-only; every change updates
-  `docs/data-schema.md` + validator + `_template.md` in one PR. → spec 2026-07-09 §1.4
+- **Schema stability:** additive by default; a breaking change is allowed only as a deliberate
+  migration — one PR updates validator + docs + `_template.md` **and every affected `data/` file**,
+  with a dedicated CI error naming the replacement. → spec 2026-07-09 §1.4, amended by spec
+  2026-07-12 (materialsUrl → materials unlock)
 - **A meetup is a multi-segment session** (Talk 1 / Talk 2 / Chat), not a single talk. → kickstart §4
 - **Privacy:** everything a contributor PRs is **public once merged** — contact info is allowed when
   its author wants it public (links beat raw emails); edits/removal honored on request.

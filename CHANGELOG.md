@@ -4,6 +4,14 @@ What's new on [aitian.dev](https://aitian.dev) for visitors, speakers, and moder
 tracks user-visible features — the full build history (fixes, internals, design sessions) lives in
 [`docs/devlog.md`](docs/devlog.md).
 
+## v0.8.0 — Labeled materials & per-meetup buttons (2026-07-12)
+
+- Talks and chats can list multiple materials — slides, demo, repo — each with its own label, in
+  both languages if you like.
+- A special event can put its own buttons on its meetup page in place of the site-wide RSVP.
+- When a contribution PR has a data problem, the errors now show up inline on the changed file
+  and on the check's summary page — no digging through build logs.
+
 ## v0.7.0 — RSVP from the meetup page (2026-07-10)
 
 - Upcoming meetup pages show the RSVP button right below the schedule — sign up where you're
