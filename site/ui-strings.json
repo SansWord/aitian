@@ -8,7 +8,6 @@
   "meetup.noneScheduled": { "en": "No meetup scheduled yet — want to speak?", "zh": "目前沒有排定的聚會——想來分享嗎？" },
   "meetup.notFound": { "en": "Meetup not found.", "zh": "找不到這場聚會。" },
   "meetup.backHome": { "en": "Back to home", "zh": "回首頁" },
-  "meetup.materials": { "en": "Materials", "zh": "簡報／材料" },
   "meetup.aitians": { "en": "aitians", "zh": "位 aitians" },
   "segment.talk": { "en": "Talk", "zh": "分享" },
   "segment.chat": { "en": "Chat", "zh": "自由聊" },
