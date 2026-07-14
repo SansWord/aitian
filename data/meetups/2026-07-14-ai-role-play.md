@@ -27,6 +27,15 @@ segments:
     speakerBio:
       zh: "尋找伯樂"
       en: "Looking for stakeholder"
+    materials:
+      - label:
+          zh:
+            投影片
+          en:
+            Slides
+        url: "https://sans-schema-playground.vercel.app/slides.html"
+      - label: Playground
+        url: "https://sans-schema-playground.vercel.app/"
     links:
       - label:
           zh: "作品集"
