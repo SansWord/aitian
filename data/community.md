@@ -12,10 +12,7 @@ ctas:
     href: "https://luma.com/iwquc9lm"
 ---
 ## en
-AI展 (aitian) is a weekly online meetup where members — aitians — demo what they're building
-with AI: side projects, workflows, experiments. Every Tuesday evening (US Pacific time), two
-short talks and an open chat.
+AI展 (aitian) is a weekly online meetup where members — aitians — demo what they're building or share anything related to AI: side projects, workflows, experiments. Every Tuesday 6:00–7:30 pm (US Pacific time) — come talk AI with us.
 
 ## zh
-AI展（aitian）是每週一次的線上聚會，成員（aitians）在這裡展示自己用 AI 打造的作品：
-side project、工作流程、實驗都歡迎。每週二晚上（美國太平洋時間）兩場短講加一場自由聊。
+AI展是每週一次的線上聚會，大家一起聊聊使用 AI 的經驗和想法：side project、工作流程、實驗都歡迎。美西時間每週二晚上 6:00–7:30（台灣時間週三早上 9:00–10:30），一起來聊 AI。
