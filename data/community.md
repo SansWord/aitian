@@ -10,6 +10,10 @@ ctas:
   - id: rsvp
     label: { en: "RSVP", zh: "報名聚會" }
     href: "https://luma.com/iwquc9lm"
+  - id: calendar
+    label: { en: "Calendar", zh: "活動日曆" }
+    href: "https://luma.com/calendar/manage/cal-icdGTc0Ey1hJFlv"
+
 ---
 ## en
 AI展 (aitian) is a weekly online meetup where members — aitians — demo what they're building or share anything related to AI: side projects, workflows, experiments. Every Tuesday 6:00–7:30 pm (US Pacific time) — come talk AI with us.
