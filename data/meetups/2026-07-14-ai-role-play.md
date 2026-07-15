@@ -57,6 +57,7 @@ ctas:
   - id: survey
     label: { en: "Survey", zh: "會後問卷" }
     href: "https://forms.gle/FYxxL9hY1Xq4TeAWA"
+attendees: 31
 ---
 ## en
 English meetup intro
