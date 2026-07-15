@@ -11,8 +11,8 @@ ctas:
     label: { en: "RSVP", zh: "報名聚會" }
     href: "https://luma.com/iwquc9lm"
   - id: calendar
-      label: { en: "Calendar", zh: "活動日曆" }
-      href: "https://luma.com/calendar/manage/cal-icdGTc0Ey1hJFlv"
+    label: { en: "Calendar", zh: "活動日曆" }
+    href: "https://luma.com/calendar/manage/cal-icdGTc0Ey1hJFlv"
 
 ---
 ## en
