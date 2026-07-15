@@ -51,6 +51,9 @@ ctas:
   - id: rsvp
     label: { en: "RSVP", zh: "報名聚會" }
     href: "https://luma.com/iwquc9lm"
+  - id: survey
+    label: { en: "Survey", zh: "會後問卷" }
+    href: "https://forms.gle/FYxxL9hY1Xq4TeAWA"
 ---
 ## en
 English meetup intro
