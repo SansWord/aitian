@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.8.1](#v081--804-meetup-talk-back-filled-2026-07-16-2008) | **8/4 meetup booked** — the seeded TBA file now lists 映昕's talk, "工程小白的 Claude Code 奇幻之旅", with a zh speaker bio and GitHub speaker link. |
 | [v0.8.0](#v080--contributor-feedback-improvements-2026-07-12-1919) | **Contributor-feedback improvements** — materials with labels, per-meetup CTAs, PR error annotations, bilingual empty-value guard — first deliberate schema migration. |
 | [v0.8.0-design](#v080-design--contributor-feedback-improvements-2026-07-12-1341) | **Contributor-feedback improvements spec approved** — `segments[].materials` ({label, url} list) replaces `materialsUrl` via the schema's first breaking migration (evolution rule unlocked: additive by default, breaking changes only as deliberate all-in-one-PR migrations), per-meetup `ctas` whole-list override, validation failures surfaced as zero-permission GitHub annotations + step summary, and CI rejection of empty bilingual map values (plain-string form kept). |
 | [v0.7.1](#v071--content-polish-avatar-rename-bio-copy-tba-filename-rule-2026-07-11-0218) | **Content polish** — SansWord's avatar renamed `sanword.jpg` → `sansword.jpg`, his en bio line rewritten, and the TBA-filename rule documented: the slug is chosen at file creation only, so a deployed TBA file keeps its bare-date name when booked (booked ≠ has-slug); avatar-format docs synced to reality (square image PNG/JPG/SVG, was "PNG"). |
@@ -40,6 +41,21 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.8.1 — 8/4 meetup talk back-filled (2026-07-16 20:08)
+
+**Review:** not yet
+
+**Design docs:** none — content-only back-fill.
+
+**What was built:**
+- `data/meetups/2026-08-04.md` was filled from its seeded TBA state with 映昕's talk,
+  "工程小白的 Claude Code 奇幻之旅".
+- The speaker bio is stored as zh content, and the submitted GitHub URL is stored as a speaker
+  `links` entry rather than embedded in the bio text.
+
+**Key technical learnings:**
+- `[note]` A booked week can keep its original bare-date filename; only `segments:` changes.
 
 ## v0.8.0 — Contributor-feedback improvements (2026-07-12 19:19)
 
