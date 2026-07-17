@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.8.2](#v082--homepage-luma-links-fixed-2026-07-16-2107) | **Homepage Luma links fixed** — the homepage RSVP CTA now points to the 7/21 event, the Calendar CTA points to the public AI展 Luma page, and 8/4 has its own RSVP link. |
 | [v0.8.1](#v081--804-meetup-talk-back-filled-2026-07-16-2008) | **8/4 meetup booked** — the seeded TBA file now lists 映昕's talk, "工程小白的 Claude Code 奇幻之旅", with a zh speaker bio and GitHub speaker link. |
 | [v0.8.0](#v080--contributor-feedback-improvements-2026-07-12-1919) | **Contributor-feedback improvements** — materials with labels, per-meetup CTAs, PR error annotations, bilingual empty-value guard — first deliberate schema migration. |
 | [v0.8.0-design](#v080-design--contributor-feedback-improvements-2026-07-12-1341) | **Contributor-feedback improvements spec approved** — `segments[].materials` ({label, url} list) replaces `materialsUrl` via the schema's first breaking migration (evolution rule unlocked: additive by default, breaking changes only as deliberate all-in-one-PR migrations), per-meetup `ctas` whole-list override, validation failures surfaced as zero-permission GitHub annotations + step summary, and CI rejection of empty bilingual map values (plain-string form kept). |
@@ -41,6 +42,18 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.8.2 — Homepage Luma links fixed (2026-07-16 21:07)
+
+**Review:** not yet
+
+**Design docs:** none — content-only link fix.
+
+**What was built:**
+- `data/community.md` now points the homepage RSVP CTA at `https://luma.com/kl4xjawb`.
+- The homepage Calendar CTA now points at `https://luma.com/aitian`.
+- `data/meetups/2026-08-04.md` now has its own RSVP CTA pointing at `https://luma.com/3jxichh4`.
+- Automatic rotation of the homepage RSVP target remains a separate decision.
 
 ## v0.8.1 — 8/4 meetup talk back-filled (2026-07-16 20:08)
 
