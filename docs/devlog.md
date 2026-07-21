@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.8.3](#v083--728-prompt-lab-talk-added-2026-07-21-1621) | **7/28 Prompt Lab talk added** — the 7/28 meetup now includes Claire's "LLM API & Prompt development tool: Prompt Lab" talk with the Prompt Lab GitHub repo as material. |
 | [v0.8.2](#v082--homepage-luma-links-fixed-2026-07-16-2107) | **Homepage Luma links fixed** — the homepage RSVP CTA now points to the 7/21 event, the Calendar CTA points to the public AI展 Luma page, and 8/4 has its own RSVP link. |
 | [v0.8.1](#v081--804-meetup-talk-back-filled-2026-07-16-2008) | **8/4 meetup booked** — the seeded TBA file now lists 映昕's talk, "工程小白的 Claude Code 奇幻之旅", with a zh speaker bio and GitHub speaker link. |
 | [v0.8.0](#v080--contributor-feedback-improvements-2026-07-12-1919) | **Contributor-feedback improvements** — materials with labels, per-meetup CTAs, PR error annotations, bilingual empty-value guard — first deliberate schema migration. |
@@ -42,6 +43,18 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.8.3 — 7/28 Prompt Lab talk added (2026-07-21 16:21)
+
+**Review:** not yet
+
+**Design docs:** none — content-only meetup back-fill.
+
+**What was built:**
+- `data/meetups/2026-07-28.md` now includes Claire's talk:
+  "LLM API & Prompt development tool: Prompt Lab" / "LLM API 解析 & Prompt 開發小工具 Prompt Lab".
+- The submitted `missmoss/prompt-lab` repository is listed as a GitHub material link.
+- The existing 7/28 chat segment and Luma RSVP CTA are unchanged.
 
 ## v0.8.2 — Homepage Luma links fixed (2026-07-16 21:07)
 
