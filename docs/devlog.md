@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.8.5](#v085--811-prompt-lab-talk-added-2026-07-21-1805) | **8/11 Prompt Lab talk added** — the 8/11 meetup now includes Claire's "LLM API & Prompt development tool: Prompt Lab" talk with the Prompt Lab GitHub repo as material and its own Luma RSVP link. |
 | [v0.8.4](#v084--728-talk-corrected-to-summit-suen-fde-session-2026-07-21-1753) | **7/28 talk corrected** — the 7/28 meetup talk is now Summit Suen's "Did I Get It Wrong by Reincarnating as an FDE in the Age of AI?" with a LinkedIn speaker link. |
 | [v0.8.3](#v083--728-prompt-lab-talk-added-2026-07-21-1621) | **7/28 Prompt Lab talk added** — the 7/28 meetup now includes Claire's "LLM API & Prompt development tool: Prompt Lab" talk with the Prompt Lab GitHub repo as material. |
 | [v0.8.2](#v082--homepage-luma-links-fixed-2026-07-16-2107) | **Homepage Luma links fixed** — the homepage RSVP CTA now points to the 7/21 event, the Calendar CTA points to the public AI展 Luma page, and 8/4 has its own RSVP link. |
@@ -44,6 +45,18 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.8.5 — 8/11 Prompt Lab talk added (2026-07-21 18:05)
+
+**Review:** not yet
+
+**Design docs:** none — content-only meetup back-fill.
+
+**What was built:**
+- `data/meetups/2026-08-11.md` now includes Claire's talk:
+  "LLM API & Prompt development tool: Prompt Lab" / "LLM API 解析 & Prompt 開發小工具 Prompt Lab".
+- The submitted `missmoss/prompt-lab` repository is listed as a GitHub material link.
+- The meetup has its own RSVP CTA pointing to `https://luma.com/1h9p4o26`.
 
 ## v0.8.4 — 7/28 talk corrected to Summit Suen FDE session (2026-07-21 17:53)
 

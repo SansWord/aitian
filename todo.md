@@ -26,9 +26,9 @@ current as part of the end-of-session checklist.
       ([`docs/superpowers/plans/2026-07-10-readme-tree.md`](docs/superpowers/plans/2026-07-10-readme-tree.md))
       executed; READMEs, validator changes, and privacy unlock shipped.
 - [ ] **Back-fill booked weeks from the private sheet** (SansWord) — edit the seeded TBA files
-      (remaining seeded TBA files: 8/11, 8/18, 8/25, 9/1) with confirmed talks. Edit `segments:`
+      (remaining seeded TBA files: 8/18, 8/25, 9/1) with confirmed talks. Edit `segments:`
       only — never rename the files. Nothing from the sheet's contact column (maintainer-side rule,
-      readme-tree spec §5). 7/21, 7/28, and 8/4 are now booked in `data/`.
+      readme-tree spec §5). 7/21, 7/28, 8/4, and 8/11 are now booked in `data/`.
 - [ ] **Repo settings (manual, SansWord)** — branch protection on `main` incl. no-bypass + required
       `build` check; Actions "Require approval for all outside collaborators" (spec §3.3).
 - [x] **Verify the deploy after merge** — done 2026-07-10: `aitian.dev` serves the new site
