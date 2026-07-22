@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.8.4](#v084--728-talk-corrected-to-summit-suen-fde-session-2026-07-21-1753) | **7/28 talk corrected** — the 7/28 meetup talk is now Summit Suen's "Did I Get It Wrong by Reincarnating as an FDE in the Age of AI?" with a LinkedIn speaker link. |
 | [v0.8.3](#v083--728-prompt-lab-talk-added-2026-07-21-1621) | **7/28 Prompt Lab talk added** — the 7/28 meetup now includes Claire's "LLM API & Prompt development tool: Prompt Lab" talk with the Prompt Lab GitHub repo as material. |
 | [v0.8.2](#v082--homepage-luma-links-fixed-2026-07-16-2107) | **Homepage Luma links fixed** — the homepage RSVP CTA now points to the 7/21 event, the Calendar CTA points to the public AI展 Luma page, and 8/4 has its own RSVP link. |
 | [v0.8.1](#v081--804-meetup-talk-back-filled-2026-07-16-2008) | **8/4 meetup booked** — the seeded TBA file now lists 映昕's talk, "工程小白的 Claude Code 奇幻之旅", with a zh speaker bio and GitHub speaker link. |
@@ -43,6 +44,20 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.8.4 — 7/28 talk corrected to Summit Suen FDE session (2026-07-21 17:53)
+
+**Review:** not yet
+
+**Design docs:** none — content-only correction.
+
+**What was built:**
+- `data/meetups/2026-07-28.md` now replaces the previously merged Prompt Lab talk with Summit
+  Suen's FDE talk:
+  "Did I Get It Wrong by Reincarnating as an FDE in the Age of AI?" /
+  "在 AI 年代轉生成為 FDE 的我是否搞錯了什麼".
+- Summit's LinkedIn profile is listed as a speaker link.
+- The existing 7/28 chat segment and Luma RSVP CTA are unchanged.
 
 ## v0.8.3 — 7/28 Prompt Lab talk added (2026-07-21 16:21)
 
