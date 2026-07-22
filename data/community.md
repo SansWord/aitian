@@ -9,7 +9,7 @@ schedule:
 ctas:
   - id: rsvp
     label: { en: "RSVP", zh: "報名聚會" }
-    href: "https://luma.com/kl4xjawb"
+    href: "https://luma.com/e27css2m"
   - id: calendar
     label: { en: "Calendar", zh: "活動日曆" }
     href: "https://luma.com/aitian"
