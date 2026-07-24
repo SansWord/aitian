@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [meta 2026-07-23](#meta--speaker-directory-and-past-events-backlog-2026-07-23) | **Discovery backlog expanded** — `todo.md` now tracks a browsable speaker directory for talent discovery and a past-events index; both remain unplanned. |
 | [v0.8.5](#v085--811-prompt-lab-talk-added-2026-07-21-1805) | **8/11 Prompt Lab talk added** — the 8/11 meetup now includes Claire's "LLM API & Prompt development tool: Prompt Lab" talk with the Prompt Lab GitHub repo as material and its own Luma RSVP link. |
 | [v0.8.4](#v084--728-talk-corrected-to-summit-suen-fde-session-2026-07-21-1753) | **7/28 talk corrected** — the 7/28 meetup talk is now Summit Suen's "Did I Get It Wrong by Reincarnating as an FDE in the Age of AI?" with a LinkedIn speaker link. |
 | [v0.8.3](#v083--728-prompt-lab-talk-added-2026-07-21-1621) | **7/28 Prompt Lab talk added** — the 7/28 meetup now includes Claire's "LLM API & Prompt development tool: Prompt Lab" talk with the Prompt Lab GitHub repo as material. |
@@ -45,6 +46,16 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## Meta — speaker directory and past-events backlog (2026-07-23)
+
+**Review:** not yet
+
+**Design docs:** none — backlog capture only; page scope and layouts remain TBD.
+
+**What changed:**
+- Added a speaker-directory backlog item aimed at people browsing past speakers for talent.
+- Added a past-events-index backlog item.
 
 ## v0.8.5 — 8/11 Prompt Lab talk added (2026-07-21 18:05)
 

@@ -61,6 +61,9 @@ current as part of the end-of-session checklist.
 
 ## Later
 
+- [ ] **Speaker directory** — list everyone who has spoken at an AI展 meetup, giving people looking
+      for talent a single place to browse past speakers. Page layout and presentation are TBD.
+- [ ] **Past events index** — add a browsable list of previous AI展 events.
 - [x] **Build the MVP** per the spec — done 2026-07-10 (v0.3.0): pages (landing, hash-routed meetup
       detail, moderators), `data/` Markdown, `scripts/build-data.mjs` (parse + validate + emit
       JSON/manifests). CI now publishes `dist/` via the split `build`/`deploy` jobs (spec §3.2).
