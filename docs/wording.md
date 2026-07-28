@@ -51,6 +51,17 @@ strings — don't trim them.
 | `time.taipei` | `Taipei: ` (trailing space) | `台北時間` (no space) | prefix on the Taipei reminder line |
 | `time.westCoast` | — (unused: EN keeps the Intl zone suffix, e.g. `PT`) | `美國西岸時間` | zh Pacific-line prefix; applied only when the meetup timezone is `America/Los_Angeles` — other timezones show Intl's zh zone name instead (deliberate override of Intl's 太平洋時間) |
 
+### Past meetups archive
+
+The archive page (`site/meetups.html`) lists every meetup that has already happened
+([spec](superpowers/specs/2026-07-28-past-meetups-list-design.md)). It reuses `nav.meetups`
+(「聚會」) for the nav label and `meetup.aitians` for the 👥 attendee count.
+
+| key | en | zh | Notes |
+|---|---|---|---|
+| `meetups.pastHeading` | `Past meetups` | `歷次聚會` | page `<h1>` |
+| `meetups.none` | `No past meetups yet.` | `還沒有過往的聚會。` | empty-state card, shown when nothing is past yet |
+
 ### Language toggle
 
 Segmented `EN｜中文` — both labels always visible, the **current** language highlighted

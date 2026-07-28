@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.9.0](#v090--past-meetups-archive-page-2026-07-28-0518) | **Past meetups archive** — `meetups.html` lists every past meetup newest-first (date, attendee count, talk/chat titles with speakers) and the "Meetups" nav now points there instead of the detail page; a pure frontend consumer of the existing `index.json`, no schema or build change. |
 | [meta 2026-07-23](#meta--speaker-directory-and-past-events-backlog-2026-07-23) | **Discovery backlog expanded** — `todo.md` now tracks a browsable speaker directory for talent discovery and a past-events index; both remain unplanned. |
 | [v0.8.5](#v085--811-prompt-lab-talk-added-2026-07-21-1805) | **8/11 Prompt Lab talk added** — the 8/11 meetup now includes Claire's "LLM API & Prompt development tool: Prompt Lab" talk with the Prompt Lab GitHub repo as material and its own Luma RSVP link. |
 | [v0.8.4](#v084--728-talk-corrected-to-summit-suen-fde-session-2026-07-21-1753) | **7/28 talk corrected** — the 7/28 meetup talk is now Summit Suen's "Did I Get It Wrong by Reincarnating as an FDE in the Age of AI?" with a LinkedIn speaker link. |
@@ -46,6 +47,52 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.9.0 — Past meetups archive page (2026-07-28 05:18)
+
+**Review:** not yet
+
+**Design docs:**
+- Past meetups list: [Spec](superpowers/specs/2026-07-28-past-meetups-list-design.md) [Plan](superpowers/plans/2026-07-28-past-meetups-list.md)
+
+**What was built:**
+- `site/meetups.html` — a new archive page listing every past meetup newest-first: full date in the
+  meetup's timezone, the 👥 attendee count when back-filled, and one line per segment (talks *and*
+  chats) with `— Speaker` appended where present. Each row is a `.card` anchor into
+  `meetup.html#id`.
+- `site.js` gains `initMeetups()` / `renderMeetups()` plus `formatMeetupDate()`, `pastSegmentLine()`,
+  and `pastMeetupRow()`; the boot dispatch grows a `meetups` branch.
+- The "Meetups" nav on all four pages repoints from `meetup.html` to `meetups.html` — the detail page
+  is now reached by clicking a row (deep links still work unchanged).
+- Two new bilingual strings (`meetups.pastHeading`, `meetups.none`); `nav.meetups` and
+  `meetup.aitians` are reused.
+- `.meetup-list` styles reuse the existing `.card` design tokens — no `:root` token change, so
+  `docs/theming.md` is untouched.
+
+**Key technical learnings:**
+- `[note]` The archive needed **zero** data-layer work: `emit.mjs` already puts `date`, `timezone`,
+  `start`/`end`, `attendees`, and `segments` (`type`, `title`, `speaker`) into
+  `data/meetups/index.json`, so the page is a pure consumer of one existing fetch.
+- `[insight]` Archive rows deliberately drop the "Talk 1:" / "Chat" labels that `segmentLabel()`
+  gives cards and the detail page. A list is scanned for *topics*, so the segment title leads;
+  the label only earns its space where a single meetup's structure is the subject.
+- `[insight]` `splitMeetups()` already returns `past` most-recent-first (it reverses the
+  ascending index), so the archive's ordering is free — the one upcoming/past rule (1h grace) stays
+  in a single place and the list can never disagree with the landing page about what's past.
+- `[gotcha]` `.attendees` was styled for the detail page, where it's a standalone paragraph with
+  default `<p>` margins. Dropped into a row it needs `.meetup-list .attendees { margin: .15rem 0 0 }`
+  or it floats a full line away from its date.
+
+**Process learnings:**
+- `[note]` No frontend test harness exists (`npm test` is the data layer; `site.js` can't be
+  imported under Node because it calls `main()` at load). The plan compensated with grep/build
+  assertions per task plus a scripted manual pass — including two temporary, explicitly-reverted
+  edits to exercise the null-attendees and empty-state branches, which today's seeded data can't
+  reach on its own.
+- `[insight]` That manual pass ran as real browser automation against `npx serve dist`, asserting on
+  the live DOM (row order, hrefs, per-row segment text, both languages) rather than on screenshots.
+  Reading `#meetup-list` back as JSON turns "eyeball the page" into a diffable expected-vs-actual
+  check, and it caught nothing only because the code was right — the point is it *could* have.
 
 ## Meta — speaker directory and past-events backlog (2026-07-23)
 
