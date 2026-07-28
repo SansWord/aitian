@@ -9,6 +9,8 @@
   "meetup.notFound": { "en": "Meetup not found.", "zh": "找不到這場聚會。" },
   "meetup.backHome": { "en": "Back to home", "zh": "回首頁" },
   "meetup.aitians": { "en": "aitians", "zh": "位 aitians" },
+  "meetups.pastHeading": { "en": "Past meetups", "zh": "歷次聚會" },
+  "meetups.none": { "en": "No past meetups yet.", "zh": "還沒有過往的聚會。" },
   "segment.talk": { "en": "Talk", "zh": "分享" },
   "segment.chat": { "en": "Chat", "zh": "自由聊" },
   "toggle.en": { "en": "EN", "zh": "EN" },
