@@ -1,4 +1,4 @@
-// Shared frontend runtime for all three pages. Each page sets
+// Shared frontend runtime for all four pages. Each page sets
 // <body data-page="..."> and this module dispatches to its renderer.
 //
 // Safety (spec §2.7): all data-sourced strings are inserted via textContent
