@@ -33,12 +33,16 @@ merges → the site auto-deploys.**
 npm ci
 npm test          # validator + unit tests — the same checks CI runs
 npm run build     # validates data/ and builds the site into dist/
-npx serve dist    # any static file server works
+npx serve dist -c ../serve.json    # any static file server works
 ```
 
 Then open the printed URL (usually `http://localhost:3000`). The pages are `/index.html` (landing),
 `/meetups.html` (past meetups), `/meetup.html#<meetup-id>` (one meetup), and `/moderators.html`.
 After editing anything under `data/` or `site/`, re-run `npm run build` and reload.
+
+> `-c ../serve.json` turns off `serve`'s default URL rewriting, which would otherwise redirect
+> `/meetup.html` to `/meetup`. GitHub Pages does no such rewrite, so the flag makes local browsing
+> match the live site. Drop it and the pages still work — the URLs just lose their `.html`.
 
 > **Don't open `dist/index.html` via a `file://` URL** — the site fetches its JSON at runtime and
 > browsers block `fetch` on file URLs, so you'd see empty pages. Serve `dist/` over HTTP as above.

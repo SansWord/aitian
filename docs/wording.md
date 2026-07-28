@@ -54,13 +54,21 @@ strings — don't trim them.
 ### Past meetups archive
 
 The archive page (`site/meetups.html`) lists every meetup that has already happened
-([spec](superpowers/specs/2026-07-28-past-meetups-list-design.md)). It reuses `nav.meetups`
-(「聚會」) for the nav label and `meetup.aitians` for the 👥 attendee count.
+([spec](superpowers/specs/2026-07-28-past-meetups-list-design.md)). It reuses `meetup.aitians` for
+the 👥 attendee count.
 
 | key | en | zh | Notes |
 |---|---|---|---|
 | `meetups.pastHeading` | `Past meetups` | `歷次聚會` | page `<h1>` |
 | `meetups.none` | `No past meetups yet.` | `還沒有過往的聚會。` | empty-state card, shown when nothing is past yet |
+
+`nav.meetups` names the nav item that opens this page, so it says **`Past Meetups` / 「歷次聚會」** —
+the nav points at the archive, not at a single meetup. It stops one word short of the `<h1>`'s
+sentence case (`Past meetups`) on purpose: nav items are title-cased like `Home` and `Moderators`.
+
+`meetup.heading` (`Meetups` / 「聚會」) is the detail page's own `<h1>`. It exists only so the nav
+label can change without dragging the detail page's heading along — before the archive shipped both
+read from `nav.meetups`.
 
 ### Language toggle
 

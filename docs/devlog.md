@@ -64,8 +64,12 @@ spec / plan / design doc from that session so a later session can lazily load th
   and `pastMeetupRow()`; the boot dispatch grows a `meetups` branch.
 - The "Meetups" nav on all four pages repoints from `meetup.html` to `meetups.html` — the detail page
   is now reached by clicking a row (deep links still work unchanged).
-- Two new bilingual strings (`meetups.pastHeading`, `meetups.none`); `nav.meetups` and
-  `meetup.aitians` are reused.
+- Two new bilingual strings (`meetups.pastHeading`, `meetups.none`); `meetup.aitians` is reused.
+  `nav.meetups` becomes `Past Meetups` / 「歷次聚會」 now that it opens the archive, and the detail
+  page's `<h1>` moves to a new `meetup.heading` key holding its former wording — the two shared one
+  key before, so renaming the nav would have renamed the detail heading too.
+- Local browsing: a root `serve.json` (`cleanUrls: false`) stops `npx serve` redirecting
+  `/meetup.html` to `/meetup`, so a local check matches what GitHub Pages actually serves.
 - `.meetup-list` styles reuse the existing `.card` design tokens — no `:root` token change, so
   `docs/theming.md` is untouched.
 
@@ -79,6 +83,10 @@ spec / plan / design doc from that session so a later session can lazily load th
 - `[insight]` `splitMeetups()` already returns `past` most-recent-first (it reverses the
   ascending index), so the archive's ordering is free — the one upcoming/past rule (1h grace) stays
   in a single place and the list can never disagree with the landing page about what's past.
+- `[gotcha]` `nav.meetups` was doing double duty — the nav item on all four pages *and* the meetup
+  detail page's `<h1>`. Retargeting the nav at the archive meant the label wanted to say "Past
+  Meetups", which would silently have retitled the detail page too. Grep a UI-string key across
+  `site/*.html` before editing its value; a shared key is invisible from the JSON alone.
 - `[gotcha]` `.attendees` was styled for the detail page, where it's a standalone paragraph with
   default `<p>` margins. Dropped into a row it needs `.meetup-list .attendees { margin: .15rem 0 0 }`
   or it floats a full line away from its date.
