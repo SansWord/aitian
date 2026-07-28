@@ -36,6 +36,10 @@ npm run build     # validates data/ and builds the site into dist/
 npx serve dist    # any static file server works
 ```
 
+Then open the printed URL (usually `http://localhost:3000`). The pages are `/index.html` (landing),
+`/meetups.html` (past meetups), `/meetup.html#<meetup-id>` (one meetup), and `/moderators.html`.
+After editing anything under `data/` or `site/`, re-run `npm run build` and reload.
+
 > **Don't open `dist/index.html` via a `file://` URL** — the site fetches its JSON at runtime and
 > browsers block `fetch` on file URLs, so you'd see empty pages. Serve `dist/` over HTTP as above.
 
