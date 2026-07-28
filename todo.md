@@ -63,7 +63,13 @@ current as part of the end-of-session checklist.
 
 - [ ] **Speaker directory** — list everyone who has spoken at an AI展 meetup, giving people looking
       for talent a single place to browse past speakers. Page layout and presentation are TBD.
-- [ ] **Past events index** — add a browsable list of previous AI展 events.
+- [x] **Past events index** — done 2026-07-28 (v0.9.0): `meetups.html` lists past meetups
+      newest-first (date, attendee count, talk/chat titles + speakers) and the "Meetups" nav points
+      there; spec
+      ([`docs/superpowers/specs/2026-07-28-past-meetups-list-design.md`](docs/superpowers/specs/2026-07-28-past-meetups-list-design.md)),
+      plan
+      ([`docs/superpowers/plans/2026-07-28-past-meetups-list.md`](docs/superpowers/plans/2026-07-28-past-meetups-list.md)).
+      Filtering, search, and per-year grouping stay out of scope.
 - [x] **Build the MVP** per the spec — done 2026-07-10 (v0.3.0): pages (landing, hash-routed meetup
       detail, moderators), `data/` Markdown, `scripts/build-data.mjs` (parse + validate + emit
       JSON/manifests). CI now publishes `dist/` via the split `build`/`deploy` jobs (spec §3.2).

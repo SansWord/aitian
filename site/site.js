@@ -1,4 +1,4 @@
-// Shared frontend runtime for all three pages. Each page sets
+// Shared frontend runtime for all four pages. Each page sets
 // <body data-page="..."> and this module dispatches to its renderer.
 //
 // Safety (spec §2.7): all data-sourced strings are inserted via textContent
@@ -121,6 +121,15 @@ function formatMeetupTimes(m) {
   });
   const taipei = `${t('time.taipei')}${tpeDay} ${tpeTime.format(start)} – ${tpeTime.format(end)}`;
   return { home, taipei };
+}
+
+// Archive rows show only the day, in the meetup's own timezone — no time
+// range, no Taipei reminder. Follows the language toggle like formatMeetupTimes().
+function formatMeetupDate(m) {
+  const locale = lang === 'zh' ? 'zh-TW' : 'en-US';
+  return new Intl.DateTimeFormat(locale, {
+    timeZone: m.timezone, weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+  }).format(new Date(m.start));
 }
 
 // ---------- DOM helper ----------
@@ -351,6 +360,44 @@ function renderModerators() {
   );
 }
 
+// ---------- past meetups list ----------
+let meetupsListCache = null;
+
+// Archive lines carry the segment's own title, not a "Talk 1:" label —
+// the list is scanned for topics. Unknown future types fall back to the raw
+// type only when the title is empty, matching segmentLabel's graceful degradation.
+function pastSegmentLine(seg) {
+  const title = pick(seg.title) || seg.type;
+  return seg.speaker ? `${title} — ${seg.speaker}` : title;
+}
+
+function pastMeetupRow(m) {
+  const row = el('a', { class: 'card', href: `./meetup.html#${m.id}` });
+  row.append(el('p', { class: 'card-time', text: formatMeetupDate(m) }));
+  if (Number.isInteger(m.attendees)) {
+    row.append(el('p', { class: 'attendees', text: `👥 ${m.attendees} ${t('meetup.aitians')}` }));
+  }
+  if (m.segments.length > 0) {
+    row.append(el('ul', {}, m.segments.map((seg) => el('li', { text: pastSegmentLine(seg) }))));
+  }
+  return row;
+}
+
+async function initMeetups() {
+  meetupsListCache = await fetchJson('./data/meetups/index.json');
+  renderPage = renderMeetups;
+  renderPage();
+}
+
+function renderMeetups() {
+  const { past } = splitMeetups(meetupsListCache); // already most-recent-first
+  document.getElementById('meetup-list').replaceChildren(
+    ...(past.length
+      ? past.map((m) => pastMeetupRow(m))
+      : [el('div', { class: 'card' }, [el('p', { class: 'card-tba', text: t('meetups.none') })])]),
+  );
+}
+
 // ---------- boot ----------
 async function main() {
   document.documentElement.dataset.theme = detectTheme();
@@ -373,6 +420,7 @@ async function main() {
   if (page === 'landing') await initLanding();
   else if (page === 'meetup') await initMeetup();
   else if (page === 'moderators') await initModerators();
+  else if (page === 'meetups') await initMeetups();
 }
 
 main().catch((err) => {

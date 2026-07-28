@@ -249,6 +249,12 @@ button.cta[disabled] { opacity: 0.55; cursor: not-allowed; }
 .card-tba { color: var(--muted); font-style: italic; margin: 0.6rem 0 0; }
 .strip { display: grid; grid-template-columns: 1fr; gap: 0.85rem; }
 
+/* --- past meetups archive (meetups.html) --- */
+.meetup-list { display: grid; grid-template-columns: 1fr; gap: 0.85rem; margin-top: 1.6rem; }
+/* the detail page's .attendees is a standalone paragraph; inside a row it
+   sits tight under the date, like .card-time-tpe */
+.meetup-list .attendees { font-size: 0.88rem; margin: 0.15rem 0 0; }
+
 /* --- landing intro + meetup detail --- */
 .intro {
   margin-top: 1.7rem;
