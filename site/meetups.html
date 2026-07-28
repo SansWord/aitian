@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI展 (aitian) — Past meetups</title>
+  <meta name="description" content="Archive of past AI展 (aitian) meetups — dates, talks, and speakers." />
+  <script>
+    try { var t = localStorage.getItem('aitian.theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="./site.css" />
+</head>
+<body data-page="meetups">
+  <header class="site-header">
+    <a class="brand" href="./index.html">AI<span class="zhan">展</span></a>
+    <nav>
+      <a href="./index.html" data-i18n="nav.home"></a>
+      <a href="./meetup.html" data-i18n="nav.meetups"></a>
+      <a href="./moderators.html" data-i18n="nav.moderators"></a>
+    </nav>
+    <div class="toggles">
+      <button id="lang-toggle" type="button" aria-label="Switch language"><span class="lang-opt">EN</span><span class="lang-opt">中文</span></button>
+      <button id="theme-toggle" type="button" aria-label="Switch theme">◐</button>
+    </div>
+  </header>
+  <main>
+    <h1 data-i18n="meetups.pastHeading"></h1>
+    <div id="meetup-list" class="meetup-list"></div>
+  </main>
+  <footer class="site-footer"><p>AI展 (aitian)</p></footer>
+  <noscript><p style="text-align:center">This site needs JavaScript to show past meetups.</p></noscript>
+  <script type="module" src="./site.js"></script>
+</body>
+</html>
