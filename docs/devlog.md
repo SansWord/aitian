@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.9.1](#v091--charlie-added-as-moderator-2026-07-30-2313) | **Charlie added as moderator** — new `data/moderators/charlie.md` (bio, `charlie.svg` avatar, LinkedIn link), and the 7/28 chat segment (Charlie's own session) now carries the same LinkedIn as a speaker `links` entry. |
 | [v0.9.0](#v090--past-meetups-archive-page-2026-07-28-0518) | **Past meetups archive** — `meetups.html` lists every past meetup newest-first (date, attendee count, talk/chat titles with speakers) and the "Meetups" nav now points there instead of the detail page; a pure frontend consumer of the existing `index.json`, no schema or build change. |
 | [meta 2026-07-23](#meta--speaker-directory-and-past-events-backlog-2026-07-23) | **Discovery backlog expanded** — `todo.md` now tracks a browsable speaker directory for talent discovery and a past-events index; both remain unplanned. |
 | [v0.8.5](#v085--811-prompt-lab-talk-added-2026-07-21-1805) | **8/11 Prompt Lab talk added** — the 8/11 meetup now includes Claire's "LLM API & Prompt development tool: Prompt Lab" talk with the Prompt Lab GitHub repo as material and its own Luma RSVP link. |
@@ -47,6 +48,17 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.9.1 — Charlie added as moderator (2026-07-30 23:13)
+
+**Review:** not yet
+
+**Design docs:** none — content-only addition.
+
+**What was built:**
+- `data/moderators/charlie.md` — new moderator entry (bio, `charlie.svg` avatar, LinkedIn link).
+- `data/meetups/2026-07-28.md` — the chat segment (Charlie is the speaker of that session) now
+  carries the same LinkedIn URL as a speaker `links` entry.
 
 ## v0.9.0 — Past meetups archive page (2026-07-28 05:18)
 
