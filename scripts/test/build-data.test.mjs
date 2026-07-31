@@ -23,11 +23,13 @@ test('golden fixture validates and emits the expected shapes', () => {
   assert.equal(index[1].start, '2026-07-15T02:00:00.000Z'); // PDT (UTC-7) + 19:00 override
   assert.equal(index[0].segments[0].speaker, 'Alice'); // segment summary present
   assert.ok(!('speakerBioHtml' in index[0].segments[0])); // …but compact
+  assert.ok(!('descriptionHtml' in index[0].segments[0])); // …and no description in the compact index
 
   const winter = JSON.parse(
     fs.readFileSync(path.join(out, 'data/meetups/2026-01-13-winter-talk.json'), 'utf8'),
   );
   assert.match(winter.segments[0].speakerBioHtml.en, /<a href="https:\/\/alice\.example">/);
+  assert.equal((winter.segments[0].descriptionHtml.en.match(/<p>/g) || []).length, 2); // block HTML, paragraphs kept
   assert.deepEqual(winter.segments[0].materials, []); // no materials authored
   assert.equal(winter.ctas, null); // no override → frontend falls back to community
   assert.ok(!('materialsUrl' in winter.segments[0]));
@@ -38,6 +40,7 @@ test('golden fixture validates and emits the expected shapes', () => {
   assert.deepEqual(summer.segments[0].materials, [
     { label: { en: 'Notes', zh: '筆記' }, url: 'https://notes.example/chat' },
   ]);
+  assert.equal(summer.segments[0].descriptionHtml, null); // no description authored → null
   assert.deepEqual(summer.ctas, [
     { id: 'special', label: { en: 'Join us', zh: '加入我們' }, href: 'https://lu.ma/special' },
   ]);
