@@ -4,6 +4,11 @@ What's new on [aitian.dev](https://aitian.dev) for visitors, speakers, and moder
 tracks user-visible features — the full build history (fixes, internals, design sessions) lives in
 [`docs/devlog.md`](docs/devlog.md).
 
+## v0.10.0 — Segment descriptions (2026-07-31)
+
+- Talks and chats can now carry a short description — a few lines about what the segment covers, in
+  both languages if you like — shown under the title on the meetup page.
+
 ## v0.9.0 — Past meetups archive (2026-07-28)
 
 - The "Meetups" nav now opens a browsable archive of every meetup that has already happened,

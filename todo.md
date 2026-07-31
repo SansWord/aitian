@@ -5,6 +5,11 @@ current as part of the end-of-session checklist.
 
 ## Now
 
+- [x] **Segment descriptions** — done 2026-07-31 (v0.10.0): additive `segments[].description`
+      (bilingual, multi-line block markdown) on `feat/segment-description`, spec + plan
+      ([`docs/superpowers/plans/2026-07-31-segment-description.md`](docs/superpowers/plans/2026-07-31-segment-description.md))
+      executed; renders under the segment title on the detail page. PR pending review; tag
+      `v0.10.0` after merge.
 - [x] **Write the implementation plan for the contributor-feedback improvements** — done
       2026-07-12: plan
       ([`docs/superpowers/plans/2026-07-12-contributor-feedback-improvements.md`](docs/superpowers/plans/2026-07-12-contributor-feedback-improvements.md))
