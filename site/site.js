@@ -292,6 +292,9 @@ async function renderMeetupFromHash() {
       const sec = el('section', { class: 'segment' });
       sec.append(el('h3', { class: 'segment-label', text: segmentLabel(seg, talkN) }));
       sec.append(el('p', { class: 'segment-title', text: pick(seg.title) }));
+      if (seg.descriptionHtml?.[lang]) {
+        sec.append(el('div', { class: 'segment-description', html: seg.descriptionHtml[lang] }));
+      }
       if (seg.materials.length > 0) {
         sec.append(el('p', { class: 'segment-materials' },
           seg.materials.map((mat) => el('a', {
