@@ -146,6 +146,49 @@ test('https link inside speakerBio markdown is fine', () =>
     }),
     [],
   ));
+
+test('a valid multi-line description passes', () =>
+  assert.deepEqual(
+    errs({
+      segments: [
+        { type: 'talk', title: 'x', speaker: 'A', description: 'Line one.\n\nLine two.' },
+      ],
+    }),
+    [],
+  ));
+test('a bilingual description map passes', () =>
+  assert.deepEqual(
+    errs({
+      segments: [
+        { type: 'chat', title: 'x', description: { en: 'English.', zh: '中文。' } },
+      ],
+    }),
+    [],
+  ));
+test('empty-string description language value is rejected', () =>
+  assert.match(
+    errs({
+      segments: [{ type: 'chat', title: 'x', description: { en: '' } }],
+    }).join('\n'),
+    /segments\[0\]\.description\.en: empty — omit the key/,
+  ));
+test('javascript: link inside description markdown is rejected', () =>
+  assert.match(
+    errs({
+      segments: [
+        { type: 'talk', title: 'x', speaker: 'A', description: 'see [me](javascript:alert(1))' },
+      ],
+    }).join('\n'),
+    /description/,
+  ));
+test('unknown segment key is still rejected alongside description', () =>
+  assert.match(
+    errs({
+      segments: [{ type: 'chat', title: 'x', description: 'ok', bogus: 1 }],
+    }).join('\n'),
+    /segments\[0\]: unknown field "bogus"/,
+  ));
+
 test('fractional attendees is rejected', () =>
   assert.match(errs({ attendees: 2.5 }).join('\n'), /integer/));
 test('negative attendees is rejected', () =>
