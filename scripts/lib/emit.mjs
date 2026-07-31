@@ -41,6 +41,19 @@ function bilingualInlineHtml(value) {
   return { en: renderInlineMarkdown(en), zh: renderInlineMarkdown(zh) };
 }
 
+// string-or-{en,zh} of markdown → {en, zh} of block HTML (or null when absent).
+// Block (not inline) so multi-line descriptions keep their paragraphs.
+function bilingualBlockHtml(value) {
+  if (value === undefined || value === null || value === '') return null;
+  if (typeof value === 'string') {
+    const html = renderMarkdown(value);
+    return { en: html, zh: html };
+  }
+  const en = value.en ?? value.zh;
+  const zh = value.zh ?? value.en;
+  return { en: renderMarkdown(en), zh: renderMarkdown(zh) };
+}
+
 // One CTA shape for community and meetup JSON: href always a string ('' = placeholder).
 const ctaJson = ({ id, label, href }) => ({ id, label, href: href ?? '' });
 
@@ -59,6 +72,7 @@ export function meetupToJson({ id, data, content, defaults }) {
       title: seg.title,
       speaker: seg.speaker ?? '',
       speakerBioHtml: bilingualInlineHtml(seg.speakerBio),
+      descriptionHtml: bilingualBlockHtml(seg.description),
       materials: (seg.materials ?? []).map(({ label, url }) => ({ label, url })),
       links: (seg.links ?? []).map(({ label, url }) => ({ label, url })),
     })),
