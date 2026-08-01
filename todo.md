@@ -66,6 +66,8 @@ current as part of the end-of-session checklist.
 
 ## Later
 
+- [ ] **Add a favicon** — provide a browser/tab icon for the AI展 site.
+- [ ] **Add a contact-us section** — give visitors a clear way to get in touch with the AI展 community.
 - [ ] **Speaker directory** — list everyone who has spoken at an AI展 meetup, giving people looking
       for talent a single place to browse past speakers. Page layout and presentation are TBD.
 - [x] **Past events index** — done 2026-07-28 (v0.9.0): `meetups.html` lists past meetups

@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [meta 2026-08-01](#meta--favicon-and-contact-us-backlog-2026-08-01) | **Site backlog expanded** — `todo.md` now tracks adding a favicon and a contact-us section; implementation details remain TBD. |
 | [v0.10.0](#v0100--segment-descriptions-2026-07-31-0934) | **Segment descriptions** — meetup segments (talk *and* chat) can carry an optional bilingual, multi-line `description` rendered as block markdown under the segment title on the detail page; additive schema field validated with the existing bilingual/markdown-link rules, emitted as sanitized `descriptionHtml`. |
 | [v0.9.1](#v091--charlie-added-as-moderator-2026-07-30-2313) | **Charlie added as moderator** — new `data/moderators/charlie.md` (bio, `charlie.svg` avatar, LinkedIn link), and the 7/28 chat segment (Charlie's own session) now carries the same LinkedIn as a speaker `links` entry. |
 | [v0.9.0](#v090--past-meetups-archive-page-2026-07-28-0518) | **Past meetups archive** — `meetups.html` lists every past meetup newest-first (date, attendee count, talk/chat titles with speakers) and the "Meetups" nav now points there instead of the detail page; a pure frontend consumer of the existing `index.json`, no schema or build change. |
@@ -49,6 +50,16 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## Meta — favicon and contact-us backlog (2026-08-01)
+
+**Review:** not yet
+
+**Design docs:** none — backlog capture only; implementation details remain TBD.
+
+**What changed:**
+- Added a favicon backlog item.
+- Added a contact-us section backlog item.
 
 ## v0.10.0 — Segment descriptions (2026-07-31 09:34)
 
