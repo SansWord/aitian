@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.10.0](#v0100--segment-descriptions-2026-07-31-0934) | **Segment descriptions** — meetup segments (talk *and* chat) can carry an optional bilingual, multi-line `description` rendered as block markdown under the segment title on the detail page; additive schema field validated with the existing bilingual/markdown-link rules, emitted as sanitized `descriptionHtml`. |
 | [v0.9.1](#v091--charlie-added-as-moderator-2026-07-30-2313) | **Charlie added as moderator** — new `data/moderators/charlie.md` (bio, `charlie.svg` avatar, LinkedIn link), and the 7/28 chat segment (Charlie's own session) now carries the same LinkedIn as a speaker `links` entry. |
 | [v0.9.0](#v090--past-meetups-archive-page-2026-07-28-0518) | **Past meetups archive** — `meetups.html` lists every past meetup newest-first (date, attendee count, talk/chat titles with speakers) and the "Meetups" nav now points there instead of the detail page; a pure frontend consumer of the existing `index.json`, no schema or build change. |
 | [meta 2026-07-23](#meta--speaker-directory-and-past-events-backlog-2026-07-23) | **Discovery backlog expanded** — `todo.md` now tracks a browsable speaker directory for talent discovery and a past-events index; both remain unplanned. |
@@ -48,6 +49,40 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.10.0 — Segment descriptions (2026-07-31 09:34)
+
+**Review:** not yet
+
+**Design docs:**
+- Segment description: [Spec](superpowers/specs/2026-07-31-segment-description-design.md) [Plan](superpowers/plans/2026-07-31-segment-description.md)
+
+**What was built:**
+- New optional `segments[].description` field (talk *and* chat) — bilingual string-or-`{en, zh}`,
+  multi-line, authored via YAML block scalars. Additive: no migration, every existing `data/` file
+  stays valid.
+- Validator (`scripts/lib/validate.mjs`) accepts `description` in `SEGMENT_KEYS` and reuses
+  `bilingualErrors(..., { markdownLinks: true })` — shape, empty-map-value, and http(s)-only
+  markdown-link rules all come for free.
+- Emitter (`scripts/lib/emit.mjs`) gains `bilingualBlockHtml()` and emits `descriptionHtml`
+  (`{en, zh}` of sanitized block HTML, or `null` when absent) alongside `speakerBioHtml`.
+- Detail page (`site/site.js`) renders `.segment-description` under the segment title, before
+  materials/speaker card; `site/site.css` styles it as quiet body prose. Compact cards and the
+  archive page are unchanged.
+- Docs: `docs/data-schema.md` table row, `data/meetups/_template.md` commented example,
+  `data/meetups/README.md` field mention.
+
+**Key technical learnings:**
+- `[insight]` The bilingual→HTML split hinges on inline vs block markdown: `speakerBio` uses
+  `renderInlineMarkdown` (collapses line breaks — right for a one-liner), so a multi-line field
+  needs the block renderer (`renderMarkdown`) instead. Reusing the inline helper would have
+  silently flattened paragraphs.
+- `[gotcha]` `bilingualInlineHtml` returns **`null`** (not `undefined`) when the value is absent,
+  and `speakerBioHtml` is always emitted as `null`, never omitted. `bilingualBlockHtml` mirrors
+  that exactly so the JSON shape stays uniform; the render guard is `seg.descriptionHtml?.[lang]`.
+- `[note]` The compact `index.json` (`meetupIndexEntry`) only picks `{type, title, speaker}`, so a
+  new emitted segment field never leaks into the index without a change there — asserted in the
+  build-data golden test.
 
 ## v0.9.1 — Charlie added as moderator (2026-07-30 23:13)
 

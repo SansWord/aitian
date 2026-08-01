@@ -114,7 +114,7 @@ function ctaListErrors(ctas, ctx) {
 }
 
 const MEETUP_KEYS = ['id', 'date', 'startTime', 'endTime', 'timezone', 'segments', 'ctas', 'attendees'];
-const SEGMENT_KEYS = ['type', 'title', 'speaker', 'speakerBio', 'materials', 'links'];
+const SEGMENT_KEYS = ['type', 'title', 'speaker', 'speakerBio', 'description', 'materials', 'links'];
 
 export function validateMeetup({ filename, data }) {
   const errors = [];
@@ -172,6 +172,7 @@ export function validateMeetup({ filename, data }) {
         errors.push(`${ctx}.speaker: required for talk segments (plain display name)`);
       }
       errors.push(...bilingualErrors(seg.speakerBio, `${ctx}.speakerBio`, { markdownLinks: true }));
+      errors.push(...bilingualErrors(seg.description, `${ctx}.description`, { markdownLinks: true }));
       errors.push(...linkListErrors(seg.materials, `${ctx}.materials`));
       errors.push(...linkListErrors(seg.links, `${ctx}.links`));
       if (seg.links !== undefined && (typeof seg.speaker !== 'string' || seg.speaker.trim() === '')) {

@@ -5,4 +5,8 @@ segments:
     title: "Winter talk"
     speaker: Alice
     speakerBio: "Builds things — [site](https://alice.example)."
+    description: |
+      What the talk covers.
+
+      A second paragraph.
 ---

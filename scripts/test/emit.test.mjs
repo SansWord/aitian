@@ -45,6 +45,52 @@ test('string speakerBio renders the same sanitized inline HTML for both language
   assert.equal(bio.en, bio.zh);
 });
 
+test('multi-line description renders block HTML (paragraphs) identically for both languages', () => {
+  const m = meetupToJson({
+    id: '2026-07-14-x',
+    data: {
+      date: '2026-07-14',
+      segments: [
+        { type: 'talk', title: 'T', speaker: 'A', description: 'Para one.\n\nPara two.' },
+      ],
+    },
+    content: '',
+    defaults: DEFAULTS,
+  });
+  const d = m.segments[0].descriptionHtml;
+  assert.equal((d.en.match(/<p>/g) || []).length, 2); // two paragraphs preserved
+  assert.match(d.en, /Para one\./);
+  assert.match(d.en, /Para two\./);
+  assert.equal(d.en, d.zh);
+});
+
+test('bilingual description map renders each language independently', () => {
+  const m = meetupToJson({
+    id: '2026-07-14-x',
+    data: {
+      date: '2026-07-14',
+      segments: [
+        { type: 'chat', title: 'C', description: { en: 'English body.', zh: '中文內容。' } },
+      ],
+    },
+    content: '',
+    defaults: DEFAULTS,
+  });
+  const d = m.segments[0].descriptionHtml;
+  assert.match(d.en, /English body\./);
+  assert.match(d.zh, /中文內容。/);
+});
+
+test('absent description emits descriptionHtml: null (mirrors speakerBioHtml)', () => {
+  const m = meetupToJson({
+    id: '2026-07-14-x',
+    data: { date: '2026-07-14', segments: [{ type: 'chat', title: 'C' }] },
+    content: '',
+    defaults: DEFAULTS,
+  });
+  assert.equal(m.segments[0].descriptionHtml, null);
+});
+
 test('script tags in a body are stripped at build time', () => {
   const html = renderBilingualBody('Hello <script>alert(1)</script> world.');
   assert.ok(!html.en.includes('script'));

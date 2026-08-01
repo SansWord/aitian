@@ -13,6 +13,8 @@ segments: []
 #     title: "My talk title"     # or { en: "...", zh: "..." }
 #     speaker: YourName          # display name; anything merged here is public — links beat raw emails
 #     speakerBio: ""             # optional; 1-2 sentences, markdown links OK (http(s) only)
+#     description: |             # optional; short, multi-line markdown summary of this segment
+#       What this talk/chat is about.
 #     links:                     # optional; the speaker's public links — public once merged
 #       - label: LinkedIn        # or { en: "...", zh: "..." }
 #         url: "https://www.linkedin.com/in/you"

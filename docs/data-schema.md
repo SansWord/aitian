@@ -48,6 +48,7 @@ PT meetup is Wednesday morning in Taipei and still uses the Tuesday PT date.
 | `segments[].title` | ✅ | string or `{en, zh}` | |
 | `segments[].speaker` | talk: ✅ | plain string | display name |
 | `segments[].speakerBio` | – | string or `{en, zh}` | 1–2 sentences; markdown links OK, `http(s)://` only |
+| `segments[].description` | – | string or `{en, zh}` | short summary of the segment (talk or chat); multi-line **block** markdown (paragraphs), markdown links `http(s)://` only; renders on the detail page under the title |
 | `segments[].materials` | – | list of `{label, url}` | the segment's slides/demo/repo links; `label` string or `{en, zh}`, `url` `http(s)://`; no `speaker` needed — materials belong to the segment |
 | `segments[].links` | – | list of `{label, url}` | the **speaker's** links (same shape as moderator `links`); `label` string or `{en, zh}`, `url` `http(s)://`; requires a non-empty `speaker` on the same segment |
 | `ctas` | – | list, same shape/rules as community `ctas[]` | **whole-list override** of the community CTAs on this meetup's detail page while it's upcoming; `[]` = no CTAs; `id` unique within the file only |
