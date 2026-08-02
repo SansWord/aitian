@@ -13,6 +13,10 @@ ctas:
   - id: calendar
     label: { en: "Calendar", zh: "活動日曆" }
     href: "https://luma.com/aitian"
+  - id: threads
+    label: { en: "Follow/message us on Threads", zh: "在 Threads 上追蹤/私訊我們" }
+    href: "https://www.threads.com/@when_ai_"
+    
 
 ---
 ## en
