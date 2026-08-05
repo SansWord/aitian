@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.10.1](#v0101--825-meetup-talk-back-filled-2026-08-05-1956) | **8/25 meetup booked** — the seeded TBA file now lists Liang-Bin "hlb" Hsueh's talk, "From Idea to Delivery in One Thread", with his full bio and Website/LinkedIn speaker links. |
 | [meta 2026-08-01](#meta--favicon-and-contact-us-backlog-2026-08-01) | **Site backlog expanded** — `todo.md` now tracks adding a favicon and a contact-us section; implementation details remain TBD. |
 | [v0.10.0](#v0100--segment-descriptions-2026-07-31-0934) | **Segment descriptions** — meetup segments (talk *and* chat) can carry an optional bilingual, multi-line `description` rendered as block markdown under the segment title on the detail page; additive schema field validated with the existing bilingual/markdown-link rules, emitted as sanitized `descriptionHtml`. |
 | [v0.9.1](#v091--charlie-added-as-moderator-2026-07-30-2313) | **Charlie added as moderator** — new `data/moderators/charlie.md` (bio, `charlie.svg` avatar, LinkedIn link), and the 7/28 chat segment (Charlie's own session) now carries the same LinkedIn as a speaker `links` entry. |
@@ -50,6 +51,25 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.10.1 — 8/25 meetup talk back-filled (2026-08-05 19:56)
+
+**Review:** not yet
+
+**Design docs:** none — content-only back-fill.
+
+**What was built:**
+- `data/meetups/2026-08-25.md` was filled from its seeded TBA state with Liang-Bin "hlb" Hsueh's
+  talk, "From Idea to Delivery in One Thread".
+- The speaker bio is stored verbatim (3 paragraphs) as plain English `speakerBio`; the submitted
+  website and LinkedIn URLs are stored as speaker `links` rather than the raw email address
+  (docs/data-schema.md §Privacy & consent: profile/portfolio links beat raw emails).
+
+**Key technical learnings:**
+- `[gotcha]` `speakerBio` renders via `renderInlineMarkdown` into a single `<p>` — blank lines
+  between paragraphs pass through as literal `\n` in the built HTML, which browsers collapse to a
+  single space. A multi-paragraph bio therefore displays as one run-on paragraph with no visual
+  break; there's no block-level rendering path for this field today.
 
 ## Meta — favicon and contact-us backlog (2026-08-01)
 
