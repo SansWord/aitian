@@ -13,7 +13,7 @@ links:
     url: "https://missmoss.info/"
 ---
 ## en
-Data @AWS. Write and build AI applications in my free time. Into agentic loop design lately.
+Data @AWS. Write about and build AI applications in my free time. Into agentic loop design lately.
 
 ## zh
 在 AWS 生產資料的猴子。吱吱。最近迷上 AI，跟 AI 玩感覺很像打電動。
