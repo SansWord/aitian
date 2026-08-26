@@ -4,6 +4,11 @@ What's new on [aitian.dev](https://aitian.dev) for visitors, speakers, and moder
 tracks user-visible features — the full build history (fixes, internals, design sessions) lives in
 [`docs/devlog.md`](docs/devlog.md).
 
+## v0.11.0 — Site icon (2026-08-26)
+
+- aitian.dev now has its own tab icon — 展 in cream on a teal tile — so the site is easy to pick out
+  in a row of open tabs, in bookmarks, and on a phone home screen.
+
 ## v0.10.0 — Segment descriptions (2026-07-31)
 
 - Talks and chats can now carry a short description — a few lines about what the segment covers, in

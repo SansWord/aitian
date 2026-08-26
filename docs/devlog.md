@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.11.0](#v0110--favicon-2026-08-26-1327) | **Site icon** — aitian.dev has a favicon: 展 alone in cream on a teal tile, shipped as an outlined-path `favicon.svg` plus `.ico` and a 180px apple-touch-icon, linked from all four pages. One fixed mark in both themes. |
 | [v0.10.1](#v0101--825-meetup-talk-back-filled-2026-08-05-1956) | **8/25 meetup booked** — the seeded TBA file now lists Liang-Bin "hlb" Hsueh's talk, "From Idea to Delivery in One Thread", with his full bio and Website/LinkedIn speaker links. |
 | [meta 2026-08-01](#meta--favicon-and-contact-us-backlog-2026-08-01) | **Site backlog expanded** — `todo.md` now tracks adding a favicon and a contact-us section; implementation details remain TBD. |
 | [v0.10.0](#v0100--segment-descriptions-2026-07-31-0934) | **Segment descriptions** — meetup segments (talk *and* chat) can carry an optional bilingual, multi-line `description` rendered as block markdown under the segment title on the detail page; additive schema field validated with the existing bilingual/markdown-link rules, emitted as sanitized `descriptionHtml`. |
@@ -51,6 +52,48 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.11.0 — Favicon (2026-08-26 13:27)
+
+**Review:** not yet
+
+**Design docs:**
+- Favicon: [Spec](superpowers/specs/2026-08-26-favicon-design.md)
+
+**What was built:**
+- `site/favicon.svg` — 展 alone, cream `#ede7e3` on a teal `#16697a` rounded tile (radius 11/64),
+  glyph ink-bbox-centered at 56/64. ~1.4 KB.
+- `site/favicon.ico` (16+32) and `site/apple-touch-icon.png` (180×180) as fallbacks; each ICO frame
+  rendered at its own size rather than downsampled from one bitmap.
+- Three `<link>` lines in the `<head>` of all four pages. No build-script change — `npm run build`
+  already copies `site/.` into `dist/`.
+- `docs/theming.md` gained a **Favicon** section: the icon is the one place color lives outside
+  `site.css`, so a palette change has to regenerate it by hand.
+- Closes the "Add a favicon" backlog item from `todo.md` (opened 2026-08-01).
+
+**Key technical learnings:**
+- `[insight]` An SVG favicon using `<text>` is a trap for a CJK wordmark — it renders tofu anywhere
+  the viewer has no CJK font, and a favicon can't webfont its way out. Outlining the glyph to paths
+  (fontTools, one-time and local) makes the asset self-contained at ~1.4 KB.
+- `[insight]` Font licensing decides the glyph source for a public repo. macOS system CJK faces
+  (Hiragino, STHeiti) are commercially licensed, so their outlines are grey to redistribute. Noto
+  Sans TC is SIL OFL *and* already the first CJK face in the site's `font-family` stack — the
+  license-clean choice is also the one that matches the header wordmark.
+- `[gotcha]` On a Retina display the browser renders a "16px" tab favicon at **32 device px**, so
+  judging the mark by its 16px raster is misleading pessimism. Tune against 32 and treat 16 as the
+  non-HiDPI floor.
+- `[insight]` Weight is the real legibility lever for a dense CJK glyph at icon sizes, and it is not
+  monotonic: `wght=900` closes 展's counters into a blur, `500` goes thin and washy. 700 held the
+  five stacked horizontals open. Rendering the candidates and blowing them up nearest-neighbour was
+  the only way to see this.
+- `[note]` A favicon can't follow a site theme end-to-end: `prefers-color-scheme` inside an SVG works
+  in Chrome/Firefox but not Safari, and ICO/PNG fallbacks can't express it at all. One fixed
+  saturated tile is more consistent than a half-working adaptive one.
+
+**Process learnings:**
+- `[note]` The design question worth surfacing was not "what color" but "how many glyphs" — three
+  glyphs at 16px is the decision that makes or breaks the icon, and it is a product call, not an
+  implementation detail.
 
 ## v0.10.1 — 8/25 meetup talk back-filled (2026-08-05 19:56)
 
