@@ -66,7 +66,11 @@ current as part of the end-of-session checklist.
 
 ## Later
 
-- [ ] **Add a favicon** — provide a browser/tab icon for the AI展 site.
+- [x] **Add a favicon** — done 2026-08-26 (v0.11.0): 展 alone, cream `#ede7e3` on a teal
+      `#16697a` rounded tile, shipped as `site/favicon.svg` (outlined Noto Sans TC paths),
+      `site/favicon.ico` (16+32) and `site/apple-touch-icon.png` (180); spec
+      ([`docs/superpowers/specs/2026-08-26-favicon-design.md`](docs/superpowers/specs/2026-08-26-favicon-design.md)).
+      One fixed mark in both themes — see `docs/theming.md` §Favicon before changing `--accent`.
 - [ ] **Add a contact-us section** — give visitors a clear way to get in touch with the AI展 community.
 - [ ] **Speaker directory** — list everyone who has spoken at an AI展 meetup, giving people looking
       for talent a single place to browse past speakers. Page layout and presentation are TBD.

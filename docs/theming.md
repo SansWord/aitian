@@ -81,6 +81,27 @@ These are the decisions behind the current mapping.
 - **Gold stays the fill accent in dark.** On the black page it remains loud and readable, and black
   CTA text on gold clears contrast comfortably (~13.1:1).
 
+## Favicon — the one place color lives outside `site.css`
+
+The tab icon (`site/favicon.svg`, `site/favicon.ico`, `site/apple-touch-icon.png`) is **展 on a solid
+tile**, and it hard-codes two palette values as literal hexes:
+
+| Part | Value | Palette role it mirrors |
+|------|-------|-------------------------|
+| Tile fill | `#16697a` | light `--accent` |
+| Glyph fill | `#ede7e3` | the cream from the light coolors palette |
+
+**The favicon does not follow the theme** — one fixed mark in both. A saturated tile carries its own
+contrast against light and dark browser chrome, and a `prefers-color-scheme` swap inside the SVG
+would only work in Chrome and Firefox (not Safari) and cannot be expressed in the ICO/PNG fallbacks
+at all, so the brand would render two different ways depending on the browser.
+
+Because these hexes live outside the token blocks, **a palette change does not reach them**. If
+`--accent` moves, regenerate the icons by hand or the theme contract silently forks. The glyph is an
+outlined path extracted from **Noto Sans TC** (SIL OFL) at `wght=700` — not SVG `<text>`, which would
+render tofu wherever no CJK font is installed. Rationale and the regeneration recipe:
+[`docs/superpowers/specs/2026-08-26-favicon-design.md`](superpowers/specs/2026-08-26-favicon-design.md).
+
 ## How to adjust the theme
 
 1. **Pick the palette(s)** — e.g. a coolors link per theme, 4–6 colors each.
@@ -101,7 +122,9 @@ These are the decisions behind the current mapping.
    `dist/` copy, so CSS edits won't show), serve `dist/`, and flip the header theme toggle. Look
    specifically at link vs body-text distinguishability, CTA readability, card separation on meetup
    and moderators, dark page-glow balance, and the landing hero image/text overlap in both themes.
-5. **Update this doc** — palette references, the token table values, and any rationale that changed
+5. **Regenerate the favicon if `--accent` moved** — it hard-codes the tile hex outside `site.css`
+   (see the Favicon section above).
+6. **Update this doc** — palette references, the token table values, and any rationale that changed
    — in the same PR as the CSS.
 
 Adding a *new* token: add it to all three blocks, give it a row in the token table (role, consumers,
