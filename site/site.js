@@ -83,6 +83,32 @@ function splitMeetups(index, now = Date.now()) {
   return { featured: upcoming[0] ?? null, upcoming, past };
 }
 
+// zh-TW's digit-adjacent-to-Han-character dates ("9月30日週三") and times
+// ("上午9:00") read as cramped; product wants a space flanking each number
+// ("9 月 30 日週三", "上午 9:00") while en output is left untouched. Building
+// from formatToParts (rather than regexing the formatted string) sidesteps
+// having to guess which digit runs are safe to space.
+function zhSpacedDate(parts) {
+  const get = (type) => parts.find((p) => p.type === type)?.value ?? '';
+  const year = get('year');
+  const ymd = `${get('month')} 月 ${get('day')} 日${get('weekday')}`;
+  return year ? `${year} 年 ${ymd}` : ymd;
+}
+function zhSpacedTime(parts) {
+  const get = (type) => parts.find((p) => p.type === type)?.value ?? '';
+  return `${get('dayPeriod')} ${get('hour')}:${get('minute')}`;
+}
+function formatDate(date, timeZone, locale, opts) {
+  const fmt = new Intl.DateTimeFormat(locale, { timeZone, ...opts });
+  return locale === 'zh-TW' ? zhSpacedDate(fmt.formatToParts(date)) : fmt.format(date);
+}
+function formatTime(date, timeZone, locale) {
+  const fmt = new Intl.DateTimeFormat(locale, {
+    timeZone, hour: 'numeric', minute: '2-digit', hour12: true,
+  });
+  return locale === 'zh-TW' ? zhSpacedTime(fmt.formatToParts(date)) : fmt.format(date);
+}
+
 // ---------- time display (spec §2.2): Pacific first, Taipei reminder ----------
 // Both lines follow the language toggle (2026-07-10 localized-time-lines spec);
 // applyLang()'s full re-render recomputes them on every toggle.
@@ -90,12 +116,7 @@ function formatMeetupTimes(m) {
   const start = new Date(m.start);
   const end = new Date(m.end);
   const locale = lang === 'zh' ? 'zh-TW' : 'en-US';
-  const dateFmt = new Intl.DateTimeFormat(locale, {
-    timeZone: m.timezone, weekday: 'short', month: 'short', day: 'numeric',
-  });
-  const timeFmt = new Intl.DateTimeFormat(locale, {
-    timeZone: m.timezone, hour: 'numeric', minute: '2-digit', hour12: true,
-  });
+  const dateOpts = { weekday: 'short', month: 'short', day: 'numeric' };
   let zone = '';
   for (const style of ['shortGeneric', 'short']) {
     try {
@@ -105,21 +126,20 @@ function formatMeetupTimes(m) {
       break;
     } catch { /* older engine without shortGeneric — fall back */ }
   }
-  const range = `${dateFmt.format(start)} · ${timeFmt.format(start)} – ${timeFmt.format(end)}`;
+  const range = `${formatDate(start, m.timezone, locale, dateOpts)} · `
+    + `${formatTime(start, m.timezone, locale)} – ${formatTime(end, m.timezone, locale)}`;
   // zh labels the default venue timezone 美國西岸時間 (not Intl's 太平洋時間);
   // any other timezone keeps Intl's zh zone name so the line is never mislabeled.
   const home = lang === 'zh'
     ? `${m.timezone === 'America/Los_Angeles' ? t('time.westCoast') : zone} ${range}`
     : `${range} ${zone}`;
-  // The Taipei reminder carries its own weekday — Tuesday evening PT is
-  // Wednesday morning in Taipei (spec §2.2). The prefix carries its own
-  // spacing: en "Taipei: " (trailing space), zh "台北時間" (none).
-  const tpeDay = new Intl.DateTimeFormat(locale, { timeZone: 'Asia/Taipei', weekday: 'short' })
-    .format(start);
-  const tpeTime = new Intl.DateTimeFormat(locale, {
-    timeZone: 'Asia/Taipei', hour: 'numeric', minute: '2-digit', hour12: true,
-  });
-  const taipei = `${t('time.taipei')}${tpeDay} ${tpeTime.format(start)} – ${tpeTime.format(end)}`;
+  // The Taipei reminder carries its own date — Tuesday evening PT is
+  // Wednesday morning in Taipei (spec §2.2), and the date can cross a month
+  // boundary too, so it gets the full weekday+month+day, not just a weekday.
+  // The prefix carries its own spacing: en "Taipei: " (trailing space), zh
+  // "台北時間" (none).
+  const taipei = `${t('time.taipei')}${formatDate(start, 'Asia/Taipei', locale, dateOpts)} `
+    + `${formatTime(start, 'Asia/Taipei', locale)} – ${formatTime(end, 'Asia/Taipei', locale)}`;
   return { home, taipei };
 }
 
@@ -127,9 +147,9 @@ function formatMeetupTimes(m) {
 // range, no Taipei reminder. Follows the language toggle like formatMeetupTimes().
 function formatMeetupDate(m) {
   const locale = lang === 'zh' ? 'zh-TW' : 'en-US';
-  return new Intl.DateTimeFormat(locale, {
-    timeZone: m.timezone, weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-  }).format(new Date(m.start));
+  return formatDate(new Date(m.start), m.timezone, locale, {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+  });
 }
 
 // ---------- DOM helper ----------

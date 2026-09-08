@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.12.0](#v0120--taipei-date-fix--zh-tw-datetime-spacing-2026-09-07-2143) | **Taipei date fix + zh-TW spacing** — the Taipei reminder line now always shows its own date (was weekday-only, silently dropping the month/day), and zh-TW date/time lines space numbers away from adjacent Han characters ("9月30日週三" → "9 月 30 日週三", "上午9:00" → "上午 9:00"). |
 | [v0.11.0](#v0110--favicon-2026-08-26-1327) | **Site icon** — aitian.dev has a favicon: 展 alone in cream on a teal tile, shipped as an outlined-path `favicon.svg` plus `.ico` and a 180px apple-touch-icon, linked from all four pages. One fixed mark in both themes. |
 | [v0.10.1](#v0101--825-meetup-talk-back-filled-2026-08-05-1956) | **8/25 meetup booked** — the seeded TBA file now lists Liang-Bin "hlb" Hsueh's talk, "From Idea to Delivery in One Thread", with his full bio and Website/LinkedIn speaker links. |
 | [meta 2026-08-01](#meta--favicon-and-contact-us-backlog-2026-08-01) | **Site backlog expanded** — `todo.md` now tracks adding a favicon and a contact-us section; implementation details remain TBD. |
@@ -52,6 +53,26 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
 
 ---
+
+## v0.12.0 — Taipei date fix + zh-TW date/time spacing (2026-09-07 21:43)
+
+**Review:** not yet
+
+**What was built:**
+- Fixed the Taipei reminder line (`formatMeetupTimes()` in `site/site.js`) to always render its own
+  weekday **and** month/day — it previously formatted only the weekday, so the date silently
+  disappeared even though PT evening is always a different calendar day (and sometimes a different
+  month) in Taipei.
+- zh-TW date and time strings now space numbers away from adjacent Han characters — dates read
+  `9 月 30 日週三` instead of `9月30日週三`, times read `上午 9:00` instead of `上午9:00`. Applied
+  consistently across the home line, the Taipei reminder, and the archive rows' date-only format.
+  English output is unchanged.
+
+**Key technical learnings:**
+- `[insight]` Building the zh-TW spaced strings from `Intl.DateTimeFormat.formatToParts()` (pulling
+  out `month`/`day`/`weekday`/`dayPeriod`/`hour`/`minute` by type and rejoining with explicit spaces)
+  is more robust than regexing the already-formatted string — no guessing which digit runs are safe
+  to space without also splitting something like a colon-joined time.
 
 ## v0.11.0 — Favicon (2026-08-26 13:27)
 
