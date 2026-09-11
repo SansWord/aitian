@@ -7,6 +7,7 @@ segments:
     materials:
       - label: { en: "Notes", zh: "筆記" }
         url: "https://notes.example/chat"
+rsvpUrl: "https://lu.ma/summer-rsvp"
 ctas:
   - id: special
     label: { en: "Join us", zh: "加入我們" }
