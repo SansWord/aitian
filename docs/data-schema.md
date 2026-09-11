@@ -51,7 +51,8 @@ PT meetup is Wednesday morning in Taipei and still uses the Tuesday PT date.
 | `segments[].description` | – | string or `{en, zh}` | short summary of the segment (talk or chat); multi-line **block** markdown (paragraphs), markdown links `http(s)://` only; renders on the detail page under the title |
 | `segments[].materials` | – | list of `{label, url}` | the segment's slides/demo/repo links; `label` string or `{en, zh}`, `url` `http(s)://`; no `speaker` needed — materials belong to the segment |
 | `segments[].links` | – | list of `{label, url}` | the **speaker's** links (same shape as moderator `links`); `label` string or `{en, zh}`, `url` `http(s)://`; requires a non-empty `speaker` on the same segment |
-| `ctas` | – | list, same shape/rules as community `ctas[]` | **whole-list override** of the community CTAs on this meetup's detail page while it's upcoming; `[]` = no CTAs; `id` unique within the file only |
+| `rsvpUrl` | – | `http(s)://` URL string | this meetup's registration link (e.g. the Luma event). Drives the **auto-synthesized RSVP button**: prepended to this meetup's own CTA row on its detail page while upcoming, and — for whichever meetup is nearest and has one set — to the landing hero's CTA row too (site walks forward through the upcoming meetups until it finds one with `rsvpUrl` set). No `rsvpUrl` anywhere upcoming → no RSVP button renders, anywhere. Omit the field rather than writing `""`. |
+| `ctas` | – | list, same shape/rules as community `ctas[]` | **whole-list override** of the community CTAs on this meetup's detail page while it's upcoming; `[]` = no CTAs; `id` unique within the file only; **`id: rsvp` is reserved** — CI rejects it, use `rsvpUrl` above instead |
 | `attendees` | – | integer ≥ 0 or `null` | back-fill after the event; hidden while null |
 
 Body (optional): meetup-level intro, markdown, `## en` / `## zh` sections.
@@ -77,7 +78,7 @@ dimensions are forgiving; **file size ≤ 500 KB is CI-enforced** (repo bloat is
 | `tagline` | ✅ | string or `{en, zh}` | hero tagline |
 | `schedule.timezone` | ✅ | IANA name | default for every meetup |
 | `schedule.startTime` / `.endTime` | ✅ | `"HH:MM"` strings | defaults, per-meetup overridable |
-| `ctas[].id` | ✅ | string | stable key the frontend can target — every CTA renders on the landing hero and on upcoming meetup detail pages |
+| `ctas[].id` | ✅ | string | stable key the frontend can target — every CTA renders on the landing hero and on upcoming meetup detail pages; **`id: rsvp` is reserved** (CI rejects it) — the RSVP button is synthesized from a meetup's `rsvpUrl` field, never authored as a community CTA |
 | `ctas[].label` | ✅ | string or `{en, zh}` | |
 | `ctas[].href` | – | `http(s)://` URL or `""` | `""` renders a disabled placeholder button |
 
@@ -91,10 +92,11 @@ segment, a frontmatter `id`, filename pattern violations, non-integer `attendees
 bilingual values, any URL that isn't `http(s)://` (including links inside
 `speakerBio` markdown — `javascript:` URLs fail CI before they can reach a page), avatars that
 aren't a bare existing filename, avatar files over 500 KB, duplicate `ctas[].id` values (within one
-file — community or meetup), a missing `data/moderators/avatars/default.png` (the required fallback
-avatar), the removed `segments[].materialsUrl` (a dedicated error names `materials` as its
-replacement), empty or whitespace-only values inside `{en, zh}` maps, and frontmatter that isn't
-valid YAML.
+file — community or meetup), a `ctas[].id` of `rsvp` (a dedicated error names `rsvpUrl` as its
+replacement), a malformed or empty-string `rsvpUrl`, a missing
+`data/moderators/avatars/default.png` (the required fallback avatar), the removed
+`segments[].materialsUrl` (a dedicated error names `materials` as its replacement), empty or
+whitespace-only values inside `{en, zh}` maps, and frontmatter that isn't valid YAML.
 
 ## Privacy & consent
 

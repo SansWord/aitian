@@ -97,3 +97,8 @@ test('non-http cta href is rejected', () =>
   ));
 test('empty cta href is allowed (placeholder button)', () =>
   assert.deepEqual(commErrs({ ctas: [{ id: 'x', label: 'x', href: '' }] }), []));
+test('community cta id "rsvp" is rejected with the rsvpUrl migration hint', () =>
+  assert.match(
+    commErrs({ ctas: [{ id: 'rsvp', label: 'RSVP', href: 'https://lu.ma/x' }] }).join('\n'),
+    /ctas\[0\]\.id: "rsvp" is reserved.*rsvpUrl/,
+  ));

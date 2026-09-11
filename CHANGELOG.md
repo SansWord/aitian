@@ -4,6 +4,11 @@ What's new on [aitian.dev](https://aitian.dev) for visitors, speakers, and moder
 tracks user-visible features — the full build history (fixes, internals, design sessions) lives in
 [`docs/devlog.md`](docs/devlog.md).
 
+## v0.13.0 — Automatic RSVP link (2026-09-11)
+
+- The RSVP button on the homepage now always points at the next meetup automatically — no more
+  stale links if it's not updated right after a new meetup is booked.
+
 ## v0.11.0 — Site icon (2026-08-26)
 
 - aitian.dev now has its own tab icon — 展 in cream on a teal tile — so the site is easy to pick out

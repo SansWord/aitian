@@ -289,9 +289,20 @@ test('segment links with an empty speaker are rejected (chat)', () =>
 
 test('meetup ctas happy path (override list) is valid', () =>
   assert.deepEqual(
-    errs({ ctas: [{ id: 'rsvp', label: { en: 'RSVP', zh: '報名' }, href: 'https://lu.ma/x' }] }),
+    errs({ ctas: [{ id: 'survey', label: { en: 'Survey', zh: '問卷' }, href: 'https://lu.ma/x' }] }),
     [],
   ));
+test('meetup cta id "rsvp" is rejected with the rsvpUrl migration hint', () =>
+  assert.match(
+    errs({ ctas: [{ id: 'rsvp', label: 'RSVP', href: 'https://lu.ma/x' }] }).join('\n'),
+    /ctas\[0\]\.id: "rsvp" is reserved.*rsvpUrl/,
+  ));
+test('rsvpUrl happy path is valid', () =>
+  assert.deepEqual(errs({ rsvpUrl: 'https://lu.ma/x' }), []));
+test('empty-string rsvpUrl is rejected', () =>
+  assert.match(errs({ rsvpUrl: '' }).join('\n'), /rsvpUrl: must be a non-empty http\(s\) URL/));
+test('non-http rsvpUrl is rejected', () =>
+  assert.match(errs({ rsvpUrl: 'javascript:alert(1)' }).join('\n'), /rsvpUrl: must be a non-empty http\(s\) URL/));
 test('ctas: [] is a valid explicit no-CTAs override', () =>
   assert.deepEqual(errs({ ctas: [] }), []));
 test('meetup cta without id is rejected', () =>
