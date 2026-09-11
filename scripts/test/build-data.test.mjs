@@ -24,6 +24,11 @@ test('golden fixture validates and emits the expected shapes', () => {
   assert.equal(index[0].segments[0].speaker, 'Alice'); // segment summary present
   assert.ok(!('speakerBioHtml' in index[0].segments[0])); // …but compact
   assert.ok(!('descriptionHtml' in index[0].segments[0])); // …and no description in the compact index
+  // rsvpUrl across multiple meetups reaches the compact index too — this is
+  // what the landing hero's walk-forward-to-the-next-linked-meetup logic
+  // reads, without fetching every detail file.
+  assert.equal(index[0].rsvpUrl, null); // winter: no rsvpUrl authored
+  assert.equal(index[1].rsvpUrl, 'https://lu.ma/summer-rsvp'); // summer: authored
 
   const winter = JSON.parse(
     fs.readFileSync(path.join(out, 'data/meetups/2026-01-13-winter-talk.json'), 'utf8'),
@@ -44,6 +49,8 @@ test('golden fixture validates and emits the expected shapes', () => {
   assert.deepEqual(summer.ctas, [
     { id: 'special', label: { en: 'Join us', zh: '加入我們' }, href: 'https://lu.ma/special' },
   ]);
+  assert.equal(summer.rsvpUrl, 'https://lu.ma/summer-rsvp');
+  assert.equal(winter.rsvpUrl, null); // no rsvpUrl authored
 
   const modIndex = JSON.parse(
     fs.readFileSync(path.join(out, 'data/moderators/index.json'), 'utf8'),

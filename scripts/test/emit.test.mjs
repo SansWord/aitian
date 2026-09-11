@@ -183,6 +183,19 @@ test('segment materials map to detail JSON; absent materials emit []; materialsU
   assert.ok(!('materialsUrl' in m.segments[0]));
 });
 
+test('meetup rsvpUrl passes through meetupToJson (and to the compact index entry), null when absent', () => {
+  const base = { date: '2026-07-14', segments: [] };
+  const withLink = meetupToJson({
+    id: 'x', data: { ...base, rsvpUrl: 'https://luma.com/x' }, content: '', defaults: DEFAULTS,
+  });
+  assert.equal(withLink.rsvpUrl, 'https://luma.com/x');
+  assert.equal(meetupIndexEntry(withLink).rsvpUrl, 'https://luma.com/x');
+
+  const noLink = meetupToJson({ id: 'x', data: base, content: '', defaults: DEFAULTS });
+  assert.equal(noLink.rsvpUrl, null);
+  assert.equal(meetupIndexEntry(noLink).rsvpUrl, null);
+});
+
 test('meetup ctas emit as a mapped list when present, null when absent, [] when explicitly empty', () => {
   const base = { date: '2026-07-14', segments: [] };
   const withCtas = meetupToJson({
