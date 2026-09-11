@@ -77,15 +77,18 @@ export function meetupToJson({ id, data, content, defaults }) {
       links: (seg.links ?? []).map(({ label, url }) => ({ label, url })),
     })),
     attendees: data.attendees ?? null,
+    rsvpUrl: data.rsvpUrl ?? null,
     ctas: data.ctas ? data.ctas.map(ctaJson) : null,
     bodyHtml: renderBilingualBody(content),
   };
 }
 
 // Compact card data: enough to render the featured card and coming-up strip
-// without fetching detail files (spec §1.5).
+// without fetching detail files (spec §1.5). rsvpUrl travels with it so the
+// landing hero can find the next meetup with a link without fetching every
+// detail file.
 export function meetupIndexEntry(meetupJson) {
-  const { id, date, timezone, start, end, attendees } = meetupJson;
+  const { id, date, timezone, start, end, attendees, rsvpUrl } = meetupJson;
   return {
     id,
     date,
@@ -93,6 +96,7 @@ export function meetupIndexEntry(meetupJson) {
     start,
     end,
     attendees,
+    rsvpUrl,
     segments: meetupJson.segments.map(({ type, title, speaker }) => ({ type, title, speaker })),
   };
 }

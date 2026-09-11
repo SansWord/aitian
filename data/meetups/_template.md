@@ -22,10 +22,13 @@ segments: []
 #       - label: Slides          # or { en: "...", zh: "..." }
 #         url: "https://example.com/slides.pdf"
 attendees: null                  # back-fill after the event (integer)
+# rsvpUrl: "https://lu.ma/your-event"  # optional; once set, an RSVP button is
+#   auto-shown on the landing hero (while this is the next meetup with a link)
+#   and on this meetup's own detail page — no "rsvp" cta needed or allowed.
 # ctas:                          # optional; REPLACES the community CTAs on this page while upcoming
-#   - id: rsvp                   # unique within this file
-#     label: RSVP                # or { en: "...", zh: "..." }
-#     href: "https://lu.ma/your-event"   # "" renders a disabled placeholder button
+#   - id: survey                 # unique within this file; "rsvp" is reserved (use rsvpUrl above)
+#     label: Survey              # or { en: "...", zh: "..." }
+#     href: "https://forms.gle/your-survey"   # "" renders a disabled placeholder button
 ---
 
 Optional meetup intro (markdown). Use "## en" / "## zh" headings for bilingual content.

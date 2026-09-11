@@ -99,6 +99,10 @@ function ctaListErrors(ctas, ctx) {
     errors.push(...unknownKeyErrors(cta, CTA_KEYS, cctx));
     if (typeof cta.id !== 'string' || cta.id.trim() === '') {
       errors.push(`${cctx}.id: required stable key (the frontend targets it)`);
+    } else if (cta.id === 'rsvp') {
+      errors.push(
+        `${cctx}.id: "rsvp" is reserved — set the meetup's "rsvpUrl" field instead of a "rsvp" cta`,
+      );
     } else if (seen.has(cta.id)) {
       errors.push(`${cctx}.id: duplicate "${cta.id}"`);
     } else {
@@ -113,7 +117,9 @@ function ctaListErrors(ctas, ctx) {
   return errors;
 }
 
-const MEETUP_KEYS = ['id', 'date', 'startTime', 'endTime', 'timezone', 'segments', 'ctas', 'attendees'];
+const MEETUP_KEYS = [
+  'id', 'date', 'startTime', 'endTime', 'timezone', 'segments', 'rsvpUrl', 'ctas', 'attendees',
+];
 const SEGMENT_KEYS = ['type', 'title', 'speaker', 'speakerBio', 'description', 'materials', 'links'];
 
 export function validateMeetup({ filename, data }) {
@@ -189,6 +195,14 @@ export function validateMeetup({ filename, data }) {
     !(Number.isInteger(data.attendees) && data.attendees >= 0)
   ) {
     errors.push(`attendees: must be an integer >= 0 or null (got ${JSON.stringify(data.attendees)})`);
+  }
+
+  if (data.rsvpUrl !== undefined) {
+    if (typeof data.rsvpUrl !== 'string' || data.rsvpUrl.trim() === '' || !HTTP_URL_RE.test(data.rsvpUrl)) {
+      errors.push(
+        `rsvpUrl: must be a non-empty http(s) URL when present (omit the field if there's no link yet)`,
+      );
+    }
   }
 
   if (data.ctas !== undefined) {

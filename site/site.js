@@ -207,6 +207,14 @@ function ctaButtons(ctas) {
   );
 }
 
+// The RSVP button is synthesized, not authored: its href always comes from a
+// meetup's own rsvpUrl field (never a "rsvp" cta id — the validator rejects
+// those). Prepend it to a cta list only when a link exists; no link anywhere
+// means no RSVP button at all, rather than a stale/disabled one.
+function rsvpCta(href) {
+  return { id: 'rsvp', label: t('cta.rsvp'), href };
+}
+
 function noneScheduledCard() {
   return el('a', { class: 'card card-featured', href: './index.html#cta' }, [
     el('p', { class: 'card-tba', text: t('meetup.noneScheduled') }),
@@ -230,11 +238,16 @@ function renderLanding() {
   const { community, meetupIndex } = landingData;
   document.getElementById('tagline').textContent = pick(community.tagline);
 
-  document.getElementById('cta').replaceChildren(...ctaButtons(community.ctas));
+  const { featured, upcoming } = splitMeetups(meetupIndex);
+  // The hero RSVP always points at the next meetup with a link — if the
+  // immediate next one hasn't got its rsvpUrl set yet, skip ahead to the
+  // first upcoming one that has (spec: no link anywhere → no RSVP button).
+  const rsvpMeetup = upcoming.find((m) => m.rsvpUrl);
+  const ctas = rsvpMeetup ? [rsvpCta(rsvpMeetup.rsvpUrl), ...community.ctas] : community.ctas;
+  document.getElementById('cta').replaceChildren(...ctaButtons(ctas));
 
   document.getElementById('intro').innerHTML = community.bodyHtml?.[lang] || '';
 
-  const { featured, upcoming } = splitMeetups(meetupIndex);
   document.getElementById('featured').replaceChildren(
     el('h2', { text: t('landing.next') }),
     featured ? meetupCard(featured, { featured: true }) : noneScheduledCard(),
@@ -291,8 +304,11 @@ async function renderMeetupFromHash() {
     el('p', { class: 'detail-time-tpe', text: taipei }),
   ];
   // CTA row while the meetup counts as upcoming. A meetup's own ctas replace
-  // the community list wholesale (null = no override, [] = explicitly none).
-  const ctas = m.ctas ?? meetupCommunity.ctas;
+  // the community list wholesale (null = no override, [] = explicitly none);
+  // the RSVP button is then prepended from this meetup's own rsvpUrl only
+  // (no fallthrough to other meetups — this page is about this one event).
+  const baseCtas = m.ctas ?? meetupCommunity.ctas;
+  const ctas = m.rsvpUrl ? [rsvpCta(m.rsvpUrl), ...baseCtas] : baseCtas;
   if (ctas.length > 0 && isUpcoming(m)) {
     kids.push(el('div', { class: 'cta-row detail-ctas' }, ctaButtons(ctas)));
   }

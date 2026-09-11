@@ -7,9 +7,6 @@ schedule:
   startTime: "18:00"
   endTime: "19:30"
 ctas:
-  - id: rsvp
-    label: { en: "RSVP", zh: "報名聚會" }
-    href: "https://luma.com/lh823rw7"
   - id: calendar
     label: { en: "Calendar", zh: "活動日曆" }
     href: "https://luma.com/aitian"

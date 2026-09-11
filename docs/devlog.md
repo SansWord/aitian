@@ -17,6 +17,7 @@ spec / plan / design doc from that session so a later session can lazily load th
 
 | Version | Summary |
 |---------|---------|
+| [v0.13.0](#v0130--automatic-rsvp-link-2026-09-11-0820) | **Automatic RSVP link** — the landing hero's RSVP button now always points at the next meetup automatically (walking forward to whichever upcoming meetup has a link set), instead of needing a manual edit to `data/community.md` after every new meetup is booked; a new per-meetup `rsvpUrl` field replaces the old `id: rsvp` cta pattern everywhere (reserved + CI-rejected going forward), migrated across all existing meetup files in the same PR. |
 | [v0.12.0](#v0120--taipei-date-fix--zh-tw-datetime-spacing-2026-09-07-2143) | **Taipei date fix + zh-TW spacing** — the Taipei reminder line now always shows its own date (was weekday-only, silently dropping the month/day), and zh-TW date/time lines space numbers away from adjacent Han characters ("9月30日週三" → "9 月 30 日週三", "上午9:00" → "上午 9:00"). |
 | [v0.11.0](#v0110--favicon-2026-08-26-1327) | **Site icon** — aitian.dev has a favicon: 展 alone in cream on a teal tile, shipped as an outlined-path `favicon.svg` plus `.ico` and a 180px apple-touch-icon, linked from all four pages. One fixed mark in both themes. |
 | [v0.10.1](#v0101--825-meetup-talk-back-filled-2026-08-05-1956) | **8/25 meetup booked** — the seeded TBA file now lists Liang-Bin "hlb" Hsueh's talk, "From Idea to Delivery in One Thread", with his full bio and Website/LinkedIn speaker links. |
@@ -51,6 +52,47 @@ spec / plan / design doc from that session so a later session can lazily load th
 | [v0.3.0-design](#v030-design--mvp-scaffold-design-2026-07-10-0003) | **MVP scaffold spec approved** — resolved all kickstart §5 opens (vanilla JS, runtime i18n, text-first hero, PR-as-consent, featured+3 landing) and locked the data md schema as a stable "backend" contract. Also: `aitian.dev` live with HTTPS enforced; new feature-branch convention. |
 | [v0.2.0](#v020--end-to-end-cicd-setup-2026-07-09-1724) | Stood up the **end-to-end CI/CD pipeline** — a hello-world page under `site/` deploys to GitHub Pages via Actions and is live at `sansword.github.io/aitian`. |
 | [v0.1.0-design](#v010-design--kickstart-and-doc-tree-setup-2026-07-09-0555) | Captured meetup-portal requirements, named the project **AI展 (aitian)**, created the public repo, and set up the document-tree practice. |
+
+---
+
+## v0.13.0 — Automatic RSVP link (2026-09-11 08:20)
+
+**Review:** not yet
+
+**What was built:**
+- New meetup field `rsvpUrl` (optional, `http(s)://`) is now the single source of truth for a
+  meetup's registration link — replaces hand-writing an `id: rsvp` cta in every meetup's (and
+  community's) `ctas[]` list.
+- The RSVP button is **synthesized at render time**, not authored as data: `site.js` prepends it to
+  whichever cta row is showing, using a new `cta.rsvp` key in `site/ui-strings.json` for the label.
+  - Landing hero: walks forward through the upcoming meetups and uses the first one with `rsvpUrl`
+    set, so a not-yet-booked "next" meetup no longer breaks the button — it skips ahead to whichever
+    meetup does have a link. No upcoming meetup with a link → no RSVP button renders at all.
+  - Meetup detail page: uses only that meetup's own `rsvpUrl` (no fallthrough to other meetups) —
+    a meetup without one shows its other ctas (or none), never a stale/wrong RSVP link.
+- Deliberate breaking migration (schema evolution rule — additive by default, breaking changes only
+  as an all-in-one-PR migration, same pattern as the `materialsUrl` → `materials` unlock): `id: rsvp`
+  is now reserved and CI-rejected in both community and meetup `ctas[]`, with the error naming
+  `rsvpUrl` as the replacement. All 9 existing meetup files and `data/community.md` patched in this
+  same PR — no backward-compat shim kept.
+- Docs updated: `docs/data-schema.md` (`rsvpUrl` field + reserved-id rejection),
+  `docs/wording.md` (CTA copy table now points at `site/ui-strings.json` instead of
+  `data/community.md`), `data/meetups/_template.md`.
+
+**Key technical learnings:**
+- `[insight]` The compact meetup index (`meetups/index.json`, built by `meetupIndexEntry()` in
+  `scripts/lib/emit.mjs`) is what the landing page renders from without fetching every detail file —
+  any field the hero's "next meetup" logic needs (like `rsvpUrl`) has to be added there too, not just
+  to `meetupToJson()`, or it comes back `undefined` silently on the landing page while still working
+  fine on individual meetup detail pages.
+- `[gotcha]` `npm run build` runs `build-data.mjs && cp -R site/. dist/`. Running just
+  `node scripts/build-data.mjs` during manual testing regenerates `dist/data/` but leaves
+  `dist/site.js` stale — a browser check against `dist/` can silently test old frontend logic against
+  new data with no error. Always use `npm run build` before manually verifying in a browser.
+- `[gotcha]` In this dev environment, `http://localhost:<port>` in the Claude-in-Chrome browser tool
+  resolved to a completely unrelated, unrecognized page (a different local project's dev server —
+  apparently DNS/proxy-pinned, not a stale service worker), while `http://127.0.0.1:<port>` correctly
+  reached the intended `python3 -m http.server`. Use `127.0.0.1` for local browser verification here.
 
 ---
 

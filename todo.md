@@ -92,8 +92,10 @@ current as part of the end-of-session checklist.
       is done (8 PT Tuesdays, 7/14 booked with the kickstart talks, 7 TBA placeholders);
       back-filling the remaining booked weeks is tracked above under Now.
 - [x] **Decide vs. Luma** for RSVP / the "get invite link" CTA (kickstart §2 note) — decided
-      2026-07-10 (v0.4.1): Luma; the single 報名聚會 / RSVP CTA links to the event, with the link
-      kept in `data/community.md` frontmatter for easy updates.
+      2026-07-10 (v0.4.1): Luma; the single 報名聚會 / RSVP CTA links to the event. **Superseded
+      2026-09-11 (v0.13.0):** the link no longer lives in `data/community.md` — each meetup now
+      carries its own `rsvpUrl`, and the RSVP button is synthesized (walking forward to the next
+      upcoming meetup with one set) instead of manually kept in sync.
 - [x] **Real avatars** — done: `pinku.svg` wired, and SansWord's avatar added + wired via
       [#13](https://github.com/SansWord/aitian/pull/13) (note: the file landed as `sanword.jpg` —
       rename tracked under "Post-v0.5.0 content polish" above).

@@ -22,8 +22,11 @@ Talk 2 / open chat), never a single talk. One file per week.
 3. For each booked segment fill `type`, `title`, and `speaker` — plus `speakerBio`, `description`
    (a short multi-line summary of the segment), `links` (the speaker's public links), and
    `materials` (labeled slides/demo/repo links) if you have them.
-   A special event can also replace the site-wide buttons on its page with its own top-level
-   `ctas:` list (see [`_template.md`](_template.md)).
+   Once the event has a registration link (e.g. Luma), set the top-level `rsvpUrl:` field — the
+   site auto-shows an RSVP button using it, on both the homepage (while it's the next meetup with
+   a link) and this meetup's own page; no need to add a `ctas:` entry for it. A special event can
+   still replace the site-wide buttons on its page with its own top-level `ctas:` list for anything
+   else, like a post-event survey link (see [`_template.md`](_template.md)).
 4. Open a PR; CI reports any problems per field. Anything merged is public — see the
    [visibility note](../README.md#public-visibility).
 5. After the event, back-fill `attendees` with a follow-up PR.
